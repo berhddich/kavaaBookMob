@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button></ion-buttons>
+    <ion-title>S'inscrire</ion-title>
+  </ion-toolbar>
+</ion-header>
+<br><br><br>
+
+<ion-content >
+
+
+  <form  [formGroup]="registerForm">
+    <ion-item lines="full">
+      <ion-label position="floating">Nom complet</ion-label>
+      <ion-input type="text"  formControlName="fullName" required></ion-input>
+    </ion-item>
+
+
+
+    <ion-item lines="full">
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="text"    formControlName="email" required></ion-input>
+    </ion-item>
+    <!-- <ion-item lines="full">
+      <ion-label position="floating">Image</ion-label>
+      <ion-input type="text"  formControlName="urlPicture" required></ion-input>
+    </ion-item> -->
+    <ion-item lines="full">
+      <ion-label position="floating">Date de naissance</ion-label>
+
+      <ion-datetime   formControlName="birthDate" required value="2019-10-01T15:43:40.394Z" display-timezone="utc"></ion-datetime>
+
+    </ion-item>
+
+
+    <ion-item lines="full">
+      <ion-label position="floating">Password</ion-label>
+      <ion-input type="password"  formControlName="password" required ></ion-input>
+    </ion-item>
+    <br>
+    <ion-row>
+      <ion-col>
+        <ion-button (click)="save()" color="danger" expand="block">S'inscrire</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

@@ -3,8 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
-};
+  production: false,
+  hmr: false,
+  apiBaseUrl: 'http://192.168.0.105:45455/',
+  clientId: '414e7827a3884f68abc79f7283837fd1',};
 
 /*
  * For easier debugging in development mode, you can import the following file

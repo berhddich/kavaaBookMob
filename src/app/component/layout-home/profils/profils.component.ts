@@ -1,16 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActionSheetController, Platform, ToastController } from '@ionic/angular';
+
 import { Camera } from '@ionic-native/camera/ngx';
-import { ActionSheetController, ToastController } from '@ionic/angular';
-
+import { UserModel } from 'src/app/core/models/user';
+import { UsersService } from 'src/app/core/services/users/users.service';
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: 'app-profils',
+  templateUrl: './profils.component.html',
+  styleUrls: ['./profils.component.scss']
 })
-export class HomePage {
-  image="../../../../assets/image/test.jpg"
+export class ProfilsComponent implements OnInit {
 
-  constructor(private camera: Camera,public toastController: ToastController,public actionSheetController: ActionSheetController) {}
+  image="../../../../assets/image/test.jpg"
+  user:UserModel;
+
+  constructor(public actionSheetController: ActionSheetController,
+    private plt:Platform, private camera: Camera,
+    public toastController: ToastController,
+  public _usersService:UsersService) {
+  }
+
+  ngOnInit() {
+
+    // this.user=(JSON.parse(localStorage.getItem("user"))).user;
+console.log(this.user)
+
+  }
+
+
 
 
   async ChangeProfilePhoto() {
@@ -65,9 +82,13 @@ export class HomePage {
   PrendreP(): void {
 
     this.camera.getPicture({
-      sourceType: this.camera.PictureSourceType.CAMERA,
-      destinationType:this.camera.DestinationType.FILE_URI
-
+      quality: 100,
+    destinationType: this.camera.DestinationType.DATA_URL,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.PICTURE,
+    targetWidth: 1000,
+    targetHeight: 1000,
+    sourceType: this.camera.PictureSourceType.CAMERA
     }).then((res) => {
 
       this.image ='data:image/jpeg;base64,' + res
@@ -81,13 +102,21 @@ export class HomePage {
   choisirP(): void {
 
     this.camera.getPicture({
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-      destinationType:this.camera.DestinationType.DATA_URL
-
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      targetWidth: 1000,
+      targetHeight: 1000,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
 
     }).then((res) => {
       this.image ='data:image/jpeg;base64,' + res
       const files: File[] = [new File([this.image], 'ProfilePicture.png', { type: 'png' })];
+      this._usersService.UpdatePicture(files[0],this.user.id).subscribe(res=>{
+
+        this.presentToast("ProfilePicture is go");
+      })
 
       const randomId=Math.random().toString(36).substring(2,8)
      }).catch(e => {

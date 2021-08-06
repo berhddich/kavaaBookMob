@@ -28,7 +28,9 @@
     "@capacitor/status-bar": "1.0.2",
     "@ionic-native/android-permissions": "^5.35.0",
     "@ionic-native/camera": "^5.35.0",
+    "@ionic-native/core": "^5.35.0",
     "@ionic/angular": "^5.5.2",
+    "cordova-plugin-camera": "^5.0.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
