@@ -1,20 +1,39 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <div class="header">
+    <h2>Elon Musk</h2>
+    <div class="space-between">
+      <!-- <div class="followings">
+        <ion-badge color="primary" mode="ios">1</ion-badge>
+        <p>Post</p>
+      </div> -->
+      <!-- <div class="followings">
+        <ion-badge color="primary" mode="ios">42</ion-badge>
+        <p>Abonnements</p>
+      </div> -->
+    </div>
   </div>
+
+  <div class="flex">
+
+    <div class="box-border">
+      <div class="border-white">
+
+        <div class="img-box">
+          <img  class="img" [src]="image">
+          <ion-button (click)="ChangeProfilePhoto()"  class="btn" fill="clear">
+            <ion-icon slot="icon-only" name="camera-outline"></ion-icon>
+        </ion-button>
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+
+  </div>
+
+
 </ion-content>
