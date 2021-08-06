@@ -1,0 +1,7 @@
+{
+  "name": "kavaaBook",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
