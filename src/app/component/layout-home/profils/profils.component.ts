@@ -11,19 +11,19 @@ import { UsersService } from 'src/app/core/services/users/users.service';
 })
 export class ProfilsComponent implements OnInit {
 
-  image="../../../../assets/image/test.jpg"
-  user:UserModel;
+  image = "../../../../assets/image/test.jpg"
+  user: UserModel;
 
   constructor(public actionSheetController: ActionSheetController,
-    private plt:Platform, private camera: Camera,
+    private plt: Platform, private camera: Camera,
     public toastController: ToastController,
-  public _usersService:UsersService) {
+    public _usersService: UsersService) {
   }
 
   ngOnInit() {
 
-    // this.user=(JSON.parse(localStorage.getItem("user"))).user;
-console.log(this.user)
+     this.user=(JSON.parse(localStorage.getItem("user"))).user;
+    console.log(this.user)
 
   }
 
@@ -35,41 +35,42 @@ console.log(this.user)
       header: 'Changement photo profile',
       cssClass: 'my-custom-class',
       buttons: [
-       {
-        text: 'Camera',
-        icon: 'camera-outline',
-        handler: () => {
-          console.log("CAMERA")
-          this.PrendreP();
+        {
+          text: 'Camera',
+          icon: 'camera-outline',
+          handler: () => {
+            console.log("CAMERA")
+            this.PrendreP();
 
- ;       }
-      }
+            ;
+          }
+        }
 
-      ,
-      {
-        text: 'Import photo ',
-        icon: 'images-outline',
-        handler: () => {
-          console.log("Library")
-          this.choisirP();
+        ,
+        {
+          text: 'Import photo ',
+          icon: 'images-outline',
+          handler: () => {
+            console.log("Library")
+            this.choisirP();
+          }
+        },
+        {
+          text: 'Supprimer',
+          role: 'destructive',
+          icon: 'trash',
+          handler: () => {
+            console.log('Delete clicked');
+          }
         }
-      },
-      {
-        text: 'Supprimer',
-        role: 'destructive',
-        icon: 'trash',
-        handler: () => {
-          console.log('Delete clicked');
-        }
-      }
-      ,{
-        text: 'Cancel',
-        icon: 'close',
-        role: 'cancel',
-        handler: () => {
-          console.log('Cancel clicked');
-        }
-      }]
+        , {
+          text: 'Cancel',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }]
     });
     await actionSheet.present();
 
@@ -83,19 +84,22 @@ console.log(this.user)
 
     this.camera.getPicture({
       quality: 100,
-    destinationType: this.camera.DestinationType.DATA_URL,
-    encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE,
-    targetWidth: 1000,
-    targetHeight: 1000,
-    sourceType: this.camera.PictureSourceType.CAMERA
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      targetWidth: 1000,
+      targetHeight: 1000,
+      sourceType: this.camera.PictureSourceType.CAMERA,
+
+
     }).then((res) => {
 
-      this.image ='data:image/jpeg;base64,' + res
-      const files: File[] = [new File([this.image], 'ProfilePicture.png', { type: 'png' })];
+      this.image = 'data:image/jpeg;base64,' + res
+      const files: File[] = [new File([this.image], 'ProfilePicture'+this.user.fullName, { type: 'png' })];
 
-      }).catch(e => {
-        this.presentToast(e);    })
+    }).catch(e => {
+      this.presentToast(e);
+    })
 
   }
 
@@ -111,16 +115,17 @@ console.log(this.user)
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
 
     }).then((res) => {
-      this.image ='data:image/jpeg;base64,' + res
-      const files: File[] = [new File([this.image], 'ProfilePicture.png', { type: 'png' })];
-      this._usersService.UpdatePicture(files[0],this.user.id).subscribe(res=>{
+      this.image = 'data:image/jpeg;base64,' + res
+      const files: File = new File([   this.image], 'ProfilePicture'+this.user.fullName, { type: 'png' });
+      this._usersService.UpdatePicture(files, this.user.id).subscribe(res => {
 
         this.presentToast("ProfilePicture is go");
       })
 
-      const randomId=Math.random().toString(36).substring(2,8)
-     }).catch(e => {
-      this.presentToast(e);    })
+      const randomId = Math.random().toString(36).substring(2, 8)
+    }).catch(e => {
+      this.presentToast(e);
+    })
 
   }
 
@@ -129,9 +134,23 @@ console.log(this.user)
   async presentToast(msg) {
     const toast = await this.toastController.create({
       message: msg,
-      duration: 1000
+      duration: 4000
     });
     toast.present();
   }
+
+
+  fileChangeEvent(event: any): void {
+   const file:File= event.target.files[0];
+   console.log(file)
+   this.presentToast(file);
+  //  this._usersService.UpdatePicture(file, this.user.id).subscribe(res => {
+
+  //   this.presentToast("ProfilePicture is go");
+  // })
+
+
+
+}
 
 }
