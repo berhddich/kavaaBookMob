@@ -116,13 +116,12 @@ export class ProfilsComponent implements OnInit {
 
     }).then((res) => {
       this.image = 'data:image/jpeg;base64,' + res
-      const files: File = new File([   this.image], 'ProfilePicture'+this.user.fullName, { type: 'png' });
+      const files: File = new File([ this.image], 'ProfilePicture', { type: 'png' });
       this._usersService.UpdatePicture(files, this.user.id).subscribe(res => {
 
         this.presentToast("ProfilePicture is go");
       })
 
-      const randomId = Math.random().toString(36).substring(2, 8)
     }).catch(e => {
       this.presentToast(e);
     })
@@ -144,10 +143,10 @@ export class ProfilsComponent implements OnInit {
    const file:File= event.target.files[0];
    console.log(file)
    this.presentToast(file);
-  //  this._usersService.UpdatePicture(file, this.user.id).subscribe(res => {
+    this._usersService.UpdatePicture(file, this.user.id).subscribe(res => {
 
-  //   this.presentToast("ProfilePicture is go");
-  // })
+    this.presentToast("ProfilePicture is go");
+   })
 
 
 

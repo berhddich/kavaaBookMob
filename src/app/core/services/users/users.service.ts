@@ -39,7 +39,7 @@ export class UsersService {
 UpdatePicture(file:File,id:number): Observable<any> {
   var formData: any = new FormData();
 
-  formData.append("UrlPicture", file,file.name);
+  formData.append("UrlPicture", file);
   formData.append("Id", id);
 
   return this._httpClient.post<any>(this.baseUrl + '/UpdatePicture', formData)
