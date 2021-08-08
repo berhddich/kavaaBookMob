@@ -6,6 +6,7 @@ import { SharedModule } from 'src/app/shared.module';
 import { ProfilsComponent } from '../profils/profils.component';
 
 import { PostComponent } from '../post/post.component';
+import { ModelPostComponent } from '../model-post/model-post.component';
 const routes: Routes = [
   {
     path: '',
@@ -48,6 +49,6 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [TabsLayoutComponent,PostComponent, ProfilsComponent]
+  declarations: [TabsLayoutComponent,PostComponent, ProfilsComponent,ModelPostComponent]
 })
 export class TabsLayoutModule { }

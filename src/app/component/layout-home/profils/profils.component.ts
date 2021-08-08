@@ -5,8 +5,9 @@ import { Camera } from '@ionic-native/camera/ngx';
 import { UserModel } from 'src/app/core/models/user';
 import { UsersService } from 'src/app/core/services/users/users.service';
 import { LoadingController } from '@ionic/angular';
-
-@Component({
+import { ModalController } from '@ionic/angular';
+import { ModelPostComponent } from '../model-post/model-post.component';
+  @Component({
   selector: 'app-profils',
   templateUrl: './profils.component.html',
   styleUrls: ['./profils.component.scss']
@@ -20,6 +21,7 @@ export class ProfilsComponent implements OnInit {
     private plt: Platform, private camera: Camera,
     public toastController: ToastController,
     public loadingController: LoadingController,
+    public modalController: ModalController,
     public _usersService: UsersService) {
   }
 
@@ -226,7 +228,13 @@ export class ProfilsComponent implements OnInit {
 
 
 
-
+  async presentModal() {
+    const modal = await this.modalController.create({
+      component: ModelPostComponent,
+      cssClass: 'my-custom-class'
+    });
+    return await modal.present();
+  }
 
 
 }

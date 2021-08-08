@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from 'src/app/core/services/users/post.service';
+import { ModalController } from '@ionic/angular';
+import { ModelPostComponent } from '../model-post/model-post.component';
 
 @Component({
   selector: 'app-post',
@@ -7,10 +9,13 @@ import { PostService } from 'src/app/core/services/users/post.service';
   styleUrls: ['./post.component.scss']
 })
 export class PostComponent implements OnInit {
+  user: any;
 
-  constructor(private _postService: PostService) { }
+  constructor(private _postService: PostService, public modalController: ModalController,) { }
 
   ngOnInit() {
+    this.user = (JSON.parse(localStorage.getItem("user"))).user;
+
     this.laodPost()
 
   }
@@ -23,6 +28,15 @@ export class PostComponent implements OnInit {
       console.log(res);
     })
 
+  }
+
+
+  async presentModal() {
+    const modal = await this.modalController.create({
+      component: ModelPostComponent,
+      cssClass: 'my-custom-class'
+    });
+    return await modal.present();
   }
 
 }

@@ -40,7 +40,7 @@
     <ion-item-group>
 
       <ion-item>
-        <ion-label><samp>Email</samp>   &nbsp;&nbsp;  &nbsp;&nbsp;<samp>{{user.email}}</samp></ion-label>
+        <ion-label>   <samp>Email</samp>   &nbsp;&nbsp;  &nbsp;&nbsp;<samp>{{user.email}}</samp></ion-label>
 
       </ion-item>
       <ion-item>
@@ -54,5 +54,20 @@
   </div>
 
 
+<div>
 
+  <ion-card >
+
+    <ion-item  (click)="presentModal()" style="cursor: pointer;">
+      <ion-avatar slot="start" >
+        <img src="../../../../assets/image/imageprofilejpg.jpg">
+      </ion-avatar>
+      <ion-label>
+        <h3>what's in your mind  {{user.fullName}}</h3>
+
+      </ion-label>
+    </ion-item>
+
+  </ion-card>
+</div>
 </ion-content>
