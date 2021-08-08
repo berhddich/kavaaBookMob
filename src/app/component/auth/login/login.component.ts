@@ -56,19 +56,7 @@ export class LoginComponent implements OnInit {
 
   save(): void {
 
-    // if(this.loginForm.controls['email'].value==='test' && this.loginForm.controls['password'].value==='test')
-    // {
-    //   localStorage.setItem('user', JSON.stringify(this.loginForm.value))
-    //   this.presentToast('Login completed');
 
-    //   this.NavController.navigateRoot('app/tabs-layout')
-
-    // }
-    // else{
-
-    //   this.presentToast('information incorect');
-
-    // }
 
    this. presentLoading();
 

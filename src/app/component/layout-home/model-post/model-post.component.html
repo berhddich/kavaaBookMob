@@ -12,7 +12,7 @@
     <ion-list>
       <ion-item>
         <ion-label position="stacked">Contenu text</ion-label>
-        <ion-textarea  rows="8" cols="20" placeholder="Qu'est-ce qui préoccupe votre esprit"></ion-textarea>
+        <ion-textarea    [(ngModel)]="libelle" rows="8" cols="20" placeholder="Qu'est-ce qui préoccupe votre esprit"></ion-textarea>
       </ion-item>
 
       <ion-item *ngIf="image">

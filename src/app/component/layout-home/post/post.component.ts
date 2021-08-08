@@ -10,11 +10,18 @@ import { ModelPostComponent } from '../model-post/model-post.component';
 })
 export class PostComponent implements OnInit {
   user: any;
+  image = "../../../../assets/image/test.jpg"
 
   constructor(private _postService: PostService, public modalController: ModalController,) { }
 
   ngOnInit() {
     this.user = (JSON.parse(localStorage.getItem("user"))).user;
+    if(JSON.parse(localStorage.getItem("profil"))!==null)
+    {
+
+     this.image =JSON.parse(localStorage.getItem("profil"))
+
+    }
 
     this.laodPost()
 
