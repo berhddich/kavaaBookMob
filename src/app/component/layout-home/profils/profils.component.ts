@@ -14,7 +14,7 @@ import { LoadingController } from '@ionic/angular';
 export class ProfilsComponent implements OnInit {
 
   image = "../../../../assets/image/test.jpg"
-  user: UserModel;
+  user: any;
 
   constructor(public actionSheetController: ActionSheetController,
     private plt: Platform, private camera: Camera,

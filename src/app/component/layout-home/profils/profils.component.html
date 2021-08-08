@@ -20,10 +20,10 @@
       <div class="border-white">
 
         <div class="img-box">
-          <img  class="img" [src]="image">
-          <ion-button (click)="ChangeProfilePhoto()"  class="btn" fill="clear">
+          <img class="img" [src]="image">
+          <ion-button (click)="ChangeProfilePhoto()" class="btn" fill="clear">
             <ion-icon slot="icon-only" name="camera-outline"></ion-icon>
-        </ion-button>
+          </ion-button>
         </div>
 
       </div>
@@ -34,5 +34,25 @@
 
 
   </div>
+  <div class="imfo">
+
+
+    <ion-item-group>
+
+      <ion-item>
+        <ion-label><samp>Email</samp>   &nbsp;&nbsp;  &nbsp;&nbsp;<samp>{{user.email}}</samp></ion-label>
+
+      </ion-item>
+      <ion-item>
+        <ion-label><samp>Date de naissance</samp>   &nbsp;&nbsp;  &nbsp;&nbsp;<samp>{{user.birthDate | date: 'dd/MM/yyyy'}}</samp></ion-label>
+
+      </ion-item> <ion-item>
+        <ion-label><samp>Rejoint en</samp>   &nbsp;&nbsp;  &nbsp;&nbsp;<samp>{{user.createdDate | date: 'dd/MM/yyyy'}}</samp></ion-label>
+
+      </ion-item>
+    </ion-item-group>
+  </div>
+
+
 
 </ion-content>
