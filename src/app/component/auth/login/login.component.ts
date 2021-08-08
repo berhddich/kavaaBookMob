@@ -5,6 +5,7 @@ import { ToastController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { UsersService } from 'src/app/core/services/users/users.service';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -13,13 +14,15 @@ import { UsersService } from 'src/app/core/services/users/users.service';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-
+  user;
   constructor(
     private fb: FormBuilder,
     public toastController: ToastController,
     public _usersService: UsersService,
     private _authService: AuthService,
-    public NavController: NavController) { }
+    public NavController: NavController,
+    public loadingController: LoadingController
+    ) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -30,13 +33,25 @@ export class LoginComponent implements OnInit {
     });
 
   }
-  user;
+
   async presentToast(msg) {
     const toast = await this.toastController.create({
       message: msg,
       duration: 1000
     });
     toast.present();
+  }
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: 'Please wait...',
+    });
+    await loading.present();
+
+
+    const { role, data } = await loading.onDidDismiss();
+    console.log('Loading dismissed!');
   }
 
   save(): void {
@@ -55,7 +70,7 @@ export class LoginComponent implements OnInit {
 
     // }
 
-
+   this. presentLoading();
 
      this._authService.login(this.loginForm.value)
 
@@ -69,7 +84,11 @@ export class LoginComponent implements OnInit {
 
       if (res ) {
 
-
+        this.loadingController.dismiss().then((res) => {
+          console.log('Loader hidden', res);
+      }).catch((error) => {
+          console.log(error);
+      });
         localStorage.setItem('profil', JSON.stringify('data:image/jpeg;base64,' + res))
         this.presentToast('Login completed');
         this.NavController.navigateRoot('app/tabs-layout')
@@ -77,7 +96,11 @@ export class LoginComponent implements OnInit {
 
     },(error)=>{
 
-
+      this.loadingController.dismiss().then((res) => {
+        console.log('Loader hidden', res);
+    }).catch((error) => {
+        console.log(error);
+    });
       this.presentToast(error.error.title);
       console.log(error.error.title);
 
@@ -89,6 +112,11 @@ export class LoginComponent implements OnInit {
 
 
      }, (error) => {
+      this.loadingController.dismiss().then((res) => {
+        console.log('Loader hidden', res);
+    }).catch((error) => {
+        console.log(error);
+    });
       this.presentToast(error.error.title);
          console.log(error.error.title);
      });

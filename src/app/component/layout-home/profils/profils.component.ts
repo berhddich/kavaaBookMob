@@ -4,6 +4,8 @@ import { ActionSheetController, Platform, ToastController } from '@ionic/angular
 import { Camera } from '@ionic-native/camera/ngx';
 import { UserModel } from 'src/app/core/models/user';
 import { UsersService } from 'src/app/core/services/users/users.service';
+import { LoadingController } from '@ionic/angular';
+
 @Component({
   selector: 'app-profils',
   templateUrl: './profils.component.html',
@@ -17,6 +19,7 @@ export class ProfilsComponent implements OnInit {
   constructor(public actionSheetController: ActionSheetController,
     private plt: Platform, private camera: Camera,
     public toastController: ToastController,
+    public loadingController: LoadingController,
     public _usersService: UsersService) {
   }
 
@@ -49,7 +52,17 @@ export class ProfilsComponent implements OnInit {
   }
 
 
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: 'Please wait...',
+    });
+    await loading.present();
 
+
+    const { role, data } = await loading.onDidDismiss();
+    console.log('Loading dismissed!');
+  }
 
   async ChangeProfilePhoto() {
     const actionSheet = await this.actionSheetController.create({
@@ -109,7 +122,7 @@ export class ProfilsComponent implements OnInit {
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
       targetWidth: 1000,
-      targetHeight: 1000,
+       targetHeight: 1000,
       sourceType: this.camera.PictureSourceType.CAMERA,
 
 
@@ -121,13 +134,24 @@ export class ProfilsComponent implements OnInit {
       this.blobToFile(blob, 'ProfilePicture' + this.user.fullName)
       blob.name =this.user.fullName+ ".jpg";
       blob.lastModified = new Date();
+      this. presentLoading();
       this._usersService.UpdatePicture(blob, this.user.id).subscribe(res => {
         localStorage.setItem('profil', JSON.stringify(this.image))
+        this.loadingController.dismiss().then((res) => {
+          console.log('Loader hidden', res);
+      }).catch((error) => {
+          console.log(error);
+      });
         this.presentToast("ProfilePicture is go");
       })
 
 
     }).catch(e => {
+      this.loadingController.dismiss().then((res) => {
+        console.log('Loader hidden', res);
+    }).catch((error) => {
+        console.log(error);
+    });
       this.presentToast(e);
     })
 
@@ -141,7 +165,7 @@ export class ProfilsComponent implements OnInit {
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
       targetWidth: 1000,
-      targetHeight: 1000,
+       targetHeight: 1000,
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
 
     }).then((res) => {
@@ -151,12 +175,24 @@ export class ProfilsComponent implements OnInit {
       this.blobToFile(blob, 'ProfilePicture' + this.user.fullName)
       blob.name =this.user.fullName+ ".jpg";
       blob.lastModified = new Date();
+      this. presentLoading();
+
       this._usersService.UpdatePicture(blob, this.user.id).subscribe(res => {
         localStorage.setItem('profil', JSON.stringify(this.image))
+        this.loadingController.dismiss().then((res) => {
+          console.log('Loader hidden', res);
+      }).catch((error) => {
+          console.log(error);
+      });
         this.presentToast("ProfilePicture is go");
       })
 
     }).catch(e => {
+      this.loadingController.dismiss().then((res) => {
+        console.log('Loader hidden', res);
+    }).catch((error) => {
+        console.log(error);
+    });
       this.presentToast(e);
     })
 
