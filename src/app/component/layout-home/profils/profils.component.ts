@@ -35,21 +35,7 @@ export class ProfilsComponent implements OnInit {
       this.image =JSON.parse(localStorage.getItem("profil"))
 
      }
-//   if(this.user.urlPicture!==null && JSON.parse(localStorage.getItem("profil"))===null)
-//   {
-// this._usersService.getPicture(this.user.urlPicture).subscribe(res=>{
 
-//   if (res ) {
-
-//     this.image = 'data:image/jpeg;base64,' + res;
-//     localStorage.setItem('profil', JSON.stringify(this.image))
-// }
-// console.log(res)
-
-// })
-
-
-//   }
 
   }
 
@@ -235,6 +221,9 @@ export class ProfilsComponent implements OnInit {
     });
     return await modal.present();
   }
+
+
+
 
 
 }
