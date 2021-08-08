@@ -1,8 +1,10 @@
+import { error } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { UsersService } from 'src/app/core/services/users/users.service';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +17,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public toastController: ToastController,
+    public _usersService: UsersService,
     private _authService: AuthService,
     public NavController: NavController) { }
 
@@ -27,14 +30,7 @@ export class LoginComponent implements OnInit {
     });
 
   }
-  user= { fullName :"Abdererahim ber",
-  birthDate:Date.now(),
-  email:'test',
-  urlPicture:'string',
-  password :'test',
-
-
-  }
+  user;
   async presentToast(msg) {
     const toast = await this.toastController.create({
       message: msg,
@@ -64,10 +60,34 @@ export class LoginComponent implements OnInit {
      this._authService.login(this.loginForm.value)
 
      .subscribe(res=> {
-
-   this.presentToast('Login completed');
+       console.log(res['user'].urlPicture)
       localStorage.setItem('user', JSON.stringify(res))
-      this.NavController.navigateRoot('app/tabs-layout')
+
+      if(res['user'].urlPicture!==null)
+      {
+    this._usersService.getPicture(res['user'].urlPicture).subscribe(res=>{
+
+      if (res ) {
+
+
+        localStorage.setItem('profil', JSON.stringify('data:image/jpeg;base64,' + res))
+        this.presentToast('Login completed');
+        this.NavController.navigateRoot('app/tabs-layout')
+    }
+
+    },(error)=>{
+
+
+      this.presentToast(error.error.title);
+      console.log(error.error.title);
+
+
+    })
+
+
+      }
+
+
      }, (error) => {
       this.presentToast(error.error.title);
          console.log(error.error.title);

@@ -22,8 +22,29 @@ export class ProfilsComponent implements OnInit {
 
   ngOnInit() {
 
-     this.user=(JSON.parse(localStorage.getItem("user"))).user;
-    console.log(this.user)
+    this.user = (JSON.parse(localStorage.getItem("user"))).user;
+
+    if(JSON.parse(localStorage.getItem("profil"))!==null)
+     {
+
+      this.image =JSON.parse(localStorage.getItem("profil"))
+
+     }
+//   if(this.user.urlPicture!==null && JSON.parse(localStorage.getItem("profil"))===null)
+//   {
+// this._usersService.getPicture(this.user.urlPicture).subscribe(res=>{
+
+//   if (res ) {
+
+//     this.image = 'data:image/jpeg;base64,' + res;
+//     localStorage.setItem('profil', JSON.stringify(this.image))
+// }
+// console.log(res)
+
+// })
+
+
+//   }
 
   }
 
@@ -83,7 +104,7 @@ export class ProfilsComponent implements OnInit {
   PrendreP(): void {
 
     this.camera.getPicture({
-      quality: 100,
+      quality: 60,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
@@ -95,7 +116,16 @@ export class ProfilsComponent implements OnInit {
     }).then((res) => {
 
       this.image = 'data:image/jpeg;base64,' + res
-      const files: File[] = [new File([this.image], 'ProfilePicture'+this.user.fullName, { type: 'png' })];
+      this.presentToast("test2");
+      const blob: any = this.base64ToImage(this.image);
+      this.blobToFile(blob, 'ProfilePicture' + this.user.fullName)
+      blob.name =this.user.fullName+ ".jpg";
+      blob.lastModified = new Date();
+      this._usersService.UpdatePicture(blob, this.user.id).subscribe(res => {
+        localStorage.setItem('profil', JSON.stringify(this.image))
+        this.presentToast("ProfilePicture is go");
+      })
+
 
     }).catch(e => {
       this.presentToast(e);
@@ -106,19 +136,23 @@ export class ProfilsComponent implements OnInit {
   choisirP(): void {
 
     this.camera.getPicture({
-      quality: 100,
+      quality: 60,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
       targetWidth: 1000,
       targetHeight: 1000,
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
 
     }).then((res) => {
       this.image = 'data:image/jpeg;base64,' + res
-      const files: File = new File([ this.image], 'ProfilePicture', { type: 'png' });
-      this._usersService.UpdatePicture(files, this.user.id).subscribe(res => {
-
+      this.presentToast("test1");
+      const blob: any = this.base64ToImage(this.image);
+      this.blobToFile(blob, 'ProfilePicture' + this.user.fullName)
+      blob.name =this.user.fullName+ ".jpg";
+      blob.lastModified = new Date();
+      this._usersService.UpdatePicture(blob, this.user.id).subscribe(res => {
+        localStorage.setItem('profil', JSON.stringify(this.image))
         this.presentToast("ProfilePicture is go");
       })
 
@@ -128,7 +162,23 @@ export class ProfilsComponent implements OnInit {
 
   }
 
+  public blobToFile = (theBlob: Blob, fileName: string): File => {
+    return new File([theBlob], fileName, { lastModified: new Date().getTime(), type: theBlob.type })
+  }
 
+  base64ToImage(dataURI) {
+    const fileDate = dataURI.split(',');
+    const mime = fileDate[0].match(/:(.*?);/)[1];
+    const byteString = atob(fileDate[1]);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const int8Array = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      int8Array[i] = byteString.charCodeAt(i);
+    }
+    let blob = new Blob([arrayBuffer], { type: 'image/png' });
+
+    return blob;
+  }
 
   async presentToast(msg) {
     const toast = await this.toastController.create({
@@ -139,17 +189,8 @@ export class ProfilsComponent implements OnInit {
   }
 
 
-  fileChangeEvent(event: any): void {
-   const file:File= event.target.files[0];
-   console.log(file)
-   this.presentToast(file);
-    this._usersService.UpdatePicture(file, this.user.id).subscribe(res => {
-
-    this.presentToast("ProfilePicture is go");
-   })
 
 
 
-}
 
 }
