@@ -75,6 +75,7 @@ export class LoginComponent implements OnInit {
         this.loadingController.dismiss().then((res) => {
           console.log('Loader hidden', res);
       }).catch((error) => {
+
           console.log(error);
       });
         localStorage.setItem('profil', JSON.stringify('data:image/jpeg;base64,' + res))
@@ -96,6 +97,16 @@ export class LoginComponent implements OnInit {
     })
 
 
+      }
+      else{
+        this.loadingController.dismiss().then((res) => {
+          console.log('Loader hidden', res);
+      }).catch((error) => {
+
+          console.log(error);
+      });
+        this.presentToast('Login completed');
+        this.NavController.navigateRoot('app/tabs-layout')
       }
 
 

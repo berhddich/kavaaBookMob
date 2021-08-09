@@ -1,11 +1,19 @@
-<ion-content [fullscreen]="true" >
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
   <div>
 
-    <ion-card >
+    <ion-card>
 
-      <ion-item  (click)="presentModal()" style="cursor: pointer;">
-        <ion-avatar slot="start" >
-          <img  [src]="image">
+      <ion-item (click)="presentModal()" style="cursor: pointer;">
+        <ion-avatar slot="start">
+          <img [src]="image">
         </ion-avatar>
         <ion-label>
           <h3>Qu'est-ce qui préoccupe votre esprit</h3>
@@ -16,220 +24,59 @@
     </ion-card>
   </div>
 
-<div style="padding: 7px;">
+  <div class="progress" *ngIf="laoding">
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
 
-  <ion-card>
-    <ion-item>
-      <ion-avatar slot="start" >
-        <img src="../../../../assets/image/imageprofilejpg.jpg">
-      </ion-avatar>
-      <ion-label>
-        <h3>Abderahim ber</h3>
-        <p>Dec 10, 2021</p>
-      </ion-label>
-    </ion-item>
+  </div>
+  <div *ngFor="let post of listOfPost ">
 
 
+    <div style="padding: 7px;">
 
-    <ion-card-content>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus iaculis mollis ligula sed ultrices.
-    </ion-card-content>
-    <img src="../../../../assets/image/image2.jpg" alt="ion">
-    <ion-footer>
-      <ion-row>
-        <ion-col center text-center>
-          <button>
-            <ion-icon name="thumbs-up"></ion-icon>
-            <div>1.5k Likes</div>
-          </button>
-        </ion-col>
-        <ion-col center text-center>
-          <button>
-            <ion-icon name="text"></ion-icon>
-            <div>4 Comments</div>
-          </button>
-        </ion-col>
-        <ion-col center text-center>
-          <button>
-            <ion-icon name="time"></ion-icon>
-            <div>11h ago</div>
-          </button>
-        </ion-col>
-      </ion-row>
-    </ion-footer>
-  </ion-card>
-</div>
+      <ion-card>
+        <ion-item>
+          <ion-avatar slot="start">
+            <img *ngIf="post.pictureUser==null" src="../../../../assets/image/test.jpg">
+            <img *ngIf="post.pictureUser" [src]="post.pictureUser">
 
-<div style="padding: 7px;">
 
-  <ion-card>
-    <ion-item>
-      <ion-avatar slot="start">
-        <img src="../../../../assets/image/imageprofilejpg.jpg">
-      </ion-avatar>
-      <ion-label>
-        <h3>Abderahim ber</h3>
-        <p>Dec 10, 2021</p>
-      </ion-label>
-    </ion-item>
+          </ion-avatar>
+          <ion-label>
+            <h3>{{post.userFullName}}</h3>
+            <p>{{post.createdDate| date: 'dd/MM/yyyy a HH:mm' }}</p>
+          </ion-label>
+        </ion-item>
 
 
 
-    <ion-card-content>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus iaculis mollis ligula sed ultrices.
-    </ion-card-content>
-    <img src="../../../../assets/image/image1.jpg" alt="ion">
-    <ion-footer>
-      <ion-row>
-        <ion-col center text-center>
-          <button>
-            <ion-icon name="thumbs-up"></ion-icon>
-            <div>1.5k Likes</div>
-          </button>
-        </ion-col>
-        <ion-col center text-center>
-          <button>
-            <ion-icon name="text"></ion-icon>
-            <div>4 Comments</div>
-          </button>
-        </ion-col>
-        <ion-col center text-center>
-          <button>
-            <ion-icon name="time"></ion-icon>
-            <div>11h ago</div>
-          </button>
-        </ion-col>
-      </ion-row>
-    </ion-footer>
-  </ion-card>
-</div>
-<div style="padding: 7px;">
+        <ion-card-content>
+          {{post.libelle}}
+        </ion-card-content>
+        <img *ngIf="post.picture" [src]="post.picture" alt="ion">
+        <ion-footer>
+          <ion-row>
+            <ion-col center text-center>
+              <button   (click)="like()" (press)="showReactions($event)" ion-button icon-left clear small>
+                <ion-icon name="thumbs-up"></ion-icon>
+                <div>{{post.typeReact.length}} Likes</div>
+              </button>
+            </ion-col>
+            <ion-col center text-center>
+              <button>
+                <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+                <div>{{post.numberComments}} Comments</div>
+              </button>
+            </ion-col>
+            <!-- <ion-button (press)="itemPressed()">Test</ion-button> -->
 
-  <ion-card>
-    <ion-item>
-      <ion-avatar slot="start">
-        <img src="../../../../assets/image/imageprofilejpg.jpg">
-      </ion-avatar>
-      <ion-label>
-        <h3>Abderahim ber</h3>
-        <p>Dec 10, 2021</p>
-      </ion-label>
-    </ion-item>
+          </ion-row>
+        </ion-footer>
+      </ion-card>
+    </div>
+
+  </div>
 
 
 
-    <ion-card-content>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus iaculis mollis ligula sed ultrices.
-    </ion-card-content>
-    <img src="../../../../assets/image/image4.jpg" alt="ion">
-    <ion-footer>
-      <ion-row>
-        <ion-col center text-center>
-          <button>
-            <ion-icon name="thumbs-up"></ion-icon>
-            <div>1.5k Likes</div>
-          </button>
-        </ion-col>
-        <ion-col center text-center>
-          <button>
-            <ion-icon name="text"></ion-icon>
-            <div>4 Comments</div>
-          </button>
-        </ion-col>
-        <ion-col center text-center>
-          <button>
-            <ion-icon name="time"></ion-icon>
-            <div>11h ago</div>
-          </button>
-        </ion-col>
-      </ion-row>
-    </ion-footer>
-  </ion-card>
-</div>
-<div style="padding: 7px;">
 
-  <ion-card>
-    <ion-item>
-      <ion-avatar slot="start">
-        <img src="../../../../assets/image/image2.jpg">
-      </ion-avatar>
-      <ion-label>
-        <h3>Abderahim ber</h3>
-        <p>Dec 10, 2021</p>
-      </ion-label>
-    </ion-item>
-
-
-
-    <ion-card-content>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus iaculis mollis ligula sed ultrices.
-    </ion-card-content>
-    <img src="../../../../assets/image/image7.jpg" alt="ion">
-    <ion-footer>
-      <ion-row>
-        <ion-col center text-center>
-          <button>
-            <ion-icon name="thumbs-up"></ion-icon>
-            <div>1.5k Likes</div>
-          </button>
-        </ion-col>
-        <ion-col center text-center>
-          <button>
-            <ion-icon name="text"></ion-icon>
-            <div>4 Comments</div>
-          </button>
-        </ion-col>
-        <ion-col center text-center>
-          <button>
-            <ion-icon name="time"></ion-icon>
-            <div>11h ago</div>
-          </button>
-        </ion-col>
-      </ion-row>
-    </ion-footer>
-  </ion-card>
-</div>
-<div style="padding: 7px;">
-
-  <ion-card>
-    <ion-item>
-      <ion-avatar slot="start">
-        <img src="../../../../assets/image/image4.jpg">
-      </ion-avatar>
-      <ion-label>
-        <h3>Abderahim ber</h3>
-        <p>Dec 10, 2021</p>
-      </ion-label>
-    </ion-item>
-
-
-
-    <ion-card-content>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus iaculis mollis ligula sed ultrices.
-    </ion-card-content>
-    <img src="../../../../assets/image/image2.jpg" alt="ion">
-    <ion-footer>
-      <ion-row>
-        <ion-col center text-center>
-          <button>
-            <ion-icon name="thumbs-up"></ion-icon>
-            <div>1.5k Likes</div>
-          </button>
-        </ion-col>
-        <ion-col center text-center>
-          <button>
-            <ion-icon name="text"></ion-icon>
-            <div>4 Comments</div>
-          </button>
-        </ion-col>
-        <ion-col center text-center>
-          <button>
-            <ion-icon name="time"></ion-icon>
-            <div>11h ago</div>
-          </button>
-        </ion-col>
-      </ion-row>
-    </ion-footer>
-  </ion-card>
-</div>
 </ion-content>

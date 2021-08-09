@@ -12,28 +12,31 @@ import { CreatePostModel } from '../../models/post';
 export class PostService {
   baseUrl = `${environment.apiBaseUrl}api/Posts`;
   httpOptions = {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   }
 
-constructor(public _httpClient: HttpClient) { }
+  constructor(public _httpClient: HttpClient) { }
 
-getAll(): Observable<any> {
-  return this._httpClient.get<ApiResultDto>(`${this.baseUrl}/GetAll`, this.httpOptions)
+  getAll(): Observable<any> {
+    return this._httpClient.get<ApiResultDto>(`${this.baseUrl}/GetAll`, this.httpOptions)
       .pipe(map(response => response), retry(1));
-}
+  }
 
 
 
-poster(iput:CreatePostModel): Observable<any> {
-  var formData: any = new FormData();
+  poster(iput: CreatePostModel): Observable<any> {
+    var formData: any = new FormData();
 
-  formData.append("libelle", iput.libelle);
-  formData.append("userId", iput.userId);
-  formData.append("picture", iput.picture,iput.picture.name);
+    formData.append("libelle", iput.libelle);
+    formData.append("userId", iput.userId);
+    if (iput.picture) {
 
-  return this._httpClient.post<any>(this.baseUrl + '/Create', formData)
+      formData.append("picture", iput.picture, iput.picture.name);
+    }
+
+    return this._httpClient.post<any>(this.baseUrl + '/Create', formData)
       .pipe(map(response => response), retry(1));
-}
+  }
 
 
 

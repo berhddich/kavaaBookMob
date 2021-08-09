@@ -30,17 +30,19 @@ export class ModelPostComponent implements OnInit {
 
   }
 
-  dismiss() {
+  // dismiss() {
 
-    this.modalController.dismiss({
-      'dismissed': true
-    });
-  }
+  //   this.modalController.dismiss({
+  //     'dismissed': true,
+
+  //   });
+  // }
 
   async presentToast(msg) {
     const toast = await this.toastController.create({
       message: msg,
-      duration: 4000
+      duration: 4000,
+
     });
     toast.present();
   }
@@ -83,7 +85,7 @@ export class ModelPostComponent implements OnInit {
 
     console.log(this.postForm)
     this. presentLoading();
-    this._postService.poster(this.postForm,).subscribe(res => {
+    this._postService.poster(this.postForm).subscribe(res => {
 
       this.loadingController.dismiss().then((res) => {
         console.log('Loader hidden', res);
@@ -91,7 +93,7 @@ export class ModelPostComponent implements OnInit {
         console.log(error);
     });
       this.presentToast("Pibliction est terminé");
-      this.dismiss();
+      this.modalController.dismiss(true);
 
     },(error)=>{
       this.loadingController.dismiss().then((res) => {
@@ -120,4 +122,10 @@ export class ModelPostComponent implements OnInit {
     console.log('Loading dismissed!');
   }
 
+
+  close(){
+
+this.modalController.dismiss(false)
+
+  }
 }

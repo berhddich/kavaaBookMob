@@ -7,6 +7,7 @@ import { ProfilsComponent } from '../profils/profils.component';
 
 import { PostComponent } from '../post/post.component';
 import { ModelPostComponent } from '../model-post/model-post.component';
+import { ReactionsPageComponent } from '../ReactionsPage/ReactionsPage.component';
 const routes: Routes = [
   {
     path: '',
@@ -49,6 +50,6 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [TabsLayoutComponent,PostComponent, ProfilsComponent,ModelPostComponent]
+  declarations: [TabsLayoutComponent,PostComponent, ProfilsComponent,ReactionsPageComponent,ModelPostComponent]
 })
 export class TabsLayoutModule { }
