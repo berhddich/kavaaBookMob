@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from 'src/app/core/services/users/post.service';
-import { ModalController, PopoverController, ToastController } from '@ionic/angular';
+import { GestureController, ModalController, PopoverController, ToastController } from '@ionic/angular';
 import { ModelPostComponent } from '../model-post/model-post.component';
 import { ReactionsPageComponent } from '../ReactionsPage/ReactionsPage.component';
 
@@ -18,6 +18,7 @@ export class PostComponent implements OnInit {
   constructor(private _postService: PostService,
      public modalController: ModalController,
      public toastController: ToastController,
+     private gestureCtrl: GestureController ,
      private popoverController: PopoverController) {    this.laodPost()
   }
 
