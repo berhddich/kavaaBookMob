@@ -23,7 +23,7 @@ export class PostComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.user = (JSON.parse(localStorage.getItem("user"))).user;
+    this.user = (JSON.parse(localStorage.getItem("user")));
     if(JSON.parse(localStorage.getItem("profil"))!==null)
     {
 

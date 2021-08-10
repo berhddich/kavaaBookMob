@@ -22,6 +22,10 @@ export class PostService {
       .pipe(map(response => response), retry(1));
   }
 
+  getAllByUserId(userId:number): Observable<any> {
+    return this._httpClient.get<ApiResultDto>(`${this.baseUrl}/GetAllByUserId?userId=`+userId, this.httpOptions)
+      .pipe(map(response => response), retry(1));
+  }
 
 
   poster(iput: CreatePostModel): Observable<any> {

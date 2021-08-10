@@ -70,4 +70,58 @@
 
   </ion-card>
 </div>
+
+
+<div class="progress" *ngIf="laoding">
+  <ion-progress-bar type="indeterminate"></ion-progress-bar>
+
+</div>
+<div *ngFor="let post of listOfPost ">
+
+
+  <div style="padding: 7px;">
+
+    <ion-card>
+      <ion-item>
+        <ion-avatar slot="start">
+          <img *ngIf="post.pictureUser==null" src="../../../../assets/image/test.jpg">
+          <img *ngIf="post.pictureUser" [src]="post.pictureUser">
+
+
+        </ion-avatar>
+        <ion-label>
+          <h3>{{post.userFullName}}</h3>
+          <p>{{post.createdDate| date: 'dd/MM/yyyy a HH:mm' }}</p>
+        </ion-label>
+      </ion-item>
+
+
+
+      <ion-card-content>
+        {{post.libelle}}
+      </ion-card-content>
+      <img *ngIf="post.picture" [src]="post.picture" alt="ion">
+      <ion-footer>
+        <ion-row>
+          <ion-col center text-center>
+            <button   ion-button icon-left clear small>
+              <ion-icon name="thumbs-up"></ion-icon>
+              <div>{{post.typeReact.length}} Likes</div>
+            </button>
+          </ion-col>
+          <ion-col center text-center>
+            <button>
+              <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+              <div>{{post.numberComments}} Comments</div>
+            </button>
+          </ion-col>
+          <!-- <ion-button (press)="itemPressed()">Test</ion-button> -->
+
+        </ion-row>
+      </ion-footer>
+    </ion-card>
+  </div>
+
+</div>
+
 </ion-content>

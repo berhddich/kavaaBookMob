@@ -7,6 +7,7 @@ import { UsersService } from 'src/app/core/services/users/users.service';
 import { LoadingController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { ModelPostComponent } from '../model-post/model-post.component';
+import { PostService } from 'src/app/core/services/users/post.service';
   @Component({
   selector: 'app-profils',
   templateUrl: './profils.component.html',
@@ -16,18 +17,26 @@ export class ProfilsComponent implements OnInit {
 
   image = "../../../../assets/image/test.jpg"
   user: any;
+  listOfPost: any[];
+  laoding=false;
 
   constructor(public actionSheetController: ActionSheetController,
     private plt: Platform, private camera: Camera,
     public toastController: ToastController,
     public loadingController: LoadingController,
     public modalController: ModalController,
-    public _usersService: UsersService) {
+    private _postService: PostService,
+    public _usersService: UsersService)
+     {
+      this.user = (JSON.parse(localStorage.getItem("user")));
+
+      this.laodPost()
   }
+
+
 
   ngOnInit() {
 
-    this.user = (JSON.parse(localStorage.getItem("user"))).user;
 
     if(JSON.parse(localStorage.getItem("profil"))!==null)
      {
@@ -190,6 +199,8 @@ export class ProfilsComponent implements OnInit {
     return new File([theBlob], fileName, { lastModified: new Date().getTime(), type: theBlob.type })
   }
 
+
+
   base64ToImage(dataURI) {
     const fileDate = dataURI.split(',');
     const mime = fileDate[0].match(/:(.*?);/)[1];
@@ -223,6 +234,36 @@ export class ProfilsComponent implements OnInit {
   }
 
 
+
+  laodPost() {
+    this.laoding=true;
+        this._postService.getAllByUserId(this.user.id).subscribe(res => {
+
+    this.listOfPost=res;
+    for(let i=0;i<this.listOfPost.length;i++)
+    {
+      if(this.listOfPost[i].picture!==null)
+      {
+        this.listOfPost[i].picture='data:image/jpeg;base64,'+this.listOfPost[i].picture;
+
+      }
+
+      if(this.listOfPost[i].pictureUser!==null)
+      {
+
+        this.listOfPost[i].pictureUser='data:image/jpeg;base64,'+this.listOfPost[i].pictureUser;
+
+
+      }
+
+
+    }
+    this.laoding=false;
+
+          console.log(this.listOfPost);
+        })
+
+      }
 
 
 

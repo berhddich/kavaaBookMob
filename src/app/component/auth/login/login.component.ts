@@ -64,7 +64,9 @@ export class LoginComponent implements OnInit {
 
      .subscribe(res=> {
        console.log(res['user'].urlPicture)
-      localStorage.setItem('user', JSON.stringify(res))
+      localStorage.setItem('user', JSON.stringify(res.user))
+      localStorage.setItem('token', JSON.stringify(res.token))
+
 
       if(res['user'].urlPicture!==null)
       {
