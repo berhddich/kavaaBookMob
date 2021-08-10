@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   hmr: false,
-  apiBaseUrl: 'https://kavaabook-webapi.conveyor.cloud/',
+  apiBaseUrl: 'https://localhost:44392/',
   clientId: '414e7827a3884f68abc79f7283837fd1',};
 
 /*
