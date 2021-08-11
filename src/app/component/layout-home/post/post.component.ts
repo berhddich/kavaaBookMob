@@ -125,7 +125,7 @@ export class PostComponent implements OnInit {
 
   }
 
-  like(postId: number, userId: number, typeReact: number) {
+  public like(postId: number, userId: number, typeReact: number):void {
     this.reacte = {
       postId: postId,
       userId: this.user.id,
@@ -266,10 +266,12 @@ export class PostComponent implements OnInit {
 
   showReactions(evant) {
     console.log(evant)
+
+
   }
 
 
-  async presentPopover(ev: any) {
+  async presentPopover(ev: any,postId:number) {
     const popover = await this.popoverController.create({
       component: ReactionsPageComponent,
       cssClass: 'my-custom-class',
@@ -277,16 +279,19 @@ export class PostComponent implements OnInit {
       translucent: true
     });
     await popover.present();
+    await popover.onDidDismiss().then((data:any)=>{
+      console.log(data['data'])
 
-    const { role } = await popover.onDidDismiss();
-    console.log('onDidDismiss resolved with role', role);
+      this.like(postId,this.user.id,data['data'])
+
+    }
+
+
+    )
   }
 
 
-  itemPressed() {
-    this.presentToast("ok");
 
-  }
 
   async presentToast(msg) {
     const toast = await this.toastController.create({

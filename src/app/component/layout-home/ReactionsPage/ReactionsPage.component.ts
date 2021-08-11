@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-ReactionsPage',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReactionsPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(  private popoverController: PopoverController) { }
 
   ngOnInit() {
+  }
+
+  type(id:number)
+  {
+
+
+    this.popoverController.dismiss(id)
   }
 
 }
