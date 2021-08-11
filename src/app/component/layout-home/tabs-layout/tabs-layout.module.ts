@@ -8,6 +8,8 @@ import { ProfilsComponent } from '../profils/profils.component';
 import { PostComponent } from '../post/post.component';
 import { ModelPostComponent } from '../model-post/model-post.component';
 import { ReactionsPageComponent } from '../ReactionsPage/ReactionsPage.component';
+import { LongPressModule } from 'ionic-long-press';
+
 const routes: Routes = [
   {
     path: '',
@@ -47,6 +49,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    LongPressModule,
     SharedModule,
     RouterModule.forChild(routes)
   ],
