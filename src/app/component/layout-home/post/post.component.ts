@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from 'src/app/core/services/users/post.service';
-import { GestureController, ModalController, PopoverController, ToastController } from '@ionic/angular';
+import { ActionSheetController, GestureController, ModalController, PopoverController, ToastController } from '@ionic/angular';
 import { ModelPostComponent } from '../model-post/model-post.component';
 import { ReactionsPageComponent } from '../ReactionsPage/ReactionsPage.component';
 import { element } from 'protractor';
 import { ReactsService } from 'src/app/core/services/Reacts/reacts.service';
 import { CreateReactsModel, EditReactsModel } from 'src/app/core/models/reacts';
 import { error } from 'console';
+import { ParametrePostComponent } from './parametre-post/parametre-post.component';
+import { PostSignalComponent } from '../post-signal/post-signal/post-signal.component';
 
 @Component({
   selector: 'app-post',
@@ -34,7 +36,8 @@ export class PostComponent implements OnInit {
     public toastController: ToastController,
     private gestureCtrl: GestureController,
     private _reactsService: ReactsService,
-    private popoverController: PopoverController) {
+    private popoverController: PopoverController,
+    public actionSheetController: ActionSheetController) {
     this.laodPost()
   }
 
@@ -312,6 +315,103 @@ export class PostComponent implements OnInit {
 
 
 
+  }
+
+
+  async parametrePost(postId:number,userId:number)
+  {
+
+    let actionSheet =
+     await this.actionSheetController.create({
+      cssClass: 'my-custom-class',
+      buttons: [
+
+
+
+      {
+        text: 'Signaler un problème',
+        icon: 'reader',
+        handler: () => {
+         this.PostSignalModal(postId,userId)
+        }
+      },
+
+      {
+        text: 'Cancel',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }]
+    });
+    if(userId===this.user.id)
+    {
+
+      actionSheet =
+      await this.actionSheetController.create({
+       cssClass: 'my-custom-class',
+       buttons: [
+
+       {
+         text: 'Modifier la publication',
+         icon: 'create-outline',
+         handler: () => {
+           console.log('Play clicked');
+         }
+       },
+
+
+       {
+         text: 'Déplacer dans la corbeille',
+         role: 'destructive',
+         icon: 'trash',
+         handler: () => {
+           console.log('Delete clicked');
+         }
+       },
+
+       {
+         text: 'Cancel',
+         icon: 'close',
+         role: 'cancel',
+         handler: () => {
+           console.log('Cancel clicked');
+         }
+       }]
+     });
+
+    }
+    await actionSheet.present();
+
+    const { role } = await actionSheet.onDidDismiss();
+    console.log('onDidDismiss resolved with role', role);
+
+  }
+
+  async PostSignalModal(postId:number,userId:number) {
+    const modal = await this.modalController.create({
+      component: PostSignalComponent,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        'postId': postId,
+        'userId': userId,
+        'userSignalId': this.user.id
+      }
+
+    });
+
+    modal.onDidDismiss()
+    .then((data) => {
+      const isValid = data['data'];
+      if (isValid) {
+        this.presentToast('Le signal de publication a été enregistré ');
+
+      }
+
+    });
+
+    return await modal.present();
   }
 
 }
