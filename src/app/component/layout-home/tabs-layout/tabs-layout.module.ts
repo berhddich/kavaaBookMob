@@ -11,6 +11,7 @@ import { ReactionsPageComponent } from '../ReactionsPage/ReactionsPage.component
 import { LongPressModule } from 'ionic-long-press';
 import { ParametrePostComponent } from '../post/parametre-post/parametre-post.component';
 import { PostSignalComponent } from '../post-signal/post-signal/post-signal.component';
+import { CommentsComponent } from '../comments/Comments.component';
 
 const routes: Routes = [
   {
@@ -55,6 +56,6 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [TabsLayoutComponent,PostComponent,ParametrePostComponent, PostSignalComponent , ProfilsComponent,ReactionsPageComponent,ModelPostComponent]
+  declarations: [TabsLayoutComponent,PostComponent,ParametrePostComponent, CommentsComponent,PostSignalComponent , ProfilsComponent,ReactionsPageComponent,ModelPostComponent]
 })
 export class TabsLayoutModule { }

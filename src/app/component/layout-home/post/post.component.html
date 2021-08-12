@@ -96,12 +96,14 @@
 
             <ion-col>
 
-              <button  class="btnreact"  >
+              <button  class="btnreact" [disabled]="btnComment"  (click)="getCommentBypost(post.id)"  >
                 <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
               </button>
             </ion-col>
 
           </ion-row>
+          <ion-progress-bar *ngIf="btnComment" type="indeterminate"></ion-progress-bar>
+
         </ion-footer>
       </ion-card>
 

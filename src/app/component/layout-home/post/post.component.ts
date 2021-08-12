@@ -9,6 +9,8 @@ import { CreateReactsModel, EditReactsModel } from 'src/app/core/models/reacts';
 import { error } from 'console';
 import { ParametrePostComponent } from './parametre-post/parametre-post.component';
 import { PostSignalComponent } from '../post-signal/post-signal/post-signal.component';
+import { CommentsComponent } from '../comments/Comments.component';
+import { CommentsService } from 'src/app/core/services/comments/comments.service';
 
 @Component({
   selector: 'app-post',
@@ -30,14 +32,16 @@ export class PostComponent implements OnInit {
     { type: false, id: 7 }];
   reacte: CreateReactsModel;
   btnLike = false;
-  racteForEdit:EditReactsModel
+  racteForEdit:EditReactsModel;
+  btnComment=false;
   constructor(private _postService: PostService,
     public modalController: ModalController,
     public toastController: ToastController,
     private gestureCtrl: GestureController,
     private _reactsService: ReactsService,
     private popoverController: PopoverController,
-    public actionSheetController: ActionSheetController) {
+    public actionSheetController: ActionSheetController,
+    private _commentsService:CommentsService) {
     this.laodPost()
   }
 
@@ -84,7 +88,10 @@ export class PostComponent implements OnInit {
   async presentModal() {
     const modal = await this.modalController.create({
       component: ModelPostComponent,
-      cssClass: 'my-custom-class'
+      cssClass: 'my-custom-class',
+      animated:true,
+      swipeToClose:true,
+
     });
 
     modal.onDidDismiss()
@@ -393,6 +400,8 @@ export class PostComponent implements OnInit {
     const modal = await this.modalController.create({
       component: PostSignalComponent,
       cssClass: 'my-custom-class',
+      animated:true,
+      swipeToClose:true,
       componentProps: {
         'postId': postId,
         'userId': userId,
@@ -413,5 +422,71 @@ export class PostComponent implements OnInit {
 
     return await modal.present();
   }
+
+
+  async ShowComments(postId:number,data:any)
+  {
+    const modal = await this.modalController.create({
+      component: CommentsComponent,
+      cssClass: 'my-custom-class',
+      animated:true,
+      swipeToClose:true,
+      componentProps: {
+        'postId': postId,
+        'userId': this.user.id,
+        'data':data
+
+      }
+
+    });
+
+    modal.onDidDismiss()
+    .then((data) => {
+      const isValid = data['data'];
+      if (isValid) {
+        this.presentToast('comments is close ');
+
+      }
+
+    });
+
+    return await modal.present();
+
+
+
+  }
+
+  getCommentBypost(postId: number)
+  {
+    this.btnComment=true;
+
+
+    this._commentsService.GetAllCommentsByPostId(postId).subscribe(res=>{
+
+
+      for (let i = 0; i < res.length; i++) {
+        if (res[i].userUrlPicture !== null) {
+          res[i].userUrlPicture= 'data:image/jpeg;base64,' + res[i].userUrlPicture;
+
+        }
+
+      }
+
+      console.log(res)
+      this.ShowComments(postId,res)
+      this.btnComment=false;
+
+
+    },(error)=>{
+
+
+      this.btnComment=false;
+      this.presentToast(error);
+    })
+
+
+
+  }
+
 
 }

@@ -18,6 +18,7 @@ export class TabsLayoutComponent implements OnInit {
     private menu: MenuController) { }
 
   ngOnInit() {
+
   }
 
   ionTabsDidChange(){

@@ -6,6 +6,7 @@ import { NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { UsersService } from 'src/app/core/services/users/users.service';
 import { LoadingController } from '@ionic/angular';
+import { LoadingService } from 'src/app/core/services/loading/loading.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit {
     public _usersService: UsersService,
     private _authService: AuthService,
     public NavController: NavController,
-    public loadingController: LoadingController
+    private _loadingService:LoadingService
     ) { }
 
   ngOnInit() {
@@ -42,23 +43,13 @@ export class LoginComponent implements OnInit {
     toast.present();
   }
 
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      cssClass: 'my-custom-class',
-      message: 'Please wait...',
-    });
-    await loading.present();
 
-
-    const { role, data } = await loading.onDidDismiss();
-    console.log('Loading dismissed!');
-  }
 
   save(): void {
 
 
 
-   this. presentLoading();
+   this._loadingService.presentLoading();
 
      this._authService.login(this.loginForm.value)
 
@@ -67,19 +58,16 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('user', JSON.stringify(res.user))
       localStorage.setItem('token', JSON.stringify(res.token))
 
-
       if(res['user'].urlPicture!==null)
       {
+
     this._usersService.getPicture(res['user'].urlPicture).subscribe(res=>{
+      this._loadingService.dismiss();
 
       if (res ) {
 
-        this.loadingController.dismiss().then((res) => {
-          console.log('Loader hidden', res);
-      }).catch((error) => {
 
-          console.log(error);
-      });
+
         localStorage.setItem('profil', JSON.stringify('data:image/jpeg;base64,' + res))
         this.presentToast('Login completed');
         this.NavController.navigateRoot('app/tabs-layout')
@@ -87,11 +75,7 @@ export class LoginComponent implements OnInit {
 
     },(error)=>{
 
-      this.loadingController.dismiss().then((res) => {
-        console.log('Loader hidden', res);
-    }).catch((error) => {
-        console.log(error);
-    });
+      this._loadingService.dismiss();
       this.presentToast(error.error.title);
       console.log(error.error.title);
 
@@ -101,23 +85,17 @@ export class LoginComponent implements OnInit {
 
       }
       else{
-        this.loadingController.dismiss().then((res) => {
-          console.log('Loader hidden', res);
-      }).catch((error) => {
+        this._loadingService.dismiss();
 
-          console.log(error);
-      });
+
         this.presentToast('Login completed');
         this.NavController.navigateRoot('app/tabs-layout')
       }
 
 
      }, (error) => {
-      this.loadingController.dismiss().then((res) => {
-        console.log('Loader hidden', res);
-    }).catch((error) => {
-        console.log(error);
-    });
+      this._loadingService.dismiss();
+
       this.presentToast(error.error.title);
          console.log(error.error.title);
      });
