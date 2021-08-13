@@ -34,6 +34,8 @@ export class PostComponent implements OnInit {
   btnLike = false;
   racteForEdit:EditReactsModel;
   btnComment=false;
+  btnreact=false;
+  longPres=0;
   constructor(private _postService: PostService,
     public modalController: ModalController,
     public toastController: ToastController,
@@ -282,7 +284,13 @@ export class PostComponent implements OnInit {
 
 
   async presentPopover(ev: any,postId:number) {
-    const popover = await this.popoverController.create({
+    this.btnreact=true;
+    this.longPres++;
+
+if(this.longPres===1)
+{
+
+   const popover = await this.popoverController.create({
       component: ReactionsPageComponent,
       cssClass: 'my-custom-class',
       event: ev,
@@ -291,6 +299,8 @@ export class PostComponent implements OnInit {
     await popover.present();
     await popover.onDidDismiss().then((data:any)=>{
       console.log(data['data'])
+    this.btnreact=false;
+    this.longPres=0;
 
       this.like(postId,this.user.id,data['data'])
 
@@ -298,6 +308,9 @@ export class PostComponent implements OnInit {
 
 
     )
+
+}
+ 
   }
 
 
@@ -443,8 +456,10 @@ export class PostComponent implements OnInit {
     modal.onDidDismiss()
     .then((data) => {
       const isValid = data['data'];
+      console.log(data);
+      
       if (isValid) {
-        this.presentToast('comments is close ');
+this.listOfPost.find(element => element.id === postId).numberComments=this.listOfPost.find(element => element.id === postId).numberComments + isValid;  
 
       }
 

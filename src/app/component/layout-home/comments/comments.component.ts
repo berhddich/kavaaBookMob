@@ -14,6 +14,7 @@ export class CommentsComponent   implements AfterContentInit {
   @Input() userId: number;
   @Input() data: any[];
   comment;
+  commentNumber=0;
 
   commentsModel: CreateCommentsModel;
 
@@ -33,7 +34,7 @@ export class CommentsComponent   implements AfterContentInit {
   }
 
   close() {
-    this.modalController.dismiss(false)
+    this.modalController.dismiss(this.commentNumber)
   }
 
 
@@ -51,14 +52,15 @@ export class CommentsComponent   implements AfterContentInit {
     this._commentsService.create(this.commentsModel).subscribe(res=>{
 this.comment=null;
 
-      this.data.push({
+this.commentNumber++;
+      this.data.unshift({
         comment:res.comment,
         createdDate:res.createdDate,
         id:res.id,
         postId:res.postId,
         userId:res.userId,
         userUrlPicture: JSON.parse(localStorage.getItem("profil")),
-        userfullName: JSON.parse(localStorage.getItem("profil")).fullName
+        userfullName: JSON.parse(localStorage.getItem("user")).fullName
 
 
 
