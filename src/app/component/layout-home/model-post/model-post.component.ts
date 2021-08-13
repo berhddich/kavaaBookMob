@@ -54,6 +54,7 @@ export class ModelPostComponent implements OnInit {
 
 
   fileChangeEvent(event: any) {
+    console.log(this.platform.is('android'))
     if (this.platform.is('android')) {
       this.choisirP();
 
