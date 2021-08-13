@@ -102,7 +102,7 @@ export class ModelPostComponent implements OnInit {
       this.image = 'data:image/jpeg;base64,' + res
 
       this.blob = this.base64ToImage(this.image);
-      this.blobToFile(this.blob, 'ProfilePicture' + this.user.fullName)
+      this.blobToFile(this.blob, 'ProfilePicture' + this.user.fullName +new Date().getTime() )
       this.blob.name = this.user.fullName + ".jpg";
       this.blob.lastModified = new Date();
 
