@@ -1,0 +1,37 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Signal une User</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Fermer</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+
+  <div class="content">
+    <ion-list>
+      <ion-item>
+        <!-- <ion-label >Contenu text</ion-label> -->
+        <ion-textarea  [(ngModel)]="commenterSignaler"   rows="14"  placeholder="tapez ici le problème "></ion-textarea>
+      </ion-item>
+
+
+
+
+
+
+    </ion-list>
+  </div>
+<div class="btnsection">
+
+  <section>
+
+    <ion-button expand="block" [disabled]="!commenterSignaler"  (click)="sgnalerBtn()">
+      enregistrer
+    </ion-button>
+  </section>
+</div>
+
+
+</ion-content>

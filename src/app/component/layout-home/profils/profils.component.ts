@@ -8,12 +8,12 @@ import { LoadingController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { ModelPostComponent } from '../model-post/model-post.component';
 import { PostService } from 'src/app/core/services/users/post.service';
-import { PostSignalComponent } from '../post-signal/post-signal/post-signal.component';
 import { CreateReactsModel, EditReactsModel } from 'src/app/core/models/reacts';
 import { CommentsService } from 'src/app/core/services/comments/comments.service';
 import { CommentsComponent } from '../comments/Comments.component';
 import { ReactsService } from 'src/app/core/services/Reacts/reacts.service';
 import { ReactionsPageComponent } from '../ReactionsPage/ReactionsPage.component';
+import { PostSignalComponent } from '../signale/post-signal/post-signal.component';
   @Component({
   selector: 'app-profils',
   templateUrl: './profils.component.html',

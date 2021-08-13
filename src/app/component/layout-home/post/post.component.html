@@ -31,15 +31,15 @@
     <div style="padding: 7px;">
 
       <ion-card>
-        <ion-item>
-          <ion-avatar slot="start">
+        <ion-item  >
+          <ion-avatar slot="start"  (click)="userProfils(post.userId,post.pictureUser)">
             <img *ngIf="post.pictureUser==null" src="../../../../assets/image/test.jpg">
             <img *ngIf="post.pictureUser" [src]="post.pictureUser">
 
 
           </ion-avatar>
           <ion-label>
-            <h3>{{post.userFullName}}</h3>
+            <h3 (click)="userProfils(post.userId,post.pictureUser)">{{post.userFullName}}</h3>
             <p>{{post.createdDate| date: 'dd/MM/yyyy a HH:mm' }}</p>
           </ion-label>
 

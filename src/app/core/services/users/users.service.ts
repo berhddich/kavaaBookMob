@@ -52,6 +52,10 @@ getPicture(urlPicture:string  ): Observable<any> {
   return this._httpClient.get<any>(this.baseUrl + '/GetPicture?imageUrl='+urlPicture);
 }
 
+get(id:number ): Observable<any> {
+  return this._httpClient.get<any>(this.baseUrl + '/'+id);
+}
+
 
 
 

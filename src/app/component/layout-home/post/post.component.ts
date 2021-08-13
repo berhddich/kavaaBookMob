@@ -8,9 +8,13 @@ import { ReactsService } from 'src/app/core/services/Reacts/reacts.service';
 import { CreateReactsModel, EditReactsModel } from 'src/app/core/models/reacts';
 import { error } from 'console';
 import { ParametrePostComponent } from './parametre-post/parametre-post.component';
-import { PostSignalComponent } from '../post-signal/post-signal/post-signal.component';
 import { CommentsComponent } from '../comments/Comments.component';
 import { CommentsService } from 'src/app/core/services/comments/comments.service';
+import { NavController } from '@ionic/angular';
+import { UserProfilsComponent } from '../user-profils/user-profils.component';
+import { UsersService } from 'src/app/core/services/users/users.service';
+import { PostSignalComponent } from '../signale/post-signal/post-signal.component';
+
 
 @Component({
   selector: 'app-post',
@@ -32,18 +36,21 @@ export class PostComponent implements OnInit {
     { type: false, id: 7 }];
   reacte: CreateReactsModel;
   btnLike = false;
-  racteForEdit:EditReactsModel;
-  btnComment=false;
-  btnreact=false;
-  longPres=0;
+  racteForEdit: EditReactsModel;
+  btnComment = false;
+  btnreact = false;
+  longPres = 0;
   constructor(private _postService: PostService,
     public modalController: ModalController,
     public toastController: ToastController,
     private gestureCtrl: GestureController,
     private _reactsService: ReactsService,
-      private popoverController: PopoverController,
-      public actionSheetController: ActionSheetController,
-    private _commentsService:CommentsService) {
+    private popoverController: PopoverController,
+    public actionSheetController: ActionSheetController,
+    public NavController: NavController,
+    private _usersService: UsersService,
+
+    private _commentsService: CommentsService) {
     this.laodPost()
   }
 
@@ -91,8 +98,8 @@ export class PostComponent implements OnInit {
     const modal = await this.modalController.create({
       component: ModelPostComponent,
       cssClass: 'my-custom-class',
-      animated:true,
-      swipeToClose:true,
+      animated: true,
+      swipeToClose: true,
 
     });
 
@@ -137,7 +144,7 @@ export class PostComponent implements OnInit {
 
   }
 
-  public like(postId: number, userId: number, typeReact: number):void {
+  public like(postId: number, userId: number, typeReact: number): void {
     this.reacte = {
       postId: postId,
       userId: this.user.id,
@@ -208,7 +215,7 @@ export class PostComponent implements OnInit {
         const oldReact = this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userId === this.user.id).typeReact
         this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userId === this.user.id).typeReact = typeReact;
         const react = this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userId === this.user.id);
-         this.racteForEdit = {
+        this.racteForEdit = {
 
           postId: postId,
           userId: this.user.id,
@@ -283,33 +290,32 @@ export class PostComponent implements OnInit {
   }
 
 
-  async presentPopover(ev: any,postId:number) {
-    this.btnreact=true;
+  async presentPopover(ev: any, postId: number) {
+    this.btnreact = true;
     this.longPres++;
 
-if(this.longPres===1)
-{
+    if (this.longPres === 1) {
 
-   const popover = await this.popoverController.create({
-      component: ReactionsPageComponent,
-      cssClass: 'my-custom-class',
-      event: ev,
-      translucent: true
-    });
-    await popover.present();
-    await popover.onDidDismiss().then((data:any)=>{
-      console.log(data['data'])
-    this.btnreact=false;
-    this.longPres=0;
+      const popover = await this.popoverController.create({
+        component: ReactionsPageComponent,
+        cssClass: 'my-custom-class',
+        event: ev,
+        translucent: true
+      });
+      await popover.present();
+      await popover.onDidDismiss().then((data: any) => {
+        console.log(data['data'])
+        this.btnreact = false;
+        this.longPres = 0;
 
-      this.like(postId,this.user.id,data['data'])
+        this.like(postId, this.user.id, data['data'])
+
+      }
+
+
+      )
 
     }
-
-
-    )
-
-}
 
   }
 
@@ -338,68 +344,66 @@ if(this.longPres===1)
   }
 
 
-  async parametrePost(postId:number,userId:number)
-  {
+  async parametrePost(postId: number, userId: number) {
 
     let actionSheet =
-     await this.actionSheetController.create({
-      cssClass: 'my-custom-class',
-      buttons: [
+      await this.actionSheetController.create({
+        cssClass: 'my-custom-class',
+        buttons: [
 
 
 
-      {
-        text: 'Signaler un problème',
-        icon: 'reader',
-        handler: () => {
-         this.PostSignalModal(postId,userId)
-        }
-      },
+          {
+            text: 'Signaler un problème',
+            icon: 'reader',
+            handler: () => {
+              this.PostSignalModal(postId, userId)
+            }
+          },
 
-      {
-        text: 'Cancel',
-        icon: 'close',
-        role: 'cancel',
-        handler: () => {
-          console.log('Cancel clicked');
-        }
-      }]
-    });
-    if(userId===this.user.id)
-    {
+          {
+            text: 'Cancel',
+            icon: 'close',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+            }
+          }]
+      });
+    if (userId === this.user.id) {
 
       actionSheet =
-      await this.actionSheetController.create({
-       cssClass: 'my-custom-class',
-       buttons: [
+        await this.actionSheetController.create({
+          cssClass: 'my-custom-class',
+          buttons: [
 
-       {
-         text: 'Modifier la publication',
-         icon: 'create-outline',
-         handler: () => {
-           console.log('Play clicked');
-         }
-       },
+            {
+              text: 'Modifier la publication',
+              icon: 'create-outline',
+              handler: () => {
+                console.log('Play clicked');
+              }
+            },
 
 
-       {
-         text: 'Déplacer dans la corbeille',
-         role: 'destructive',
-         icon: 'trash',
-         handler: () => {
-           console.log('Delete clicked');
-         }
-       },
+            {
+              text: 'Déplacer dans la corbeille',
+              role: 'destructive',
+              icon: 'trash',
+              handler: () => {
+                console.log('Delete clicked');
+              }
+            },
 
-       {
-         text: 'Cancel',
-         icon: 'close',
-         role: 'cancel',
-         handler: () => {
-           console.log('Cancel clicked');
-         }
-       }]
-     });
+            {
+              text: 'Cancel',
+              icon: 'close',
+              role: 'cancel',
+              handler: () => {
+                console.log('Cancel clicked');
+              }
+            }]
+        });
 
     }
     await actionSheet.present();
@@ -409,12 +413,12 @@ if(this.longPres===1)
 
   }
 
-  async PostSignalModal(postId:number,userId:number) {
+  async PostSignalModal(postId: number, userId: number) {
     const modal = await this.modalController.create({
       component: PostSignalComponent,
       cssClass: 'my-custom-class',
-      animated:true,
-      swipeToClose:true,
+      animated: true,
+      swipeToClose: true,
       componentProps: {
         'postId': postId,
         'userId': userId,
@@ -424,46 +428,45 @@ if(this.longPres===1)
     });
 
     modal.onDidDismiss()
-    .then((data) => {
-      const isValid = data['data'];
-      if (isValid) {
-        this.presentToast('Le signal de publication a été enregistré ');
+      .then((data) => {
+        const isValid = data['data'];
+        if (isValid) {
+          this.presentToast('Le signal de publication a été enregistré ');
 
-      }
+        }
 
-    });
+      });
 
     return await modal.present();
   }
 
 
-  async ShowComments(postId:number,data:any)
-  {
+  async ShowComments(postId: number, data: any) {
     const modal = await this.modalController.create({
       component: CommentsComponent,
       cssClass: 'my-custom-class',
-      animated:true,
-      swipeToClose:true,
+      animated: true,
+      swipeToClose: true,
       componentProps: {
         'postId': postId,
         'userId': this.user.id,
-        'data':data
+        'data': data
 
       }
 
     });
 
     modal.onDidDismiss()
-    .then((data) => {
-      const isValid = data['data'];
-      console.log(data);
+      .then((data) => {
+        const isValid = data['data'];
+        console.log(data);
 
-      if (isValid) {
-this.listOfPost.find(element => element.id === postId).numberComments=this.listOfPost.find(element => element.id === postId).numberComments + isValid;
+        if (isValid) {
+          this.listOfPost.find(element => element.id === postId).numberComments = this.listOfPost.find(element => element.id === postId).numberComments + isValid;
 
-      }
+        }
 
-    });
+      });
 
     return await modal.present();
 
@@ -471,37 +474,108 @@ this.listOfPost.find(element => element.id === postId).numberComments=this.listO
 
   }
 
-  getCommentBypost(postId: number)
-  {
-    this.btnComment=true;
+  getCommentBypost(postId: number) {
+    this.btnComment = true;
 
 
-    this._commentsService.GetAllCommentsByPostId(postId).subscribe(res=>{
+    this._commentsService.GetAllCommentsByPostId(postId).subscribe(res => {
 
 
       for (let i = 0; i < res.length; i++) {
         if (res[i].userUrlPicture !== null) {
-          res[i].userUrlPicture= 'data:image/jpeg;base64,' + res[i].userUrlPicture;
+          res[i].userUrlPicture = 'data:image/jpeg;base64,' + res[i].userUrlPicture;
 
         }
 
       }
 
       console.log(res)
-      this.ShowComments(postId,res)
-      this.btnComment=false;
+      this.ShowComments(postId, res)
+      this.btnComment = false;
 
 
-    },(error)=>{
+    }, (error) => {
 
 
-      this.btnComment=false;
+      this.btnComment = false;
       this.presentToast(error);
     })
 
 
 
   }
+
+  userProfils(userId: number,img :any) {
+
+    if (this.user.id === userId) {
+      this.NavController.navigateRoot('app/tabs-layout/profils')
+
+
+    }
+    else {
+
+      this.getUser(userId,img);
+
+
+    }
+
+
+
+
+  }
+
+  async userProfilsModel( data :any) {
+    const modal = await this.modalController.create({
+      component: UserProfilsComponent,
+      cssClass: 'my-custom-class',
+      animated: true,
+      swipeToClose: true,
+      componentProps: {
+
+
+         'data':data
+
+      }
+
+    });
+
+    modal.onDidDismiss()
+      .then((data) => {
+        const isValid = data['data'];
+
+
+        if (isValid) {
+
+        }
+
+      });
+
+    return await modal.present();
+
+
+
+  }
+
+
+  getUser(userId: number,img:any) {
+
+
+    this._usersService.get(userId).subscribe(res => {
+      console.log(res)
+      res.urlPicture=img;
+
+this.userProfilsModel(res)
+
+    }, (error) => {
+
+      console.log(error);
+
+    })
+
+
+
+  }
+
 
 
 }

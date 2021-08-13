@@ -2,7 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { error } from 'protractor';
 import { CreatePostignalModel } from 'src/app/core/models/post-signals';
+import { LoadingService } from 'src/app/core/services/loading/loading.service';
 import { PostSignalsService } from 'src/app/core/services/post-signals/post-signals.service';
+import { NavController } from '@ionic/angular';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+
 
 @Component({
   selector: 'app-post-signal',
@@ -18,7 +22,9 @@ export class PostSignalComponent implements OnInit {
   @Input() userSignalId: number;
   constructor(public modalController: ModalController,
     private _postSignalsService: PostSignalsService,
-    public loadingController: LoadingController
+    public NavController: NavController,
+    private loadingController: LoadingController
+
 
   ) { }
 
@@ -30,22 +36,29 @@ export class PostSignalComponent implements OnInit {
     this.modalController.dismiss(false)
   }
 
+
+
+
   async presentLoading() {
     const loading = await this.loadingController.create({
       cssClass: 'my-custom-class',
       message: 'Please wait...',
     });
     await loading.present();
-
-
     const { role, data } = await loading.onDidDismiss();
     console.log('Loading dismissed!');
+
   }
 
+  dismiss()
+  {
+  this.loadingController.dismiss();
+
+
+  }
 
   sgnalerBtn() {
 
-    this.presentLoading();
 
     this.postignal = {
       postId: this.postId,
@@ -57,25 +70,15 @@ export class PostSignalComponent implements OnInit {
     this._postSignalsService.create(this.postignal).subscribe(res => {
 
       console.log("postignal is pass")
-      this.loadingController.dismiss().then((res) => {
-        this.modalController.dismiss(true)
-
-    }).catch((error) => {
-
-        console.log(error);
-    });
+     this.close();
 
 
 
     }, (error) => {
 
       console.log(error)
-      this.loadingController.dismiss().then((res) => {
-        console.log('Loader hidden', res);
-    }).catch((error) => {
 
-        console.log(error);
-    });
+
 
 
     })

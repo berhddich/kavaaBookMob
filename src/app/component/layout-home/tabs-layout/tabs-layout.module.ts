@@ -10,8 +10,10 @@ import { ModelPostComponent } from '../model-post/model-post.component';
 import { ReactionsPageComponent } from '../ReactionsPage/ReactionsPage.component';
 import { LongPressModule } from 'ionic-long-press';
 import { ParametrePostComponent } from '../post/parametre-post/parametre-post.component';
-import { PostSignalComponent } from '../post-signal/post-signal/post-signal.component';
 import { CommentsComponent } from '../comments/Comments.component';
+import { UserProfilsComponent } from '../user-profils/user-profils.component';
+import { PostSignalComponent } from '../signale/post-signal/post-signal.component';
+import { SegnalUserComponent } from '../signale/segnal-user/segnal-user.component';
 
 const routes: Routes = [
   {
@@ -56,6 +58,6 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [TabsLayoutComponent,PostComponent,ParametrePostComponent, CommentsComponent,PostSignalComponent , ProfilsComponent,ReactionsPageComponent,ModelPostComponent]
+  declarations: [TabsLayoutComponent,PostComponent,ParametrePostComponent,UserProfilsComponent, CommentsComponent,PostSignalComponent ,SegnalUserComponent, ProfilsComponent,ReactionsPageComponent,ModelPostComponent]
 })
 export class TabsLayoutModule { }

@@ -21,7 +21,7 @@ async presentLoading() {
 
 dismiss()
 {
-this.loadingController.dismiss()
+this.loadingController.dismiss();
 
 
 }
