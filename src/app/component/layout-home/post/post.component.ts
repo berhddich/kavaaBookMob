@@ -40,6 +40,7 @@ export class PostComponent implements OnInit {
   btnComment = false;
   btnreact = false;
   longPres = 0;
+  postIdForbtn;
   constructor(private _postService: PostService,
     public modalController: ModalController,
     public toastController: ToastController,
@@ -52,10 +53,11 @@ export class PostComponent implements OnInit {
 
     private _commentsService: CommentsService) {
     this.laodPost()
+    this.user = (JSON.parse(localStorage.getItem("user")));
+
   }
 
   ngOnInit() {
-    this.user = (JSON.parse(localStorage.getItem("user")));
     if (JSON.parse(localStorage.getItem("profil")) !== null) {
 
       this.image = JSON.parse(localStorage.getItem("profil"))
@@ -157,8 +159,9 @@ export class PostComponent implements OnInit {
     if (this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userId === this.user.id)) {
       if (this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userId === this.user.id && element.typeReact === typeReact)) {
 
-        let id = this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userId === userId && element.typeReact === typeReact).id;
+        console.log(this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userId === this.user.id && element.typeReact === typeReact))
 
+        let id = this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userId === this.user.id && element.typeReact === typeReact).id;
 
 
         // DELET
@@ -298,7 +301,7 @@ export class PostComponent implements OnInit {
 
       const popover = await this.popoverController.create({
         component: ReactionsPageComponent,
-        cssClass: 'my-custom-class',
+        cssClass: 'rection',
         event: ev,
         translucent: true
       });
@@ -476,6 +479,7 @@ export class PostComponent implements OnInit {
 
   getCommentBypost(postId: number) {
     this.btnComment = true;
+    this.postIdForbtn=postId;
 
 
     this._commentsService.GetAllCommentsByPostId(postId).subscribe(res => {

@@ -100,7 +100,7 @@
             </ion-col>
 
           </ion-row>
-          <ion-progress-bar *ngIf="btnComment" type="indeterminate"></ion-progress-bar>
+          <ion-progress-bar *ngIf="btnComment && postIdForbtn==post.id" type="indeterminate"></ion-progress-bar>
 
         </ion-footer>
       </ion-card>
