@@ -76,7 +76,7 @@
   <ion-progress-bar type="indeterminate"></ion-progress-bar>
 
 </div>
-<div *ngFor="let post of listOfPost ">
+<div *ngFor="let post of listOfPost; let i = index ">
 
 
   <div style="padding: 7px;">
@@ -93,6 +93,15 @@
           <h3>{{post.userFullName}}</h3>
           <p>{{post.createdDate| date: 'dd/MM/yyyy a HH:mm' }}</p>
         </ion-label>
+
+
+        <ion-buttons slot="end"  (click)="parametrePost(post.id,post.userId)">
+          <ion-button>
+            <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+
+
       </ion-item>
 
 
@@ -104,22 +113,50 @@
       <ion-footer>
         <ion-row>
           <ion-col center text-center>
-            <button   ion-button icon-left clear small>
-              <ion-icon name="thumbs-up"></ion-icon>
-              <div>{{post.typeReact.length}} Likes</div>
-            </button>
+            <div  >
+              <img class="like"  *ngIf="findReact(i,1)" src="../../../../assets/svg/like.svg" alt="ion">
+              <img class="like" *ngIf="findReact(i,4)" src="../../../../assets/svg/love.svg" alt="ion">
+              <img class="like" *ngIf="findReact(i,3)" src="../../../../assets/svg/care.svg" alt="ion">
+              <img class="like" *ngIf="findReact(i,2)" src="../../../../assets/svg/haha.svg" alt="ion">
+              <img class="like" *ngIf="findReact(i,6)" src="../../../../assets/svg/wow.svg" alt="ion">
+              <img class="like" *ngIf="findReact(i,5)"  src="../../../../assets/svg/sad.svg" alt="ion">
+              <img class="like" *ngIf="findReact(i,7 )"  src="../../../../assets/svg/angry.svg" alt="ion">
+
+
+
+            </div>
+            <div>{{post.typeReact.length}} Likes</div>
           </ion-col>
           <ion-col center text-center>
             <button>
-              <ion-icon name="chatbox-ellipses-outline"></ion-icon>
-              <div>{{post.numberComments}} Comments</div>
             </button>
+            <div>{{post.numberComments}} Comments</div>
+
           </ion-col>
-          <!-- <ion-button (press)="itemPressed()">Test</ion-button> -->
 
         </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <button  [disabled]="btnLike" ion-long-press class="btnreact"  (click)=like(post.id,post.userId,1)   [disabled]="btnreact"  (longPressed)="presentPopover($event,post.id)" >
+              <ion-icon name="thumbs-up"></ion-icon>
+            </button>
+          </ion-col>
+
+          <ion-col>
+
+            <button  class="btnreact" [disabled]="btnComment"  (click)="getCommentBypost(post.id)"  >
+              <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+            </button>
+          </ion-col>
+
+        </ion-row>
+        <ion-progress-bar *ngIf="btnComment" type="indeterminate"></ion-progress-bar>
+
       </ion-footer>
     </ion-card>
+
+
   </div>
 
 </div>

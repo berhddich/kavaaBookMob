@@ -41,8 +41,8 @@ export class PostComponent implements OnInit {
     public toastController: ToastController,
     private gestureCtrl: GestureController,
     private _reactsService: ReactsService,
-    private popoverController: PopoverController,
-    public actionSheetController: ActionSheetController,
+      private popoverController: PopoverController,
+      public actionSheetController: ActionSheetController,
     private _commentsService:CommentsService) {
     this.laodPost()
   }
@@ -310,7 +310,7 @@ if(this.longPres===1)
     )
 
 }
- 
+
   }
 
 
@@ -457,9 +457,9 @@ if(this.longPres===1)
     .then((data) => {
       const isValid = data['data'];
       console.log(data);
-      
+
       if (isValid) {
-this.listOfPost.find(element => element.id === postId).numberComments=this.listOfPost.find(element => element.id === postId).numberComments + isValid;  
+this.listOfPost.find(element => element.id === postId).numberComments=this.listOfPost.find(element => element.id === postId).numberComments + isValid;
 
       }
 
