@@ -1,5 +1,9 @@
 <ion-content>
-
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
+      refreshingSpinner="circles" refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
   <div class="header">
     <h2>{{user.fullName}}</h2>
     <div class="space-between">

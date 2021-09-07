@@ -7,6 +7,9 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { UsersService } from 'src/app/core/services/users/users.service';
 import { LoadingController } from '@ionic/angular';
 import { LoadingService } from 'src/app/core/services/loading/loading.service';
+import { AccountService } from 'src/app/core/services/Account/account.service';
+import { JwtService } from 'src/app/core/services/jwt/jwt.service';
+import { UserSessionService } from 'src/app/core/services/user-session/user-session.service';
 
 @Component({
   selector: 'app-login',
@@ -22,8 +25,11 @@ export class LoginComponent implements OnInit {
     public _usersService: UsersService,
     private _authService: AuthService,
     public NavController: NavController,
-    private _loadingService:LoadingService
-    ) { }
+    private _loadingService: LoadingService,
+    private _accountService: AccountService,
+    private _jkwtService: JwtService,
+    private _userSessionService: UserSessionService
+  ) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -49,56 +55,64 @@ export class LoginComponent implements OnInit {
 
 
 
-   this._loadingService.presentLoading();
+    this._loadingService.presentLoading();
 
-     this._authService.login(this.loginForm.value)
+    this._authService.login(this.loginForm.value)
 
-     .subscribe(res=> {
-       console.log(res['user'].urlPicture)
-      localStorage.setItem('user', JSON.stringify(res.user))
-      localStorage.setItem('token', JSON.stringify(res.token))
+      .subscribe(res => {
 
-      if(res['user'].urlPicture!==null)
-      {
+        this._jkwtService.saveToken(res.data)
 
-    this._usersService.getPicture(res['user'].urlPicture).subscribe(res=>{
-      this._loadingService.dismiss();
-
-      if (res ) {
+        this._accountService.GetCurrentLoginInformations().subscribe(user => {
+          this._userSessionService.save(user.data)
 
 
+      console.log(  user.data.userName)
+     if(user.data.urlPicture!==null)
+          {
 
-        localStorage.setItem('profil', JSON.stringify('data:image/jpeg;base64,' + res))
-        this.presentToast('Login completed');
-        this.NavController.navigateRoot('app/tabs-layout')
-    }
+        this._usersService.getPicture(user.data.urlPicture).subscribe(res=>{
+          this._loadingService.dismiss();
 
-    },(error)=>{
-
-      this._loadingService.dismiss();
-      this.presentToast(error.error.title);
-      console.log(error.error.title);
+          if (res ) {
 
 
-    })
+
+            localStorage.setItem('ImageProfil', JSON.stringify('data:image/jpeg;base64,' + res))
+            this.presentToast('Login completed');
+            this.NavController.navigateRoot('app/tabs-layout')
+        }
+
+        },(error)=>{
+
+          this._loadingService.dismiss();
+          this.presentToast(error.error.title);
+          console.log(error.error.title);
 
 
-      }
-      else{
+        })
+
+
+          }
+          else{
+            this._loadingService.dismiss();
+            this.presentToast('Login completed');
+            this.NavController.navigateRoot('app/tabs-layout')
+          }
+
+
+        })
+
+
+
+
+
+      }, (error) => {
         this._loadingService.dismiss();
 
-
-        this.presentToast('Login completed');
-        this.NavController.navigateRoot('app/tabs-layout')
-      }
-
-
-     }, (error) => {
-      this._loadingService.dismiss();
-
-      this.presentToast(error.error.title);
-         console.log(error.error.title);
-     });
+        this.presentToast(error.error.title);
+        console.log(error.error.title);
+      });
 
 
 

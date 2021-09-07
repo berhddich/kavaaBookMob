@@ -642,4 +642,32 @@ if(this.longPres===1)
   }
 
 
+  refresh(event) {
+
+    this._postService. getAllByUserId(this.user.id).subscribe(res => {
+
+      this.listOfPost = res;
+      for (let i = 0; i < this.listOfPost.length; i++) {
+        if (this.listOfPost[i].picture !== null) {
+          this.listOfPost[i].picture = 'data:image/jpeg;base64,' + this.listOfPost[i].picture;
+
+        }
+
+        if (this.listOfPost[i].pictureUser !== null) {
+
+          this.listOfPost[i].pictureUser = 'data:image/jpeg;base64,' + this.listOfPost[i].pictureUser;
+
+
+        }
+
+
+      }
+      event.target.complete();
+
+      console.log(this.listOfPost);
+    })
+
+  }
+
+
 }

@@ -8,17 +8,18 @@ import { catchError, map, retry, shareReplay, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ApiResultDto } from '../models/base-model';
 import { LoginModel } from '../models/user';
+import { JwtService } from './jwt/jwt.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  baseUrl = `${environment.apiBaseUrl}api/Aut/authenticate`;
+  baseUrl = `${environment.apiBaseUrl}api/Token`;
   httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   }
-  constructor(public _httpClient: HttpClient, public NavController: NavController,
+  constructor(public _httpClient: HttpClient, public NavController: NavController, private _jwtService:JwtService,
 
     private router: Router,) {
 
@@ -45,22 +46,26 @@ export class AuthService {
 
   login(input: LoginModel): Observable<any> {
     return this._httpClient.post<any>(this.baseUrl , JSON.stringify(input), this.httpOptions)
-        .pipe(map(response =>   response), retry(1));
+    .pipe(map(response => response), retry(1));
+}
+
+
+
+register(input: any): Observable<any> {
+  return this._httpClient.post<any>(this.baseUrl+'/Register' , JSON.stringify(input), this.httpOptions)
+  .pipe(map(response => response), retry(1));
 }
 
 
   islogin() {
 
-    let user = JSON.parse(localStorage.getItem('user')) as boolean;
+    const currentUserToken = this._jwtService.currentUserTokenValue;
 
-    if (user) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    return !(currentUserToken === null || currentUserToken === undefined);
 
   }
+
+
   // currentUser() {
 
   //   let user = JSON.parse(localStorage.getItem('user'));

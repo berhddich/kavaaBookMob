@@ -102,8 +102,8 @@ export class ModelPostComponent implements OnInit {
       this.image = 'data:image/jpeg;base64,' + res
 
       this.blob = this.base64ToImage(this.image);
-      this.blobToFile(this.blob, 'ProfilePicture' + this.user.fullName +new Date().getTime() )
-      this.blob.name = this.user.fullName + ".jpg";
+      this.blobToFile(this.blob, 'PostPicture' + this.user.fullName +new Date().getTime() )
+      this.blob.name = 'PostPicture'+this.user.fullName +new Date().getTime()+ ".jpg";
       this.blob.lastModified = new Date();
 
 
@@ -186,4 +186,6 @@ export class ModelPostComponent implements OnInit {
     this.modalController.dismiss(false)
 
   }
+
+
 }
