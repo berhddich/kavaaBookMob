@@ -12,8 +12,7 @@ import { UserSignalService } from 'src/app/core/services/user-signal/user-signal
 export class SegnalUserComponent implements OnInit {
   commenterSignaler;
   userSignalModel:CreateUsersignalModel
-  @Input() userSignaledId: number;
-  @Input() userWhoSignalId: number;
+  @Input() userName: string;
   constructor(public modalController: ModalController,
     public _loadingService: LoadingService,
     private _userSignalService:UserSignalService
@@ -34,8 +33,7 @@ export class SegnalUserComponent implements OnInit {
     this.userSignalModel = {
 
       commenterSignaler:this.commenterSignaler,
-      userSignaledId:this.userSignaledId,
-      userWhoSignalId:this.userWhoSignalId
+      userSignaledUserName:this.userName,
     };
 
     this._userSignalService.create(this.userSignalModel).subscribe(res => {

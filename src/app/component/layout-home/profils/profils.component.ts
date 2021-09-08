@@ -51,7 +51,7 @@ export class ProfilsComponent implements OnInit {
     private popoverController: PopoverController,
     public _usersService: UsersService)
      {
-      this.user = (JSON.parse(localStorage.getItem("user")));
+      this.user = (JSON.parse(localStorage.getItem("KavaBook_UserSession")));
 
       this.laodPost()
   }
@@ -155,7 +155,7 @@ export class ProfilsComponent implements OnInit {
       blob.name =this.user.fullName+ ".jpg";
       blob.lastModified = new Date();
       this. presentLoading();
-      this._usersService.UpdatePicture(blob, this.user.id).subscribe(res => {
+      this._usersService.UpdatePicture(blob).subscribe(res => {
         localStorage.setItem('profil', JSON.stringify(this.image))
         this.loadingController.dismiss().then((res) => {
           console.log('Loader hidden', res);
@@ -197,7 +197,7 @@ export class ProfilsComponent implements OnInit {
       blob.lastModified = new Date();
       this. presentLoading();
 
-      this._usersService.UpdatePicture(blob, this.user.id).subscribe(res => {
+      this._usersService.UpdatePicture(blob).subscribe(res => {
         localStorage.setItem('profil', JSON.stringify(this.image))
         this.loadingController.dismiss().then((res) => {
           console.log('Loader hidden', res);
@@ -260,7 +260,7 @@ export class ProfilsComponent implements OnInit {
 
   laodPost() {
     this.laoding=true;
-        this._postService.getAllByUserId(this.user.id).subscribe(res => {
+        this._postService.getAllByUserId().subscribe(res => {
 
     this.listOfPost=res;
     for(let i=0;i<this.listOfPost.length;i++)
@@ -644,7 +644,7 @@ if(this.longPres===1)
 
   refresh(event) {
 
-    this._postService. getAllByUserId(this.user.id).subscribe(res => {
+    this._postService. getAllByUserId().subscribe(res => {
 
       this.listOfPost = res;
       for (let i = 0; i < this.listOfPost.length; i++) {

@@ -16,8 +16,7 @@ export interface CreatePostignalModel   {
 
   reason: string;
   postId: number;
-  userId: number;
-  userSignalId: number;
+  userSignalUserName: string;
 
 
 }

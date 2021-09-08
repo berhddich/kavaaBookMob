@@ -53,7 +53,7 @@ export class PostComponent implements OnInit {
 
     private _commentsService: CommentsService) {
     this.laodPost()
-    this.user = (JSON.parse(localStorage.getItem("user")));
+    this.user = (JSON.parse(localStorage.getItem("KavaBook_UserSession")));
 
   }
 
@@ -347,7 +347,7 @@ export class PostComponent implements OnInit {
   }
 
 
-  async parametrePost(postId: number, userId: number) {
+  async parametrePost(postId: number, userUserName: string) {
 
     let actionSheet =
       await this.actionSheetController.create({
@@ -360,7 +360,7 @@ export class PostComponent implements OnInit {
             text: 'Signaler un problème',
             icon: 'reader',
             handler: () => {
-              this.PostSignalModal(postId, userId)
+              this.PostSignalModal(postId, userUserName)
             }
           },
 
@@ -373,7 +373,7 @@ export class PostComponent implements OnInit {
             }
           }]
       });
-    if (userId === this.user.id) {
+    if (userUserName === this.user.userName) {
 
       actionSheet =
         await this.actionSheetController.create({
@@ -416,7 +416,7 @@ export class PostComponent implements OnInit {
 
   }
 
-  async PostSignalModal(postId: number, userId: number) {
+  async PostSignalModal(postId: number, userUserName: string) {
     const modal = await this.modalController.create({
       component: PostSignalComponent,
       cssClass: 'my-custom-class',
@@ -424,8 +424,7 @@ export class PostComponent implements OnInit {
       swipeToClose: true,
       componentProps: {
         'postId': postId,
-        'userId': userId,
-        'userSignalId': this.user.id
+        'userSignalUserName': userUserName
       }
 
     });
@@ -452,7 +451,6 @@ export class PostComponent implements OnInit {
       swipeToClose: true,
       componentProps: {
         'postId': postId,
-        'userId': this.user.id,
         'data': data
 
       }
@@ -509,16 +507,16 @@ export class PostComponent implements OnInit {
 
   }
 
-  userProfils(userId: number,img :any) {
+  userProfils(userUserName: string,img :any) {
 
-    if (this.user.id === userId) {
+    if (this.user.userName === userUserName) {
       this.NavController.navigateRoot('app/tabs-layout/profils')
 
 
     }
     else {
 
-      this.getUser(userId,img);
+      this.getUser(userUserName,img);
 
 
     }
@@ -561,14 +559,14 @@ export class PostComponent implements OnInit {
   }
 
 
-  getUser(userId: number,img:any) {
+  getUser(userUserName: string,img:any) {
 
 
-    this._usersService.get(userId).subscribe(res => {
-      console.log(res)
+    this._usersService.getUserByuserName(userUserName).subscribe(res => {
+      console.log(res.data)
       res.urlPicture=img;
 
-this.userProfilsModel(res)
+this.userProfilsModel(res.data)
 
     }, (error) => {
 

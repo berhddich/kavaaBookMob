@@ -31,7 +31,7 @@ export class ModelPostComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.user = (JSON.parse(localStorage.getItem("user")));
+    this.user = (JSON.parse(localStorage.getItem("KavaBook_UserSession")));
 
   }
 
@@ -138,7 +138,6 @@ export class ModelPostComponent implements OnInit {
 
       libelle: this.libelle,
       picture: this.blob,
-      userId: this.user.id,
     }
 
     console.log(this.postForm)

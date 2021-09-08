@@ -18,8 +18,9 @@ export class PostSignalComponent implements OnInit {
   reason;
 
   @Input() postId: number;
-  @Input() userId: number;
-  @Input() userSignalId: number;
+  @Input() userSignalUserName: string;
+
+
   constructor(public modalController: ModalController,
     private _postSignalsService: PostSignalsService,
     public NavController: NavController,
@@ -63,8 +64,7 @@ export class PostSignalComponent implements OnInit {
     this.postignal = {
       postId: this.postId,
       reason: this.reason,
-      userId: this.userId,
-      userSignalId: this.userSignalId
+      userSignalUserName: this.userSignalUserName
     };
 
     this._postSignalsService.create(this.postignal).subscribe(res => {

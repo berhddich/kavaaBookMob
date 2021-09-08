@@ -16,7 +16,6 @@ export interface CreateCommentsModel   {
 
   comment: string;
   postId: number;
-  userId: number;
 
 
 }

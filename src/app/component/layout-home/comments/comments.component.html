@@ -33,12 +33,13 @@
         <img  *ngIf="com.userUrlPicture"  [src]=" com.userUrlPicture">
 
       </ion-avatar>
-      <ion-label>
+      <ion-label  style="cursor: pointer;"   (click)="CommentSignale()"  >
         <ion-text>
           <h2>{{com.userfullName}}</h2>
+
           <ion-text color="medium">
 
-            <p class="dateclasse">{{com.createdDate | date: 'dd/MM/yyyy a hh:mm' }}</p>
+            <p class="dateclasse">{{com.createdOn | date: 'dd/MM/yyyy a hh:mm' }}</p>
           </ion-text>
 
         </ion-text>

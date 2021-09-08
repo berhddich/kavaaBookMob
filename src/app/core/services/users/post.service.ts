@@ -22,8 +22,8 @@ export class PostService {
       .pipe(map(response => response), retry(1));
   }
 
-  getAllByUserId(userId:number): Observable<any> {
-    return this._httpClient.get<ApiResultDto>(`${this.baseUrl}/GetAllByUserId?userId=`+userId, this.httpOptions)
+  getAllByUserId(): Observable<any> {
+    return this._httpClient.get<ApiResultDto>(`${this.baseUrl}/GetAllByUserId`, this.httpOptions)
       .pipe(map(response => response), retry(1));
   }
 
@@ -32,7 +32,6 @@ export class PostService {
     var formData: any = new FormData();
 
     formData.append("libelle", iput.libelle);
-    formData.append("userId", iput.userId);
     if (iput.picture) {
 
       formData.append("picture", iput.picture, iput.picture.name);

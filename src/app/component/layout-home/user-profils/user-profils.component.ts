@@ -24,7 +24,7 @@ export class UserProfilsComponent implements OnInit {
   }
 
 
-  async parametre( userId: number) {
+  async parametre( userName: string) {
 
     let actionSheet =
       await this.actionSheetController.create({
@@ -37,7 +37,7 @@ export class UserProfilsComponent implements OnInit {
             text: 'Signaler un problème',
             icon: 'reader',
             handler: () => {
-              this.PostSignalModal(userId);
+              this.PostSignalModal(userName);
 
 
             }
@@ -60,15 +60,14 @@ export class UserProfilsComponent implements OnInit {
 
   }
 
-  async PostSignalModal( userSignaledId: number) {
+  async PostSignalModal( userName: string) {
     const modal = await this.modalController.create({
       component: SegnalUserComponent,
       cssClass: 'my-custom-class',
       animated: true,
       swipeToClose: true,
       componentProps: {
-        'userSignaledId': userSignaledId,
-        'userWhoSignalId':(JSON.parse(localStorage.getItem("user"))).id
+        'userName': userName,
 
       }
 

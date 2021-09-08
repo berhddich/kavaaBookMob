@@ -32,7 +32,7 @@
 
       <ion-card>
         <ion-item  >
-          <ion-avatar slot="start"  (click)="userProfils(post.userId,post.pictureUser)">
+          <ion-avatar slot="start"  (click)="userProfils(post.userUserName,post.pictureUser)">
             <img *ngIf="post.pictureUser==null" src="../../../../assets/image/test.jpg">
             <img *ngIf="post.pictureUser" [src]="post.pictureUser">
 
@@ -44,7 +44,7 @@
           </ion-label>
 
 
-          <ion-buttons slot="end"  (click)="parametrePost(post.id,post.userId)">
+          <ion-buttons slot="end"  (click)="parametrePost(post.id,post.userUserName)">
             <ion-button>
               <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
             </ion-button>

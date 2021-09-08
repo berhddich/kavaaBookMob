@@ -36,11 +36,11 @@ export class UsersService {
 
 
 
-UpdatePicture(file:File,id:number): Observable<any> {
+UpdatePicture(file:File): Observable<any> {
   var formData: any = new FormData();
 
   formData.append("UrlPicture", file,file.name);
-  formData.append("Id", id);
+
 
   return this._httpClient.post<any>(this.baseUrl + '/UpdatePicture', formData)
       .pipe(map(response => response), retry(1));
@@ -52,8 +52,8 @@ getPicture(urlPicture:string  ): Observable<any> {
   return this._httpClient.get<any>(this.baseUrl + '/GetPicture?imageUrl='+urlPicture);
 }
 
-get(id:number ): Observable<any> {
-  return this._httpClient.get<any>(this.baseUrl + '/'+id);
+getUserByuserName(userName:string ): Observable<any> {
+  return this._httpClient.get<any>(this.baseUrl + '/GetUserbyUserName?userUserName='+userName);
 }
 
 

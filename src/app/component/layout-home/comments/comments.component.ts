@@ -1,5 +1,5 @@
 import { AfterContentInit, Component, Directive, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { LoadingController, ModalController } from '@ionic/angular';
+import { ActionSheetController, GestureController, LoadingController, ModalController } from '@ionic/angular';
 import { error } from 'protractor';
 import { CreateCommentsModel } from 'src/app/core/models/comments';
 import { CommentsService } from 'src/app/core/services/comments/comments.service';
@@ -9,9 +9,8 @@ import { CommentsService } from 'src/app/core/services/comments/comments.service
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.scss']
 })
-export class CommentsComponent   implements AfterContentInit {
+export class CommentsComponent   implements OnInit {
   @Input() postId: number;
-  @Input() userId: number;
   @Input() data: any[];
   comment;
   commentNumber=0;
@@ -22,13 +21,15 @@ export class CommentsComponent   implements AfterContentInit {
     public modalController: ModalController,
     public loadingController: LoadingController,
     private _commentsService: CommentsService ,
+    public actionSheetController: ActionSheetController,
+    private gestureCtrl: GestureController,
 
 
   ) {
 
   }
 
-  public ngAfterContentInit() {
+  public ngOnInit() {
 
 
   }
@@ -43,7 +44,7 @@ export class CommentsComponent   implements AfterContentInit {
     this.commentsModel = {
       comment: this.comment,
       postId: this.postId,
-      userId: this.userId
+
 
     }
 
@@ -60,7 +61,7 @@ this.commentNumber++;
         postId:res.postId,
         userId:res.userId,
         userUrlPicture: JSON.parse(localStorage.getItem("profil")),
-        userfullName: JSON.parse(localStorage.getItem("user")).fullName
+        userfullName: JSON.parse(localStorage.getItem("KavaBook_UserSession")).fullName
 
 
 
@@ -95,6 +96,46 @@ this.commentNumber++;
   }
 
 
+
+  parametreCom() {
+    console.log("test")
+
+
+
+  }
+
+  async CommentSignale() {
+    let actionSheet =
+    await this.actionSheetController.create({
+      cssClass: 'my-custom-class',
+      buttons: [
+
+
+
+        {
+          text: 'Signaler un problème',
+          icon: 'reader',
+          handler: () => {
+
+
+          }
+        },
+
+        {
+          text: 'Cancel',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }]
+    });
+
+  await actionSheet.present();
+
+  const { role } = await actionSheet.onDidDismiss();
+  console.log('onDidDismiss resolved with role', role);
+  }
 
 
 }
