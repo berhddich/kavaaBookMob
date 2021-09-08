@@ -97,12 +97,7 @@ this.commentNumber++;
 
 
 
-  parametreCom() {
-    console.log("test")
-
-
-
-  }
+ 
 
   async CommentSignale() {
     let actionSheet =
