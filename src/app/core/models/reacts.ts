@@ -3,7 +3,7 @@ import { DefaultBaseModel } from "./base-model";
 export interface CreateReactsModel {
 
   typeReact: number;
-  userId: number;
+  userUserName: string;
   postId: number;
 
 
@@ -11,7 +11,7 @@ export interface CreateReactsModel {
 export interface EditReactsModel  extends DefaultBaseModel {
 
   typeReact: number;
-  userId: number;
+  userUserName: string;
   postId: number;
 
 

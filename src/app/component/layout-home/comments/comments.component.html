@@ -33,7 +33,7 @@
         <img  *ngIf="com.userUrlPicture"  [src]=" com.userUrlPicture">
 
       </ion-avatar>
-      <ion-label  style="cursor: pointer;"   (click)="CommentSignale()"  >
+      <ion-label  style="cursor: pointer;"   (click)="CommentSignale(com.id,com.userName)"  >
         <ion-text>
           <h2>{{com.userfullName}}</h2>
 

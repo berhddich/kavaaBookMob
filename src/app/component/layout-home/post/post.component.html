@@ -87,8 +87,15 @@
 
           <ion-row>
             <ion-col>
-              <button  [disabled]="btnLike" ion-long-press class="btnreact"  (click)=like(post.id,post.userId,1)   [disabled]="btnreact"  (longPressed)="presentPopover($event,post.id)" >
-                <ion-icon name="thumbs-up"></ion-icon>
+              <button  [disabled]="btnLike" ion-long-press class="btnreact"  (click)=like(post.id,post.userUserName,1,0)   [disabled]="btnreact"  (longPressed)="presentPopover($event,post.id)" >
+                <ion-icon name="thumbs-up"   *ngIf="findimogi(post.id,0)"></ion-icon>
+                <img class="like"  *ngIf="findimogi(post.id,1)" src="../../../../assets/svg/like.svg" alt="ion">
+                <img class="like" *ngIf="findimogi(post.id,4)" src="../../../../assets/svg/love.svg" alt="ion">
+                <img class="like" *ngIf="findimogi(post.id,3)" src="../../../../assets/svg/care.svg" alt="ion">
+                <img class="like" *ngIf="findimogi(post.id,2)" src="../../../../assets/svg/haha.svg" alt="ion">
+                <img class="like" *ngIf="findimogi(post.id,6)" src="../../../../assets/svg/wow.svg" alt="ion">
+                <img class="like" *ngIf="findimogi(post.id,5)"  src="../../../../assets/svg/sad.svg" alt="ion">
+                <img class="like" *ngIf="findimogi(post.id,7 )"  src="../../../../assets/svg/angry.svg" alt="ion">
               </button>
             </ion-col>
 
