@@ -24,7 +24,7 @@ export class JwtService {
 
     saveToken(token: any): void {
 
-        token.refreshTokenExpiryTime = moment().add(token.refreshTokenExpiryTime, 'second');
+        // token.refreshTokenExpiryTime = moment().add(token.refreshTokenExpiryTime, 'second');
         window.localStorage.setItem(AppConsts.usertokenLocalStorageName, JSON.stringify(token));
         this.currentUserTokenSubject.next(token);
     }

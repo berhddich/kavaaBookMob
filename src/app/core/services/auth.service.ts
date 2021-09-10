@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { catchError, map, retry, shareReplay, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ApiResultDto } from '../models/base-model';
+import { JwtTokenModel } from '../models/JwtTokenModel';
 import { LoginModel } from '../models/user';
 import { JwtService } from './jwt/jwt.service';
 
@@ -66,26 +67,32 @@ register(input: any): Observable<any> {
   }
 
 
-  // currentUser() {
 
-  //   let user = JSON.parse(localStorage.getItem('user'));
-
-  //   if (user) { return user.emailVerified }
-
-
-  //   return false
-
-  // }
 
   logout() {
 
     localStorage.clear();
     this.NavController.navigateRoot('home')
 
-
-
-
   }
+
+
+  refreshLogin(): Observable<any> {
+
+    const currenttoken = this._jwtService.currentUserTokenValue;
+    if (currenttoken && currenttoken.refreshToken) {
+
+
+            const body={
+              token:currenttoken.token,
+              refreshToken:currenttoken.refreshToken
+
+            }
+
+            return this._httpClient.post<any>(`${this.baseUrl}/refresh`, body, this.httpOptions)
+            .pipe( shareReplay());
+    }
+}
 
 
 
