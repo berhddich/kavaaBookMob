@@ -1,8 +1,10 @@
 import { AfterContentInit, Component, Directive, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ActionSheetController, GestureController, LoadingController, ModalController, ToastController } from '@ionic/angular';
-import { error } from 'protractor';
+import { element, error } from 'protractor';
 import { CreateCommentsModel } from 'src/app/core/models/comments';
 import { CommentsService } from 'src/app/core/services/comments/comments.service';
+import { SignalrService } from 'src/app/core/services/signalr/signalr.service';
+import { UsersService } from 'src/app/core/services/users/users.service';
 import { CommentSignalComponent } from '../signale/commentSignal/commentSignal/commentSignal.component';
 
 @Component({
@@ -25,6 +27,8 @@ export class CommentsComponent implements OnInit {
     public actionSheetController: ActionSheetController,
     private gestureCtrl: GestureController,
     public toastController: ToastController,
+    private _signalrService:SignalrService,
+    public _usersService: UsersService,
 
 
   ) {
@@ -32,6 +36,7 @@ export class CommentsComponent implements OnInit {
   }
 
   public ngOnInit() {
+this.commentRepons();
 
 
   }
@@ -40,6 +45,46 @@ export class CommentsComponent implements OnInit {
     this.modalController.dismiss(this.commentNumber)
   }
 
+  commentRepons()
+  {
+    this._signalrService.hubConnecttion.on("commentRepons",(comment)=>{
+
+if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
+{
+
+  let user=this.data.find(element=>element.userName === comment.userName )
+
+
+  if(user !== null || user !== null)
+  {
+
+    comment.userUrlPicture = user.userUrlPicture;
+
+  }
+
+  else{
+
+    this._usersService.getPicture(comment.userUrlPicture).subscribe(res=>{
+
+
+      if (res ) {
+        comment.userUrlPicture='data:image/jpeg;base64,' + res
+    }
+    },(error)=>{
+
+      console.log(error.error.title);
+
+    })
+
+  }
+
+}
+      this.data.unshift(comment)
+
+
+
+      })
+  }
 
   CommentBtn() {
 
@@ -54,22 +99,33 @@ export class CommentsComponent implements OnInit {
 
     this._commentsService.create(this.commentsModel).subscribe(res => {
       this.comment = null;
-
       this.commentNumber++;
-      this.data.unshift({
+
+      const comments={
         comment: res.comment,
-        createdDate: res.createdDate,
+        createdOn: res.createdOn,
         id: res.id,
         postId: res.postId,
-        userId: res.userId,
-        userUrlPicture: JSON.parse(localStorage.getItem("profil")),
-        userfullName: JSON.parse(localStorage.getItem("KavaBook_UserSession")).fullName
+        userName: res.userName,
+        userfullName: res.userfullName,
+         userUrlPicture: res.userUrlPicture,
+
+      };
 
 
+
+
+      this.data.unshift({
+        comment: res.comment,
+        createdOn: res.createdOn,
+        id: res.id,
+        postId: res.postId,
+        userName: res.userName,
+        userfullName: res.userfullName,
+        userUrlPicture: JSON.parse(localStorage.getItem("ImageProfil")),
 
       })
-
-
+this._signalrService.addComment(comments);
 
     }, (error) => {
 

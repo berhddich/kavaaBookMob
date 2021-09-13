@@ -61,10 +61,11 @@ export class ProfilsComponent implements OnInit {
   ngOnInit() {
 
 
-    if(JSON.parse(localStorage.getItem("profil"))!==null)
+
+    if(JSON.parse(localStorage.getItem("ImageProfil"))!==null)
      {
 
-      this.image =JSON.parse(localStorage.getItem("profil"))
+      this.image =JSON.parse(localStorage.getItem("ImageProfil"))
 
      }
 

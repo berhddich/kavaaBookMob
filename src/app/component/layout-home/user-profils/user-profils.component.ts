@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActionSheetController, ModalController, ToastController } from '@ionic/angular';
+import { ChateComponent } from '../chate/chate.component';
 import { SegnalUserComponent } from '../signale/segnal-user/segnal-user.component';
 
 @Component({
@@ -30,7 +31,15 @@ export class UserProfilsComponent implements OnInit {
       await this.actionSheetController.create({
         cssClass: 'my-custom-class',
         buttons: [
+          {
+            text: 'Chate',
+            icon: 'chatbubble-ellipses-outline',
+            handler: () => {
+              this.ChateModal();
 
+
+            }
+          },
 
 
           {
@@ -87,6 +96,32 @@ export class UserProfilsComponent implements OnInit {
   }
 
 
+
+  async ChateModal( ) {
+    const modal = await this.modalController.create({
+      component: ChateComponent,
+      cssClass: 'my-custom-class',
+      animated: true,
+      swipeToClose: true,
+      componentProps: {
+        // 'userName': userName,
+
+      }
+
+    });
+
+    modal.onDidDismiss()
+      .then((data) => {
+        const isValid = data['data'];
+        if (isValid) {
+          this.presentToast('');
+
+        }
+
+      });
+
+    return await modal.present();
+  }
 
   async presentToast(msg) {
     const toast = await this.toastController.create({
