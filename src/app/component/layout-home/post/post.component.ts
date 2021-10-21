@@ -73,24 +73,25 @@ export class PostComponent implements OnInit {
 
 
       this.listOfPost = res;
-      for (let i = 0; i < this.listOfPost.length; i++) {
-        if (this.listOfPost[i].picture !== null) {
-          this.listOfPost[i].picture = 'data:image/jpeg;base64,' + this.listOfPost[i].picture;
+      console.log(this.listOfPost);
+      // for (let i = 0; i < this.listOfPost.length; i++) {
+      //   if (this.listOfPost[i].picture !== null) {
+      //     this.listOfPost[i].picture = 'data:image/jpeg;base64,' + this.listOfPost[i].picture;
 
-        }
+      //   }
 
-        if (this.listOfPost[i].pictureUser !== null) {
+      //   if (this.listOfPost[i].pictureUser !== null) {
 
-          this.listOfPost[i].pictureUser = 'data:image/jpeg;base64,' + this.listOfPost[i].pictureUser;
-
-
-        }
+      //     this.listOfPost[i].pictureUser = 'data:image/jpeg;base64,' + this.listOfPost[i].pictureUser;
 
 
-      }
+      //   }
+
+
+      // }
       this.laoding = false;
 
-      console.log(this.listOfPost);
+
     })
 
   }

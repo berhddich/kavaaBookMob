@@ -61,17 +61,19 @@ export class LoginComponent implements OnInit {
 
       .subscribe(res => {
 
+
+        console.log(res)
         this._jkwtService.saveToken(res.data)
 
         this._accountService.GetCurrentLoginInformations().subscribe(user => {
-          this._userSessionService.save(user.data)
+          console.log(user)
+          this._userSessionService.save(user)
 
 
-      console.log(  user.data.userName)
-     if(user.data.urlPicture!==null)
+     if(user.urlPicture!==null)
           {
 
-        this._usersService.getPicture(user.data.urlPicture).subscribe(res=>{
+        this._usersService.getPicture(user.urlPicture).subscribe(res=>{
           this._loadingService.dismiss();
 
           if (res ) {
@@ -110,9 +112,10 @@ export class LoginComponent implements OnInit {
       }, (error) => {
         this._loadingService.dismiss();
 
-        this.presentToast(error.error.title);
-        console.log(error.error.title);
-      });
+        this.presentToast(error);
+        console.log(error);
+      }
+      );
 
 
 

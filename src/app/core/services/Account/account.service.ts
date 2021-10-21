@@ -18,7 +18,7 @@ export class AccountService {
 
 
   GetCurrentLoginInformations(): Observable<any> {
-    return this._httpClient.get<ApiResultDto>(`${this.baseUrl}/GetCurrentLoginInformations`, this.httpOptions)
+    return this._httpClient.get<ApiResultDto>(`${this.baseUrl}/GetCurrentUserInformations`, this.httpOptions)
       .pipe(map(response => response), retry(1));
   }
 

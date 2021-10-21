@@ -15,7 +15,7 @@ export class AppComponent  implements OnInit{
 
   ngOnInit()
   {
-    this._signalrService.startConnection();
+    // this._signalrService.startConnection();
 
   }
 

@@ -39,7 +39,7 @@ export class ProfilsComponent implements OnInit {
   btnComment=false;
   btnreact=false;
   longPres=0;
-
+  dt;
   constructor(public actionSheetController: ActionSheetController,
     private _commentsService:CommentsService ,
     private plt: Platform, private camera: Camera,
@@ -52,7 +52,6 @@ export class ProfilsComponent implements OnInit {
     public _usersService: UsersService)
      {
       this.user = (JSON.parse(localStorage.getItem("KavaBook_UserSession")));
-
       this.laodPost()
   }
 

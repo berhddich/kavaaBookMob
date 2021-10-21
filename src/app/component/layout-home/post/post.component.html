@@ -33,14 +33,14 @@
       <ion-card>
         <ion-item  >
           <ion-avatar slot="start"  (click)="userProfils(post.userUserName,post.pictureUser)">
-            <img *ngIf="post.pictureUser==null" src="../../../../assets/image/test.jpg">
-            <img *ngIf="post.pictureUser" [src]="post.pictureUser">
+            <img *ngIf="post.membreIdUrImg==null" src="../../../../assets/image/test.jpg">
+            <img *ngIf="post.membreIdUrImg" [src]="post.pictureUser">
 
 
           </ion-avatar>
           <ion-label>
-            <h3 (click)="userProfils(post.userId,post.pictureUser)">{{post.userFullName}}</h3>
-            <p>{{post.createdDate| date: 'dd/MM/yyyy a HH:mm' }}</p>
+            <h3 (click)="userProfils(post.membreId,post.pictureUser)">{{post.membreIdFulName}}</h3>
+            <p>{{post.dateCreate| date: 'dd/MM/yyyy a HH:mm' }}</p>
           </ion-label>
 
 
@@ -56,13 +56,13 @@
 
 
         <ion-card-content>
-          {{post.libelle}}
+          {{post.content}}
         </ion-card-content>
-        <img *ngIf="post.picture" [src]="post.picture" alt="ion">
+        <img *ngIf="post.picture" [src]="post.urlsImg" alt="ion">
         <ion-footer>
           <ion-row>
             <ion-col center text-center>
-              <div  >
+              <!-- <div  >
                 <img class="like"  *ngIf="findReact(i,1)" src="../../../../assets/svg/like.svg" alt="ion">
                 <img class="like" *ngIf="findReact(i,4)" src="../../../../assets/svg/love.svg" alt="ion">
                 <img class="like" *ngIf="findReact(i,3)" src="../../../../assets/svg/care.svg" alt="ion">
@@ -73,19 +73,19 @@
 
 
 
-              </div>
-              <div>{{post.typeReact.length}} Likes</div>
+              </div> -->
+              <div>{{post.nomberReact}} Likes</div>
             </ion-col>
             <ion-col center text-center>
               <button>
               </button>
-              <div>{{post.numberComments}} Comments</div>
+              <div>{{post.nomberComment}} Comments</div>
 
             </ion-col>
 
           </ion-row>
 
-          <ion-row>
+          <!-- <ion-row>
             <ion-col>
               <button  [disabled]="btnLike" ion-long-press class="btnreact"  (click)=like(post.id,post.userUserName,1,0)   [disabled]="btnreact"  (longPressed)="presentPopover($event,post.id)" >
                 <ion-icon name="thumbs-up"   *ngIf="findimogi(post.id,0)"></ion-icon>
@@ -106,7 +106,7 @@
               </button>
             </ion-col>
 
-          </ion-row>
+          </ion-row> -->
           <ion-progress-bar *ngIf="btnComment && postIdForbtn==post.id" type="indeterminate"></ion-progress-bar>
 
         </ion-footer>

@@ -16,7 +16,7 @@ import { JwtService } from './jwt/jwt.service';
   providedIn: 'root'
 })
 export class AuthService {
-  baseUrl = `${environment.apiBaseUrl}api/Token`;
+  baseUrl = `${environment.apiBaseUrl}api/Authentication`;
   httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   }
@@ -46,7 +46,7 @@ export class AuthService {
 
 
   login(input: LoginModel): Observable<any> {
-    return this._httpClient.post<any>(this.baseUrl , JSON.stringify(input), this.httpOptions)
+    return this._httpClient.post<any>(this.baseUrl +'/GetToken', JSON.stringify(input), this.httpOptions)
     .pipe(map(response => response), retry(1));
 }
 
