@@ -24,9 +24,8 @@ export class PostSignalsService {
   }
 
 
-  create(input: CreatePostignalModel  ): Observable<any> {
-    return this._httpClient.post<ApiResultDto>(this.baseUrl + '/Signal', JSON.stringify(input), this.httpOptions)
-        .pipe(map(response => response), retry(1));
+  create(input: CreatePostignalModel  ): any {
+    return this._httpClient.post<any>(this.baseUrl + '/Signal', JSON.stringify(input), this.httpOptions);
 }
 
 

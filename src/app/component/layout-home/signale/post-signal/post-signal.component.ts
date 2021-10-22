@@ -69,7 +69,7 @@ export class PostSignalComponent implements OnInit {
 
     this._postSignalsService.create(this.postignal).subscribe(res => {
 
-      console.log(res)
+      console.log("postignal is pass")
      this.close();
 
 
