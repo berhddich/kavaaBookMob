@@ -12,9 +12,8 @@ import { CreatePostignalModel } from '../../models/post-signals';
 export class PostSignalsService {
   baseUrl = `${environment.apiBaseUrl}api/Posts`;
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({'Content-Type': 'application/json'})
   }
-
 
   constructor(public _httpClient: HttpClient) { }
 
@@ -24,8 +23,12 @@ export class PostSignalsService {
   }
 
 
-  create(input: CreatePostignalModel  ): any {
-    return this._httpClient.post<any>(this.baseUrl + '/Signal', JSON.stringify(input), this.httpOptions);
+  create(input: CreatePostignalModel): Observable<any> {
+
+    var tex=this._httpClient.post<any>(this.baseUrl+ '/Signal' , JSON.stringify(input), this.httpOptions)
+    .pipe(map(response => response), retry(1));
+    console.log(tex)
+    return tex;
 }
 
 

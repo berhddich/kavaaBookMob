@@ -20,7 +20,7 @@ import { RefreshTokenInterceptor } from './core/interceptors/refresh-token.inter
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,HttpClientModule],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-          { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+            // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
            { provide: HTTP_INTERCEPTORS, useClass: RefreshTokenInterceptor, multi: true },
 
     ,  {provide: HAMMER_GESTURE_CONFIG, useClass: IonicGestureConfig},Camera,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],

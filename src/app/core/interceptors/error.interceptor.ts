@@ -31,7 +31,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                 // }
                 return;
             }
-            else if (error.status === 400 && request.url.includes('Token') ) {
+            else if (error.status === 400 && request.url.includes('Authentication') ) {
                 this._authService.logout();
                 location.reload();
                 return;
