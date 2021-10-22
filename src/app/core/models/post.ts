@@ -1,7 +1,7 @@
 export interface CreatePostModel {
 
-  libelle: string;
-  picture: any;
+  content: string;
+  urlsImg: any;
 
 
 }

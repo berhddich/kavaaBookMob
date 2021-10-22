@@ -136,8 +136,8 @@ export class ModelPostComponent implements OnInit {
 
     this.postForm = {
 
-      libelle: this.libelle,
-      picture: this.blob,
+      content: this.libelle,
+      urlsImg: this.blob,
     }
 
     console.log(this.postForm)

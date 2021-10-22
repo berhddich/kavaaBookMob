@@ -385,7 +385,7 @@ console.log("eeeee")
   }
 
 
-  async parametrePost(postId: number, userUserName: string) {
+  async parametrePost(postId: number,userUserName: string ,membreId: number) {
 
     let actionSheet =
       await this.actionSheetController.create({
@@ -398,7 +398,7 @@ console.log("eeeee")
             text: 'Signaler un problème',
             icon: 'reader',
             handler: () => {
-              this.PostSignalModal(postId, userUserName)
+              this.PostSignalModal(postId, membreId)
             }
           },
 
@@ -454,7 +454,7 @@ console.log("eeeee")
 
   }
 
-  async PostSignalModal(postId: number, userUserName: string) {
+  async PostSignalModal(postId: number, membreId: number) {
     const modal = await this.modalController.create({
       component: PostSignalComponent,
       cssClass: 'my-custom-class',
@@ -462,7 +462,7 @@ console.log("eeeee")
       swipeToClose: true,
       componentProps: {
         'postId': postId,
-        'userSignalUserName': userUserName
+        'membreSignalId': membreId
       }
 
     });

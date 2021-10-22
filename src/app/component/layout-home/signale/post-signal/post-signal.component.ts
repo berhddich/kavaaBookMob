@@ -18,7 +18,7 @@ export class PostSignalComponent implements OnInit {
   reason;
 
   @Input() postId: number;
-  @Input() userSignalUserName: string;
+  @Input() membreSignalId: number;
 
 
   constructor(public modalController: ModalController,
@@ -64,12 +64,12 @@ export class PostSignalComponent implements OnInit {
     this.postignal = {
       postId: this.postId,
       reason: this.reason,
-      userSignalUserName: this.userSignalUserName
+      membreSignalId: this.membreSignalId
     };
 
     this._postSignalsService.create(this.postignal).subscribe(res => {
 
-      console.log("postignal is pass")
+      console.log(res)
      this.close();
 
 

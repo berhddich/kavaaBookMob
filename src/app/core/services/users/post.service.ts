@@ -31,10 +31,11 @@ export class PostService {
   poster(iput: CreatePostModel): Observable<any> {
     var formData: any = new FormData();
 
-    formData.append("libelle", iput.libelle);
-    if (iput.picture) {
+    formData.append("content", iput.content);
+    if (iput.urlsImg) {
+      formData.append("urlsImg", iput.content);
 
-      formData.append("picture", iput.picture, iput.picture.name);
+      // formData.append("picture", iput.picture, iput.picture.name);
     }
 
     return this._httpClient.post<any>(this.baseUrl + '/Create', formData)
