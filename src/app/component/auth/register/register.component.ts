@@ -63,31 +63,31 @@ export class RegisterComponent implements OnInit {
     this._authService.register(resf)
       .subscribe(res => {
         console.log(res)
-  //       let loginForm: LoginModel = {
-  //         Password: this.registerForm.controls['password'].value,
-  //         Email: this.registerForm.controls['email'].value,
-  //       }
-  //       this._authService.login(loginForm).subscribe(log=>{
+        let loginForm: LoginModel = {
+          Password: this.registerForm.controls['password'].value,
+          Email: this.registerForm.controls['email'].value,
+        }
+        this._authService.login(loginForm).subscribe(log=>{
 
-  //  this._jkwtService.saveToken(log.data)
+   this._jkwtService.saveToken(log.data)
 
-  //       this._accountService.GetCurrentLoginInformations().subscribe(user => {
-  //         this._userSessionService.save(user.data)
+        this._accountService.GetCurrentLoginInformations().subscribe(user => {
+          this._userSessionService.save(user)
 
-  //         this._loadingService.dismiss();
-  //         this.presentToast('Register completed');
-  //         this.NavController.navigateRoot('app/tabs-layout')
+          this._loadingService.dismiss();
+          this.presentToast('Register completed');
+          this.NavController.navigateRoot('app/tabs-layout')
 
-  //       })
+        })
 
-  //       },(error)=>{
+        },(error)=>{
 
-  //         this._loadingService.dismiss();
+          this._loadingService.dismiss();
 
-  //         this.presentToast(error);
-  //         console.log(error);
+          this.presentToast(error);
+          console.log(error);
 
-  //       })
+        })
       }, (error) => {
         this._loadingService.dismiss();
 

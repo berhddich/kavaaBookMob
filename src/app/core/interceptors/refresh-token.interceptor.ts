@@ -17,7 +17,7 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
     constructor(private _authService: AuthService, private _jwtService: JwtService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (request.url.indexOf('Token') !== -1) {
+        if (request.url.indexOf('Authentication') !== -1) {
             return next.handle(request);
         }
         const token = this._jwtService.currentUserTokenValue;

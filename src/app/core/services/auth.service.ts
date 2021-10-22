@@ -45,7 +45,6 @@ export class AuthService {
 
 
 register(input: RegesterModel): Observable<any> {
-console.log(input)
   return this._httpClient.post<any>(this.baseUrl+ '/Register' , JSON.stringify(input), this.httpOptions)
   .pipe(map(response => response), retry(1));
 }

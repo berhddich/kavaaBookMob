@@ -52,24 +52,13 @@ export class LoginComponent implements OnInit {
 
 
   save(): void {
-
-
-
-    this._loadingService.presentLoading();
-
+    // this._loadingService.presentLoading();
     this._authService.login(this.loginForm.value)
-
       .subscribe(res => {
-
-
-        console.log(res)
         this._jkwtService.saveToken(res.data)
-
         this._accountService.GetCurrentLoginInformations().subscribe(user => {
           console.log(user)
           this._userSessionService.save(user)
-
-
      if(user.urlPicture!==null)
           {
 
@@ -97,21 +86,14 @@ export class LoginComponent implements OnInit {
 
           }
           else{
-            this._loadingService.dismiss();
             this.presentToast('Login completed');
             this.NavController.navigateRoot('app/tabs-layout')
+            this._loadingService.dismiss();
+
           }
-
-
         })
-
-
-
-
-
       }, (error) => {
         this._loadingService.dismiss();
-
         this.presentToast(error);
         console.log(error);
       }
