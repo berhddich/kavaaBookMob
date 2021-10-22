@@ -9,7 +9,6 @@ import { UserSessionService } from 'src/app/core/services/user-session/user-sess
 import { AccountService } from 'src/app/core/services/Account/account.service';
 import { LoadingService } from 'src/app/core/services/loading/loading.service';
 import { LoginModel, RegesterModel } from 'src/app/core/models/user';
-import { error } from 'console';
 
 
 
@@ -54,7 +53,6 @@ export class RegisterComponent implements OnInit {
   }
 
   save(): void {
-
     let resf: RegesterModel = {
           password: this.registerForm.controls['password'].value,
             email: this.registerForm.controls['email'].value,
