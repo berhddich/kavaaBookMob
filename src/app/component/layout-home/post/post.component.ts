@@ -3,11 +3,8 @@ import { PostService } from 'src/app/core/services/users/post.service';
 import { ActionSheetController, GestureController, ModalController, PopoverController, ToastController } from '@ionic/angular';
 import { ModelPostComponent } from '../model-post/model-post.component';
 import { ReactionsPageComponent } from '../ReactionsPage/ReactionsPage.component';
-import { element } from 'protractor';
 import { ReactsService } from 'src/app/core/services/Reacts/reacts.service';
 import { CreateReactsModel, EditReactsModel } from 'src/app/core/models/reacts';
-import { error } from 'console';
-import { ParametrePostComponent } from './parametre-post/parametre-post.component';
 import { CommentsComponent } from '../comments/Comments.component';
 import { CommentsService } from 'src/app/core/services/comments/comments.service';
 import { NavController } from '@ionic/angular';
@@ -74,21 +71,21 @@ export class PostComponent implements OnInit {
 
       this.listOfPost = res;
       console.log(this.listOfPost);
-      // for (let i = 0; i < this.listOfPost.length; i++) {
-      //   if (this.listOfPost[i].picture !== null) {
-      //     this.listOfPost[i].picture = 'data:image/jpeg;base64,' + this.listOfPost[i].picture;
+      for (let i = 0; i < this.listOfPost.length; i++) {
+        if (this.listOfPost[i].imgPost !== null) {
+          this.listOfPost[i].imgPost = 'data:image/jpeg;base64,' + this.listOfPost[i].imgPost;
 
-      //   }
+        }
 
-      //   if (this.listOfPost[i].pictureUser !== null) {
+        if (this.listOfPost[i].membreImg !== null) {
 
-      //     this.listOfPost[i].pictureUser = 'data:image/jpeg;base64,' + this.listOfPost[i].pictureUser;
-
-
-      //   }
+          this.listOfPost[i].membreImg = 'data:image/jpeg;base64,' + this.listOfPost[i].membreImg;
 
 
-      // }
+        }
+
+
+      }
       this.laoding = false;
 
 
@@ -126,14 +123,14 @@ export class PostComponent implements OnInit {
 
       this.listOfPost = res;
       for (let i = 0; i < this.listOfPost.length; i++) {
-        if (this.listOfPost[i].picture !== null) {
-          this.listOfPost[i].picture = 'data:image/jpeg;base64,' + this.listOfPost[i].picture;
+        if (this.listOfPost[i].imgPost !== null) {
+          this.listOfPost[i].imgPost = 'data:image/jpeg;base64,' + this.listOfPost[i].imgPost;
 
         }
 
         if (this.listOfPost[i].pictureUser !== null) {
 
-          this.listOfPost[i].pictureUser = 'data:image/jpeg;base64,' + this.listOfPost[i].pictureUser;
+          this.listOfPost[i].membreImg = 'data:image/jpeg;base64,' + this.listOfPost[i].membreImg;
 
 
         }
@@ -376,7 +373,7 @@ console.log("eeeee")
 
 
   findReact(index: number, type: number) {
-    if (this.listOfPost[index].typeReact.find(element => element.typeReact === type)) {
+    if (this.listOfPost[index].reactPost.find(element => element.typeReact === type)) {
 
       return true
     }
@@ -622,10 +619,10 @@ this.userProfilsModel(res.data)
   findimogi(postId: number, type:number)
   {
 
-    if(this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName ))
+    if(this.listOfPost.find(element => element.id === postId).reactPost.find(element => element.membreUserName === this.user.userName ))
     {
 
-      let typeReact = this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName ).typeReact
+      let typeReact = this.listOfPost.find(element => element.id === postId).reactPost.find(element => element.membreUserName === this.user.userName ).typeReact
 
 
       if(typeReact==type)
