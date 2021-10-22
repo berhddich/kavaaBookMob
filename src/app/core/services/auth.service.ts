@@ -8,7 +8,7 @@ import { catchError, map, retry, shareReplay, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ApiResultDto } from '../models/base-model';
 import { JwtTokenModel } from '../models/JwtTokenModel';
-import { LoginModel } from '../models/user';
+import { LoginModel, RegesterModel } from '../models/user';
 import { JwtService } from './jwt/jwt.service';
 
 
@@ -34,15 +34,7 @@ export class AuthService {
 
 
 
-  // login(email: string, password: string): Observable<any> {
-  //   const body = new HttpParams()
-  //     .set('email', email)
-  //     .set('password', password)
-  //   return this._httpClient.post<LoginModel>(this.baseUrl, JSON.stringify(body), this.httpOptions)
 
-
-
-  // }
 
 
   login(input: LoginModel): Observable<any> {
@@ -52,8 +44,9 @@ export class AuthService {
 
 
 
-register(input: any): Observable<any> {
-  return this._httpClient.post<any>(this.baseUrl+'/Register' , JSON.stringify(input), this.httpOptions)
+register(input: RegesterModel): Observable<any> {
+
+  return this._httpClient.post<any>(this.baseUrl+ '/Register' , JSON.stringify(input), this.httpOptions)
   .pipe(map(response => response), retry(1));
 }
 

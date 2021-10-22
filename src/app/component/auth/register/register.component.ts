@@ -8,6 +8,8 @@ import { JwtService } from 'src/app/core/services/jwt/jwt.service';
 import { UserSessionService } from 'src/app/core/services/user-session/user-session.service';
 import { AccountService } from 'src/app/core/services/Account/account.service';
 import { LoadingService } from 'src/app/core/services/loading/loading.service';
+import { LoginModel, RegesterModel } from 'src/app/core/models/user';
+import { error } from 'console';
 
 
 
@@ -17,18 +19,18 @@ import { LoadingService } from 'src/app/core/services/loading/loading.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  tabsNumber=1;
+  tabsNumber = 1;
   registerForm: FormGroup;
   constructor(private fb: FormBuilder,
     public NavController: NavController,
     public toastController: ToastController,
     private _authService: AuthService,
-     private _usersService: UsersService,
-     private _jkwtService: JwtService,
-     private _accountService: AccountService,
-     private _loadingService: LoadingService,
+    private _usersService: UsersService,
+    private _jkwtService: JwtService,
+    private _accountService: AccountService,
+    private _loadingService: LoadingService,
 
-     private _userSessionService: UserSessionService) { }
+    private _userSessionService: UserSessionService) { }
 
   ngOnInit() {
 
@@ -36,9 +38,8 @@ export class RegisterComponent implements OnInit {
       fullName: [, Validators.required],
       birthDate: [, Validators.required],
       email: [, Validators.required],
-      ConfirmPassword: [,Validators.required],
+      userName: [, Validators.required],
       password: [, Validators.required],
-      UserName: [, Validators.required],
 
       // isactive: true
     });
@@ -52,51 +53,63 @@ export class RegisterComponent implements OnInit {
     toast.present();
   }
 
-  save(): void
-   {
-    this._authService
-    .register(this.registerForm.value)
+  save(): void {
 
-    .subscribe(res => {
+    let resf: RegesterModel = {
+          password: this.registerForm.controls['password'].value,
+            email: this.registerForm.controls['email'].value,
+            birthDate:this.registerForm.controls['birthDate'].value,
+            fullName:this.registerForm.controls['fullName'].value,
+            userName:this.registerForm.controls['userName'].value,
+           }
+    this._authService.register(resf)
+      .subscribe(res => {
+        console.log(res)
+  //       let loginForm: LoginModel = {
+  //         Password: this.registerForm.controls['password'].value,
+  //         Email: this.registerForm.controls['email'].value,
+  //       }
+  //       this._authService.login(loginForm).subscribe(log=>{
 
-      this._jkwtService.saveToken(res.data)
+  //  this._jkwtService.saveToken(log.data)
 
-      this._accountService.GetCurrentLoginInformations().subscribe(user => {
-        this._userSessionService.save(user.data)
+  //       this._accountService.GetCurrentLoginInformations().subscribe(user => {
+  //         this._userSessionService.save(user.data)
 
+  //         this._loadingService.dismiss();
+  //         this.presentToast('Register completed');
+  //         this.NavController.navigateRoot('app/tabs-layout')
+
+  //       })
+
+  //       },(error)=>{
+
+  //         this._loadingService.dismiss();
+
+  //         this.presentToast(error);
+  //         console.log(error);
+
+  //       })
+      }, (error) => {
         this._loadingService.dismiss();
-        this.presentToast('Register completed');
-        this.NavController.navigateRoot('app/tabs-layout')
 
-
-
-      })
-
-
-    }, (error) => {
-      this._loadingService.dismiss();
-
-      this.presentToast(error.error.title);
-      console.log(error.error.title);
-    });
+        this.presentToast(error);
+        console.log(error);
+      });
 
   }
 
 
-  test()
-  {
-    if(this.tabsNumber===1)
-    {
-      this.tabsNumber=2
+  test() {
+    if (this.tabsNumber === 1) {
+      this.tabsNumber = 2
     }
 
-    if(this.tabsNumber===2)
-    {
-      this.tabsNumber=3
+    if (this.tabsNumber === 2) {
+      this.tabsNumber = 3
     }
-    if(this.tabsNumber===3)
-    {
-      this.tabsNumber=1
+    if (this.tabsNumber === 3) {
+      this.tabsNumber = 1
     }
   }
 

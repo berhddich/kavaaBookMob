@@ -36,4 +36,16 @@ export interface LoginModel {
 
 }
 
+export interface  RegesterModel {
+  fullName: string;
+  birthDate: Date;
+  email: string;
+  password: string;
+  userName:string;
+
+
+
+
+}
+
 
