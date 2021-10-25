@@ -13,7 +13,7 @@ export class CommentSignalComponent implements OnInit {
   commentstignal: any;
 
   @Input() commmentId: number;
-  @Input() UserName: string;
+  @Input() membreId: number;
   constructor(public modalController: ModalController,
     private loadingController: LoadingController,
     public NavController: NavController,
@@ -52,9 +52,8 @@ private _commentsSignalService:CommentsSignalService
 
 
     this.commentstignal = {
-      commentId: this.commmentId,
+      commentsId: this.commmentId,
       reason: this.reason,
-      userSignalUserName: this.UserName
     };
 
     this._commentsSignalService.create(this.commentstignal).subscribe(res => {

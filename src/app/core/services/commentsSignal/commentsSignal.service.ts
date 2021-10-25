@@ -9,7 +9,7 @@ import { ApiResultDto } from '../../models/base-model';
   providedIn: 'root'
 })
 export class CommentsSignalService {
-  baseUrl = `${environment.apiBaseUrl}api/commentsSignal`;
+  baseUrl = `${environment.apiBaseUrl}api/Comment`;
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   }
@@ -19,7 +19,7 @@ export class CommentsSignalService {
 
 
   create(input: any  ): Observable<any> {
-    return this._httpClient.post<ApiResultDto>(this.baseUrl + '/Create', JSON.stringify(input), this.httpOptions)
+    return this._httpClient.post<ApiResultDto>(this.baseUrl + '/SignalComment', JSON.stringify(input), this.httpOptions)
         .pipe(map(response => response), retry(1));
 }
 }

@@ -159,8 +159,43 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
 
 
 
-  async CommentSignale(id: number, UserName: string) {
-    let actionSheet =
+  async CommentSignale(id: number,membreId:number, membreUserName: string) {
+     let  userName = (JSON.parse(localStorage.getItem("KavaBook_UserSession"))).userName;
+
+
+    if(userName === membreUserName)
+
+    {
+      let actionSheet =
+      await this.actionSheetController.create({
+        cssClass: 'my-custom-class',
+        buttons: [
+
+
+
+
+
+          {
+            text: 'Cancel',
+            icon: 'close',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+            }
+          }]
+      });
+
+
+    await actionSheet.present();
+
+    const { role } = await actionSheet.onDidDismiss();
+    console.log('onDidDismiss resolved with role', role);
+
+    }
+
+    else{
+
+      let actionSheet =
       await this.actionSheetController.create({
         cssClass: 'my-custom-class',
         buttons: [
@@ -172,7 +207,7 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
             icon: 'reader',
             handler: () => {
 
-              this.CommmentSignalModal(id, UserName)
+              this.CommmentSignalModal(id, membreId)
             }
           },
 
@@ -186,13 +221,18 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
           }]
       });
 
+
     await actionSheet.present();
 
     const { role } = await actionSheet.onDidDismiss();
     console.log('onDidDismiss resolved with role', role);
+
+    }
+
+
   }
 
-  async CommmentSignalModal(commmentId: number, UserName: string) {
+  async CommmentSignalModal(commmentId: number, membreId: number) {
     const modal = await this.modalController.create({
       component: CommentSignalComponent,
       cssClass: 'my-custom-class',
@@ -200,7 +240,7 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
       swipeToClose: true,
       componentProps: {
         'commmentId': commmentId,
-        'UserName': UserName
+        'membreId': membreId
       }
 
     });
