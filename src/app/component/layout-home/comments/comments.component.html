@@ -35,11 +35,11 @@
       </ion-avatar>
       <ion-label  style="cursor: pointer;"   (click)="CommentSignale(com.id,com.userName)"  >
         <ion-text>
-          <h2>{{com.userfullName}}</h2>
+          <h2>{{com.membreFullName}}</h2>
 
           <ion-text color="medium">
 
-            <p class="dateclasse">{{com.createdOn | date: 'dd/MM/yyyy a hh:mm' }}</p>
+            <p class="dateclasse">{{com.dateCreate | date: 'dd/MM/yyyy a hh:mm' }}</p>
           </ion-text>
 
         </ion-text>

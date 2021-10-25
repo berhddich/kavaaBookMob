@@ -5,13 +5,14 @@ import { Observable } from 'rxjs';
 import { ApiResultDto } from '../../models/base-model';
 import { map, retry } from 'rxjs/operators';
 import { CreateUserModel } from '../../models/user';
+import { CreateUsersignalModel } from '../../models/user-signal';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
-  baseUrl = `${environment.apiBaseUrl}api/Users`;
+  baseUrl = `${environment.apiBaseUrl}api/Membre`;
 
    httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -52,11 +53,20 @@ getPicture(urlPicture:string  ): Observable<any> {
   return this._httpClient.get<any>(this.baseUrl + '/GetPicture?imageUrl='+urlPicture);
 }
 
-getUserByuserName(userName:string ): Observable<any> {
-  return this._httpClient.get<any>(this.baseUrl + '/GetUserbyUserName?userUserName='+userName);
+getUserByMembreId(membreId:number ): Observable<any> {
+
+  return this._httpClient.get<any>(this.baseUrl + '/Get?id='+membreId)
+  .pipe(map(response => response), retry(1));
+
+
+
+
 }
 
 
-
+signalMember(input: CreateUsersignalModel  ): Observable<any> {
+  return this._httpClient.post<ApiResultDto>(this.baseUrl + '/SignalMembre', JSON.stringify(input), this.httpOptions)
+      .pipe(map(response => response), retry(1));
+}
 
 }

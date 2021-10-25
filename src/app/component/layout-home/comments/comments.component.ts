@@ -36,7 +36,7 @@ export class CommentsComponent implements OnInit {
   }
 
   public ngOnInit() {
-this.commentRepons();
+// this.commentRepons();
 
 
   }
@@ -87,6 +87,7 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
   }
 
   CommentBtn() {
+   const   user = (JSON.parse(localStorage.getItem("KavaBook_UserSession")));
 
     this.commentsModel = {
       comment: this.comment,
@@ -98,17 +99,18 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
 
 
     this._commentsService.create(this.commentsModel).subscribe(res => {
+      console.log(res)
       this.comment = null;
       this.commentNumber++;
 
       const comments={
         comment: res.comment,
-        createdOn: res.createdOn,
+        dateCreate: res.dateCreate,
         id: res.id,
         postId: res.postId,
-        userName: res.userName,
-        userfullName: res.userfullName,
-         userUrlPicture: res.userUrlPicture,
+        membreId: res.membreId,
+        membreFullName: user.fullName,
+        membreUrlImg: res.membreUrlImg,
 
       };
 
@@ -117,15 +119,15 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
 
       this.data.unshift({
         comment: res.comment,
-        createdOn: res.createdOn,
+        dateCreate: res.dateCreate,
         id: res.id,
         postId: res.postId,
-        userName: res.userName,
-        userfullName: res.userfullName,
-        userUrlPicture: JSON.parse(localStorage.getItem("ImageProfil")),
+        membreId: res.membreId,
+        membreFullName: user.fullName,
+        membreUrlImg: JSON.parse(localStorage.getItem("ImageProfil")),
 
       })
-this._signalrService.addComment(comments);
+//  this._signalrService.addComment(comments);
 
     }, (error) => {
 

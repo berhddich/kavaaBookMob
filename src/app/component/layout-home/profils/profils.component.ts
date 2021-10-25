@@ -14,6 +14,7 @@ import { CommentsComponent } from '../comments/Comments.component';
 import { ReactsService } from 'src/app/core/services/Reacts/reacts.service';
 import { ReactionsPageComponent } from '../ReactionsPage/ReactionsPage.component';
 import { PostSignalComponent } from '../signale/post-signal/post-signal.component';
+import { PagedRequestDto } from 'src/app/core/models/PagedRequestDto';
   @Component({
   selector: 'app-profils',
   templateUrl: './profils.component.html',
@@ -40,6 +41,8 @@ export class ProfilsComponent implements OnInit {
   btnreact=false;
   longPres=0;
   dt;
+  state:PagedRequestDto;
+
   constructor(public actionSheetController: ActionSheetController,
     private _commentsService:CommentsService ,
     private plt: Platform, private camera: Camera,
@@ -407,8 +410,13 @@ export class ProfilsComponent implements OnInit {
       {
         this.btnComment=true;
 
+        this.state={
 
-        this._commentsService.GetAllCommentsByPostId(postId).subscribe(res=>{
+          PageSize:0,
+          pageNumber:0,
+          postId:postId
+        }
+        this._commentsService.GetAllCommentsByPostId( this.state).subscribe(res=>{
 
 
           for (let i = 0; i < res.length; i++) {

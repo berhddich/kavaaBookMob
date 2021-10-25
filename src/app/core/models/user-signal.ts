@@ -14,7 +14,7 @@ export interface UsersignalModel  extends DefaultBaseModel {
 export interface CreateUsersignalModel   {
 
   commenterSignaler: string;
-  userSignaledUserName: string;
+  membreSignaledId: number;
 
 
 }

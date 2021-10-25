@@ -17,7 +17,7 @@ export class UserSignalService {
   constructor(public _httpClient: HttpClient) { }
 
 
-  create(input: CreateUsersignalModel  ): Observable<any> {
+  signalMemer(input: CreateUsersignalModel  ): Observable<any> {
     return this._httpClient.post<ApiResultDto>(this.baseUrl + '/Create', JSON.stringify(input), this.httpOptions)
         .pipe(map(response => response), retry(1));
 }

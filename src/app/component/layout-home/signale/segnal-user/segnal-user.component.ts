@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { CreateUsersignalModel } from 'src/app/core/models/user-signal';
 import { LoadingService } from 'src/app/core/services/loading/loading.service';
 import { UserSignalService } from 'src/app/core/services/user-signal/user-signal.service';
+import { UsersService } from 'src/app/core/services/users/users.service';
 
 @Component({
   selector: 'app-segnal-user',
@@ -12,10 +13,10 @@ import { UserSignalService } from 'src/app/core/services/user-signal/user-signal
 export class SegnalUserComponent implements OnInit {
   commenterSignaler;
   userSignalModel:CreateUsersignalModel
-  @Input() userName: string;
+  @Input() id: number;
   constructor(public modalController: ModalController,
     public _loadingService: LoadingService,
-    private _userSignalService:UserSignalService
+    private _userService:UsersService
     ) { }
 
   ngOnInit() {
@@ -33,10 +34,10 @@ export class SegnalUserComponent implements OnInit {
     this.userSignalModel = {
 
       commenterSignaler:this.commenterSignaler,
-      userSignaledUserName:this.userName,
+      membreSignaledId:this.id,
     };
 
-    this._userSignalService.create(this.userSignalModel).subscribe(res => {
+    this._userService.signalMember(this.userSignalModel).subscribe(res => {
 
 
       console.log("user signal is pass")

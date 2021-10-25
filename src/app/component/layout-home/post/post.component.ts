@@ -11,6 +11,7 @@ import { NavController } from '@ionic/angular';
 import { UserProfilsComponent } from '../user-profils/user-profils.component';
 import { UsersService } from 'src/app/core/services/users/users.service';
 import { PostSignalComponent } from '../signale/post-signal/post-signal.component';
+import { PagedRequestDto } from 'src/app/core/models/PagedRequestDto';
 
 
 @Component({
@@ -38,6 +39,7 @@ export class PostComponent implements OnInit {
   btnreact = false;
   longPres = 0;
   postIdForbtn;
+  state:PagedRequestDto;
   constructor(private _postService: PostService,
     public modalController: ModalController,
     public toastController: ToastController,
@@ -162,7 +164,6 @@ export class PostComponent implements OnInit {
 
         // DELET
         if (id !== undefined) {
-console.log("eeeee")
           this.listOfPost.find(element => element.id === postId).typeReact.forEach((value, index) => {
             if (value.userUserName === this.user.userName && value.typeReact === typeReact) this.listOfPost.find(element => element.id === postId).typeReact.splice(index, 1);
           });
@@ -215,7 +216,6 @@ console.log("eeeee")
       else {
 
         if (deletId===0   ) {
-          console.log("dddd")
           let id = this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName ).id;
           let react = this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName ).typeReact;
 
@@ -497,11 +497,9 @@ console.log("eeeee")
 
     modal.onDidDismiss()
       .then((data) => {
-        const isValid = data['data'];
-        console.log(data);
 
-        if (isValid) {
-          this.listOfPost.find(element => element.id === postId).numberComments = this.listOfPost.find(element => element.id === postId).numberComments + isValid;
+        if (data) {
+           this.listOfPost.find(element => element.id === postId).nomberComment = this.listOfPost.find(element => element.id === postId).nomberComment + data.data;
 
         }
 
@@ -517,19 +515,25 @@ console.log("eeeee")
     this.btnComment = true;
     this.postIdForbtn=postId;
 
+this.state={
 
-    this._commentsService.GetAllCommentsByPostId(postId).subscribe(res => {
+  PageSize:0,
+  pageNumber:0,
+  postId:postId
+}
+    this._commentsService.GetAllCommentsByPostId(this.state).subscribe(res => {
 
+      console.log(res)
 
       for (let i = 0; i < res.length; i++) {
-        if (res[i].userUrlPicture !== null) {
-          res[i].userUrlPicture = 'data:image/jpeg;base64,' + res[i].userUrlPicture;
+        if (res[i].membreUrlImg !== null) {
+          res[i].membreUrlImg = 'data:image/jpeg;base64,' + res[i].membreUrlImg;
 
         }
 
       }
 
-      console.log(res)
+
       this.ShowComments(postId, res)
       this.btnComment = false;
 
@@ -545,7 +549,7 @@ console.log("eeeee")
 
   }
 
-  userProfils(userUserName: string,img :any) {
+  userProfils(userUserName: string,img :any,membreId:number) {
 
     if (this.user.userName === userUserName) {
       this.NavController.navigateRoot('app/tabs-layout/profils')
@@ -554,7 +558,7 @@ console.log("eeeee")
     }
     else {
 
-      this.getUser(userUserName,img);
+      this.getUser(membreId,img);
 
 
     }
@@ -597,12 +601,11 @@ console.log("eeeee")
   }
 
 
-  getUser(userUserName: string,img:any) {
+  getUser(membreId: number,img:any) {
 
-
-    this._usersService.getUserByuserName(userUserName).subscribe(res => {
-      console.log(res.data)
-      res.urlPicture=img;
+    this._usersService.getUserByMembreId(membreId).subscribe(res => {
+console.log(res)
+      res.data.urlPicture=img;
 
 this.userProfilsModel(res.data)
 
