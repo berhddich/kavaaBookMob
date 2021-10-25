@@ -5,6 +5,7 @@ import { map, retry } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ApiResultDto } from '../../models/base-model';
 import { CreatePostModel } from '../../models/post';
+import { CreatePostignalModel } from '../../models/post-signals';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,12 @@ export class PostService {
   }
 
 
+
+  signalerPoste(input: CreatePostignalModel): Observable<any> {
+    return this._httpClient.post<any>(this.baseUrl+ '/Signal' , JSON.stringify(input), this.httpOptions)
+    .pipe(map(response => response), retry(1));
+
+}
 
 
 }

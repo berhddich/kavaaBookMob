@@ -6,6 +6,7 @@ import { LoadingService } from 'src/app/core/services/loading/loading.service';
 import { PostSignalsService } from 'src/app/core/services/post-signals/post-signals.service';
 import { NavController } from '@ionic/angular';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { PostService } from 'src/app/core/services/users/post.service';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class PostSignalComponent implements OnInit {
 
 
   constructor(public modalController: ModalController,
-    private _postSignalsService: PostSignalsService,
+    private _postService:PostService,
     public NavController: NavController,
     private loadingController: LoadingController
 
@@ -67,9 +68,9 @@ export class PostSignalComponent implements OnInit {
       membreSignalId: this.membreSignalId
     };
 
-    this._postSignalsService.create(this.postignal).subscribe(res => {
+    this._postService.signalerPoste(this.postignal).subscribe(res => {
 
-      console.log("postignal is pass")
+      console.log("postignal is pass",res)
      this.close();
 
 
