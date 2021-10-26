@@ -130,7 +130,7 @@ export class PostComponent implements OnInit {
 
         }
 
-        if (this.listOfPost[i].pictureUser !== null) {
+        if (this.listOfPost[i].membreImg !== null) {
 
           this.listOfPost[i].membreImg = 'data:image/jpeg;base64,' + this.listOfPost[i].membreImg;
 
@@ -149,59 +149,39 @@ export class PostComponent implements OnInit {
   public like(postId: number, userUserName: number, typeReact: number,deletId ?:number): void {
     this.reacte = {
       postId: postId,
-      userUserName: this.user.userName,
       typeReact: typeReact
 
     }
     this.btnLike = true;
 
-    if (this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName)) {
-      if (this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName && element.typeReact === typeReact) ) {
+    if (this.listOfPost.find(element => element.id === postId).myReact) {
+      if (this.listOfPost.find(element => element.id === postId).typeMyReact=== typeReact ) {
+
+                // DELET
+                this.listOfPost.find(element => element.id === postId).typeMyReact=0;
+                this.listOfPost.find(element => element.id === postId).myReact=false;
+        this._reactsService.remove(postId).subscribe(res => {
 
 
-        let id = this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName && element.typeReact === typeReact).id;
+          console.log("is deleted")
 
 
-        // DELET
-        if (id !== undefined) {
-          this.listOfPost.find(element => element.id === postId).typeReact.forEach((value, index) => {
-            if (value.userUserName === this.user.userName && value.typeReact === typeReact) this.listOfPost.find(element => element.id === postId).typeReact.splice(index, 1);
-          });
-
-          this._reactsService.delete(id).subscribe(res => {
-
-
-            console.log("is deleted")
-            this.btnLike = false;
-
-          }, (error) => {
-
-            console.log(error)
-            const reactDeleted = {
-              postId: postId,
-              userUserName: this.user.userName,
-              typeReact: typeReact,
-              id: id
-
-            }
-            this.btnLike = false;
-
-            this.listOfPost.find(element => element.id === postId).typeReact.push(reactDeleted);
-
-
-
-          })
-        }
-
-        else {
-          this.listOfPost.find(element => element.id === postId).typeReact.forEach((value, index) => {
-            if (value.userName === this.user.userName && value.typeReact === typeReact) this.listOfPost.find(element => element.id === postId).typeReact.splice(index, 1);
-          });
           this.btnLike = false;
 
 
+        }, (error) => {
 
-        }
+          console.log(error)
+
+          this.btnLike = false;
+
+          this.listOfPost.find(element => element.id === postId).typeMyReact=typeReact;
+          this.listOfPost.find(element => element.id === postId).myReact=true;
+
+
+
+        })
+
 
 
 
@@ -223,7 +203,7 @@ export class PostComponent implements OnInit {
             if (value.userUserName === this.user.userName) this.listOfPost.find(element => element.id === postId).typeReact.splice(index, 1);
           });
 
-          this._reactsService.delete(id).subscribe(res => {
+          this._reactsService.remove(id).subscribe(res => {
 
 
             console.log("is deleted")
@@ -298,24 +278,23 @@ export class PostComponent implements OnInit {
 
       //CREATE
 
-      this.listOfPost.find(element => element.id === postId).typeReact.push(this.reacte);
+      this.listOfPost.find(element => element.id === postId).myReact=true;
+      this.listOfPost.find(element => element.id === postId).TypeMyReact=typeReact;
+
       this._reactsService.create(this.reacte).subscribe(res => {
         this.btnLike = false;
 
 
         console.log("is create:")
-        console.log(res)
-        this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName && element.typeReact === typeReact).id = res.id
-        this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName && element.typeReact === typeReact).createdOn = res.createdOn
-
 
       }, (error) => {
         this.btnLike = false;
 
         console.log(error)
-        this.listOfPost.find(element => element.id === postId).typeReact.forEach((value, index) => {
-          if (value.userUserName === this.reacte.userUserName && value.typeReact === this.reacte.typeReact) this.listOfPost.find(element => element.id === postId).typeReact.splice(index, 1);
-        });
+        this.listOfPost.find(element => element.id === postId).myReact=false;
+        this.listOfPost.find(element => element.id === postId).TypeMyReact=0;
+
+
       })
 
 
@@ -373,7 +352,7 @@ export class PostComponent implements OnInit {
 
 
   findReact(index: number, type: number) {
-    if (this.listOfPost[index].reactPost.find(element => element.typeReact === type)) {
+    if ( this.listOfPost[index].typeMyReact === type) {
 
       return true
     }
@@ -622,10 +601,10 @@ this.userProfilsModel(res.data)
   findimogi(postId: number, type:number)
   {
 
-    if(this.listOfPost.find(element => element.id === postId).reactPost.find(element => element.membreUserName === this.user.userName ))
+    if(this.listOfPost.find(element => element.id === postId).myReact)
     {
 
-      let typeReact = this.listOfPost.find(element => element.id === postId).reactPost.find(element => element.membreUserName === this.user.userName ).typeReact
+      let typeReact = this.listOfPost.find(element => element.id === postId).typeMyReact
 
 
       if(typeReact==type)

@@ -10,14 +10,14 @@ import { CreateReactsModel, EditReactsModel } from '../../models/reacts';
   providedIn: 'root'
 })
 export class ReactsService {
-  baseUrl = `${environment.apiBaseUrl}api/Reacts`;
+  baseUrl = `${environment.apiBaseUrl}api/Posts`;
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   }
   constructor(public _httpClient: HttpClient) { }
 
   create(input: CreateReactsModel): Observable<any> {
-    return this._httpClient.post<ApiResultDto>(this.baseUrl + '/Create', JSON.stringify(input), this.httpOptions)
+    return this._httpClient.post<ApiResultDto>(this.baseUrl + '/React', JSON.stringify(input), this.httpOptions)
         .pipe(map(response => response), retry(1));
 }
 
@@ -29,7 +29,7 @@ Update(input: EditReactsModel): Observable<any> {
 }
 
 
-delete(id: number): Observable<any> {
+remove(id: number): Observable<any> {
   const options = {
       headers: new HttpHeaders({
           'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ delete(id: number): Observable<any> {
   };
 
 
-  return this._httpClient.delete(`${this.baseUrl}/`+id)
+  return this._httpClient.delete(`${this.baseUrl}/DeleteReact`)
       .pipe(map(response => response), retry(1));
 }
 

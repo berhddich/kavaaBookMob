@@ -483,7 +483,6 @@ this.listOfPost.find(element => element.id === postId).numberComments=this.listO
   public like(postId: number, userUserName: number, typeReact: number,deletId ?:number): void {
     this.reacte = {
       postId: postId,
-      userUserName: this.user.userName,
       typeReact: typeReact
 
     }
@@ -503,7 +502,7 @@ console.log("eeeee")
             if (value.userUserName === this.user.userName && value.typeReact === typeReact) this.listOfPost.find(element => element.id === postId).typeReact.splice(index, 1);
           });
 
-          this._reactsService.delete(id).subscribe(res => {
+          this._reactsService.remove(id).subscribe(res => {
 
 
             console.log("is deleted")
@@ -559,7 +558,7 @@ console.log("eeeee")
             if (value.userUserName === this.user.userName) this.listOfPost.find(element => element.id === postId).typeReact.splice(index, 1);
           });
 
-          this._reactsService.delete(id).subscribe(res => {
+          this._reactsService.remove(id).subscribe(res => {
 
 
             console.log("is deleted")
@@ -649,9 +648,7 @@ console.log("eeeee")
         this.btnLike = false;
 
         console.log(error)
-        this.listOfPost.find(element => element.id === postId).typeReact.forEach((value, index) => {
-          if (value.userUserName === this.reacte.userUserName && value.typeReact === this.reacte.typeReact) this.listOfPost.find(element => element.id === postId).typeReact.splice(index, 1);
-        });
+
       })
 
 
