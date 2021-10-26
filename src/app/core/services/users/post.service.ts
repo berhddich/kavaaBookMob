@@ -24,7 +24,7 @@ export class PostService {
   }
 
   getAllByUserId(): Observable<any> {
-    return this._httpClient.get<ApiResultDto>(`${this.baseUrl}/GetAllByUserId`, this.httpOptions)
+    return this._httpClient.get<ApiResultDto>(`${this.baseUrl}/GetAllByMember`, this.httpOptions)
       .pipe(map(response => response), retry(1));
   }
 

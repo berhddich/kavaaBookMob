@@ -268,16 +268,16 @@ export class ProfilsComponent implements OnInit {
     this.listOfPost=res;
     for(let i=0;i<this.listOfPost.length;i++)
     {
-      if(this.listOfPost[i].picture!==null)
+      if(this.listOfPost[i].imgPost!==null)
       {
-        this.listOfPost[i].picture='data:image/jpeg;base64,'+this.listOfPost[i].picture;
+        this.listOfPost[i].imgPost='data:image/jpeg;base64,'+this.listOfPost[i].imgPost;
 
       }
 
-      if(this.listOfPost[i].pictureUser!==null)
+      if(this.listOfPost[i].membreImg!==null)
       {
 
-        this.listOfPost[i].pictureUser='data:image/jpeg;base64,'+this.listOfPost[i].pictureUser;
+        this.listOfPost[i].membreImg='data:image/jpeg;base64,'+this.listOfPost[i].membreImg;
 
 
       }
@@ -394,7 +394,7 @@ export class ProfilsComponent implements OnInit {
 
 
       findReact(index: number, type: number) {
-        if (this.listOfPost[index].typeReact.find(element => element.typeReact === type)) {
+        if ( this.listOfPost[index].typeMyReact === type) {
 
           return true
         }
@@ -480,6 +480,7 @@ this.listOfPost.find(element => element.id === postId).numberComments=this.listO
 
 
   }
+
   public like(postId: number, userUserName: number, typeReact: number,deletId ?:number): void {
     this.reacte = {
       postId: postId,
@@ -488,54 +489,38 @@ this.listOfPost.find(element => element.id === postId).numberComments=this.listO
     }
     this.btnLike = true;
 
-    if (this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName)) {
-      if (this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName && element.typeReact === typeReact) ) {
+    if (this.listOfPost.find(element => element.id === postId).myReact) {
+      if (this.listOfPost.find(element => element.id === postId).typeMyReact=== typeReact ) {
+
+                // DELET
+                this.listOfPost.find(element => element.id === postId).typeMyReact=0;
+                this.listOfPost.find(element => element.id === postId).myReact=false;
+                this.listOfPost.find(element => element.id === postId).nomberReact = this.listOfPost.find(element => element.id === postId).nomberReact-1;
 
 
-        let id = this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName && element.typeReact === typeReact).id;
+        this._reactsService.remove(postId).subscribe(res => {
 
 
-        // DELET
-        if (id !== undefined) {
-console.log("eeeee")
-          this.listOfPost.find(element => element.id === postId).typeReact.forEach((value, index) => {
-            if (value.userUserName === this.user.userName && value.typeReact === typeReact) this.listOfPost.find(element => element.id === postId).typeReact.splice(index, 1);
-          });
-
-          this._reactsService.remove(id).subscribe(res => {
+          console.log("is deleted")
 
 
-            console.log("is deleted")
-            this.btnLike = false;
-
-          }, (error) => {
-
-            console.log(error)
-            const reactDeleted = {
-              postId: postId,
-              userUserName: this.user.userName,
-              typeReact: typeReact,
-              id: id
-
-            }
-            this.btnLike = false;
-
-            this.listOfPost.find(element => element.id === postId).typeReact.push(reactDeleted);
-
-
-
-          })
-        }
-
-        else {
-          this.listOfPost.find(element => element.id === postId).typeReact.forEach((value, index) => {
-            if (value.userName === this.user.userName && value.typeReact === typeReact) this.listOfPost.find(element => element.id === postId).typeReact.splice(index, 1);
-          });
           this.btnLike = false;
 
 
+        }, (error) => {
 
-        }
+          console.log(error)
+
+          this.btnLike = false;
+
+          this.listOfPost.find(element => element.id === postId).typeMyReact=typeReact;
+          this.listOfPost.find(element => element.id === postId).myReact=true;
+          this.listOfPost.find(element => element.id === postId).nomberReact=this.listOfPost.find(element => element.id === postId).nomberReact+1;
+
+
+
+        })
+
 
 
 
@@ -550,7 +535,6 @@ console.log("eeeee")
       else {
 
         if (deletId===0   ) {
-          console.log("dddd")
           let id = this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName ).id;
           let react = this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName ).typeReact;
 
@@ -633,21 +617,25 @@ console.log("eeeee")
 
       //CREATE
 
-      this.listOfPost.find(element => element.id === postId).typeReact.push(this.reacte);
+      this.listOfPost.find(element => element.id === postId).myReact = true;
+      this.listOfPost.find(element => element.id === postId).typeMyReact=typeReact;
+      this.listOfPost.find(element => element.id === postId).nomberReact=  this.listOfPost.find(element => element.id === postId).nomberReact+1;
+
+
       this._reactsService.create(this.reacte).subscribe(res => {
         this.btnLike = false;
 
 
         console.log("is create:")
-        console.log(res)
-        this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName && element.typeReact === typeReact).id = res.id
-        this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName && element.typeReact === typeReact).createdOn = res.createdOn
-
 
       }, (error) => {
         this.btnLike = false;
 
         console.log(error)
+        this.listOfPost.find(element => element.id === postId).myReact=false;
+        this.listOfPost.find(element => element.id === postId).typeMyReact=0;
+        this.listOfPost.find(element => element.id === postId).nomberReact=  this.listOfPost.find(element => element.id === postId).nomberReact-1;
+
 
       })
 
@@ -720,10 +708,10 @@ if(this.longPres===1)
   findimogi(postId: number, type:number)
   {
 
-    if(this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName ))
+    if(this.listOfPost.find(element => element.id === postId).myReact)
     {
 
-      let typeReact = this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName ).typeReact
+      let typeReact = this.listOfPost.find(element => element.id === postId).typeMyReact
 
 
       if(typeReact==type)
