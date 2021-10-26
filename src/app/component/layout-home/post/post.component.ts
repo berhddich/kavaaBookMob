@@ -160,6 +160,9 @@ export class PostComponent implements OnInit {
                 // DELET
                 this.listOfPost.find(element => element.id === postId).typeMyReact=0;
                 this.listOfPost.find(element => element.id === postId).myReact=false;
+                this.listOfPost.find(element => element.id === postId).nomberReact = this.listOfPost.find(element => element.id === postId).nomberReact-1;
+
+
         this._reactsService.remove(postId).subscribe(res => {
 
 
@@ -177,6 +180,7 @@ export class PostComponent implements OnInit {
 
           this.listOfPost.find(element => element.id === postId).typeMyReact=typeReact;
           this.listOfPost.find(element => element.id === postId).myReact=true;
+          this.listOfPost.find(element => element.id === postId).nomberReact=this.listOfPost.find(element => element.id === postId).nomberReact+1;
 
 
 
@@ -278,8 +282,10 @@ export class PostComponent implements OnInit {
 
       //CREATE
 
-      this.listOfPost.find(element => element.id === postId).myReact=true;
-      this.listOfPost.find(element => element.id === postId).TypeMyReact=typeReact;
+      this.listOfPost.find(element => element.id === postId).myReact = true;
+      this.listOfPost.find(element => element.id === postId).typeMyReact=typeReact;
+      this.listOfPost.find(element => element.id === postId).nomberReact=  this.listOfPost.find(element => element.id === postId).nomberReact+1;
+
 
       this._reactsService.create(this.reacte).subscribe(res => {
         this.btnLike = false;
@@ -292,7 +298,8 @@ export class PostComponent implements OnInit {
 
         console.log(error)
         this.listOfPost.find(element => element.id === postId).myReact=false;
-        this.listOfPost.find(element => element.id === postId).TypeMyReact=0;
+        this.listOfPost.find(element => element.id === postId).typeMyReact=0;
+        this.listOfPost.find(element => element.id === postId).nomberReact=  this.listOfPost.find(element => element.id === postId).nomberReact-1;
 
 
       })

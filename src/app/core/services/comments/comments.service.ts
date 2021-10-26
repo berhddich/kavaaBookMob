@@ -6,7 +6,6 @@ import { environment } from 'src/environments/environment';
 import { ApiResultDto } from '../../models/base-model';
 import { CreateCommentsModel } from '../../models/comments';
 import { PagedRequestDto } from '../../models/PagedRequestDto';
-import { CreatePostignalModel } from '../../models/post-signals';
 
 @Injectable({
   providedIn: 'root'

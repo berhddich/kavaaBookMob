@@ -40,7 +40,7 @@ remove(id: number): Observable<any> {
   };
 
 
-  return this._httpClient.delete(`${this.baseUrl}/DeleteReact`)
+  return this._httpClient.delete(`${this.baseUrl}/DeleteReact/`+id)
       .pipe(map(response => response), retry(1));
 }
 
