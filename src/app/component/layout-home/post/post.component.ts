@@ -199,26 +199,69 @@ export class PostComponent implements OnInit {
 
       else {
         // EDIT
-      const oldReact=this.listOfPost.find(element => element.id === postId).typeMyReact;
-        this.listOfPost.find(element => element.id === postId).myReact = true;
-        this.listOfPost.find(element => element.id === postId).typeMyReact=typeReact;
+        if (deletId===0   )
+        {
+
+      // DELET
+      this.listOfPost.find(element => element.id === postId).typeMyReact=0;
+      this.listOfPost.find(element => element.id === postId).myReact=false;
+      this.listOfPost.find(element => element.id === postId).nomberReact = this.listOfPost.find(element => element.id === postId).nomberReact-1;
 
 
-        this._reactsService.Update(this.reacte).subscribe(res => {
-          this.btnLike = false;
+this._reactsService.remove(postId).subscribe(res => {
 
 
-          console.log("is Edited:")
-
-        }, (error) => {
-          this.btnLike = false;
-
-          console.log(error)
-          this.listOfPost.find(element => element.id === postId).myReact=true;
-          this.listOfPost.find(element => element.id === postId).typeMyReact=oldReact;
+console.log("is deleted")
 
 
-        })
+this.btnLike = false;
+
+
+}, (error) => {
+
+console.log(error)
+
+this.btnLike = false;
+
+this.listOfPost.find(element => element.id === postId).typeMyReact=typeReact;
+this.listOfPost.find(element => element.id === postId).myReact=true;
+this.listOfPost.find(element => element.id === postId).nomberReact=this.listOfPost.find(element => element.id === postId).nomberReact+1;
+
+
+
+})
+
+
+
+        }
+
+        else{
+
+          const oldReact=this.listOfPost.find(element => element.id === postId).typeMyReact;
+          this.listOfPost.find(element => element.id === postId).myReact = true;
+          this.listOfPost.find(element => element.id === postId).typeMyReact=typeReact;
+
+
+          this._reactsService.Update(this.reacte).subscribe(res => {
+            this.btnLike = false;
+
+
+            console.log("is Edited:")
+
+          }, (error) => {
+            this.btnLike = false;
+
+            console.log(error)
+            this.listOfPost.find(element => element.id === postId).myReact=true;
+            this.listOfPost.find(element => element.id === postId).typeMyReact=oldReact;
+
+
+          })
+
+        }
+
+
+
 
 
       }
