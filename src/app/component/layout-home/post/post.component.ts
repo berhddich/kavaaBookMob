@@ -409,8 +409,7 @@ this.listOfPost.find(element => element.id === postId).nomberReact=this.listOfPo
               role: 'destructive',
               icon: 'trash',
               handler: () => {
-                console.log('Delete clicked');
-              }
+                this.deletPost(postId)              }
             },
 
             {
@@ -636,5 +635,20 @@ this.userProfilsModel(res.data)
   }
 
 
+  deletPost(postId :number)
+  {
+
+    this._postService.removePost(postId).subscribe(res => {
+
+      console.log("is deleted")
+this.laodPost();
+
+    }, (error) => {
+
+      console.log(error)
+
+    })
+
+  }
 
 }

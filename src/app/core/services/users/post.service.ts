@@ -52,4 +52,18 @@ export class PostService {
 }
 
 
+removePost(id: number): Observable<any> {
+  const options = {
+      headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+      }),
+      body: {
+          id: id
+      },
+  };
+  return this._httpClient.delete(`${this.baseUrl}/`+id)
+      .pipe(map(response => response), retry(1));
+}
+
+
 }

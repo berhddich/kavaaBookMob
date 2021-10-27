@@ -293,7 +293,7 @@ export class ProfilsComponent implements OnInit {
 
 
 
-      async parametrePost(postId:number,userId:number)
+      async parametrePost(postId:number,userId:number,membreUserName:string)
       {
 
         let actionSheet =
@@ -311,6 +311,7 @@ export class ProfilsComponent implements OnInit {
             }
           },
 
+
           {
             text: 'Cancel',
             icon: 'close',
@@ -320,7 +321,7 @@ export class ProfilsComponent implements OnInit {
             }
           }]
         });
-        if(userId===this.user.id)
+        if(membreUserName===this.user.userName)
         {
 
           actionSheet =
@@ -342,7 +343,7 @@ export class ProfilsComponent implements OnInit {
              role: 'destructive',
              icon: 'trash',
              handler: () => {
-               console.log('Delete clicked');
+               this.deletPost(postId)
              }
            },
 
@@ -731,6 +732,25 @@ if(this.longPres===1)
       }
 
     }
+
+  }
+
+
+
+
+  deletPost(postId :number)
+  {
+
+    this._postService.removePost(postId).subscribe(res => {
+
+      console.log("is deleted")
+this.laodPost();
+
+    }, (error) => {
+
+      console.log(error)
+
+    })
 
   }
 
