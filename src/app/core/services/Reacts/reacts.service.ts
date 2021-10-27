@@ -22,9 +22,9 @@ export class ReactsService {
 }
 
 
-Update(input: EditReactsModel): Observable<any> {
+Update(input: CreateReactsModel): Observable<any> {
   console.log(input)
-  return this._httpClient.put<ApiResultDto>(this.baseUrl + '/Update', JSON.stringify(input), this.httpOptions)
+  return this._httpClient.put<ApiResultDto>(this.baseUrl + '/UpdateReact', JSON.stringify(input), this.httpOptions)
       .pipe(map(response => response), retry(1));
 }
 

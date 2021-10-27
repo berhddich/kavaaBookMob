@@ -198,79 +198,27 @@ export class PostComponent implements OnInit {
 
 
       else {
-
-        if (deletId===0   ) {
-          let id = this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName ).id;
-          let react = this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName ).typeReact;
-
-          this.listOfPost.find(element => element.id === postId).typeReact.forEach((value, index) => {
-            if (value.userUserName === this.user.userName) this.listOfPost.find(element => element.id === postId).typeReact.splice(index, 1);
-          });
-
-          this._reactsService.remove(id).subscribe(res => {
+        // EDIT
+      const oldReact=this.listOfPost.find(element => element.id === postId).typeMyReact;
+        this.listOfPost.find(element => element.id === postId).myReact = true;
+        this.listOfPost.find(element => element.id === postId).typeMyReact=typeReact;
 
 
-            console.log("is deleted")
-            this.btnLike = false;
-
-          }, (error) => {
-
-            console.log(error)
-            const reactDeleted = {
-              postId: postId,
-              userUserName: this.user.userName,
-              typeReact: react,
-              id: id
-
-            }
-            this.btnLike = false;
-
-            this.listOfPost.find(element => element.id === postId).typeReact.push(reactDeleted);
-
-
-
-          })
-        }
-
-
-        else{
-
-          const oldReact = this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName).typeReact
-        this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName).typeReact = typeReact;
-        const react = this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName);
-        this.racteForEdit = {
-
-          postId: postId,
-          userUserName: this.user.userName,
-          typeReact: typeReact,
-          id: react.id
-
-
-        }
-        this._reactsService.Update(this.racteForEdit).subscribe(res => {
-
-          console.log("is Edit");
-
-          this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName).typeReact = typeReact;
+        this._reactsService.Update(this.reacte).subscribe(res => {
           this.btnLike = false;
 
+
+          console.log("is Edited:")
 
         }, (error) => {
-
-          console.log(error);
-          this.listOfPost.find(element => element.id === postId).typeReact.find(element => element.userUserName === this.user.userName).typeReact = oldReact;
           this.btnLike = false;
 
-
+          console.log(error)
+          this.listOfPost.find(element => element.id === postId).myReact=true;
+          this.listOfPost.find(element => element.id === postId).typeMyReact=oldReact;
 
 
         })
-
-
-        }
-
-
-        // EDIT
 
 
       }
@@ -335,7 +283,7 @@ export class PostComponent implements OnInit {
         this.btnreact = false;
         this.longPres = 0;
 
-        this.like(postId, this.user.id, data['data'])
+        this.like(postId, this.user.userName, data['data'])
 
       }
 

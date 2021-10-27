@@ -10,7 +10,6 @@ export interface CreateReactsModel {
 export interface EditReactsModel  extends DefaultBaseModel {
 
   typeReact: number;
-  userUserName: string;
   postId: number;
 
 
