@@ -5,3 +5,13 @@ export interface CreatePostModel {
 
 
 }
+
+
+export interface EditPostModel {
+
+  content: string;
+  imageUrl: any;
+  Id:number
+
+
+}

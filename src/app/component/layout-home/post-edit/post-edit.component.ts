@@ -1,49 +1,43 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController, ToastController } from '@ionic/angular';
-import { CreatePostModel } from 'src/app/core/models/post';
-import { PostService } from 'src/app/core/services/users/post.service';
-import { LoadingController } from '@ionic/angular';
-import { error } from '@angular/compiler/src/util';
-import { Platform } from '@ionic/angular';
+import { Component, Input, OnInit } from '@angular/core';
 import { Camera } from '@ionic-native/camera/ngx';
-
-
+import { LoadingController, ModalController, Platform, ToastController } from '@ionic/angular';
+import { EditPostModel } from 'src/app/core/models/post';
+import { PostService } from 'src/app/core/services/users/post.service';
 
 @Component({
-  selector: 'app-model-post',
-  templateUrl: './model-post.component.html',
-  styleUrls: ['./model-post.component.scss']
+  selector: 'app-post-edit',
+  templateUrl: './post-edit.component.html',
+  styleUrls: ['./post-edit.component.scss']
 })
-export class ModelPostComponent implements OnInit {
+export class PostEditComponent implements OnInit {
   maxProfilPictureBytesUserFriendlyValue = 5;
-  image;
-  libelle = "";
-  postForm: CreatePostModel;
+
+
+  postForm: EditPostModel;
   user;
   blob;
   isClik=true;
-  constructor(
-    public modalController: ModalController,
+  @Input() data: any;
+  libelle = "";
+  image;
+
+  constructor( public modalController: ModalController,
 
     public toastController: ToastController,
     public _postService: PostService,
     public loadingController: LoadingController,
     public platform: Platform,
-    private camera: Camera,
-  ) { }
+    private camera: Camera,) {
+
+      this.user = (JSON.parse(localStorage.getItem("KavaBook_UserSession")));
+console.log(this.data)
+     }
 
   ngOnInit() {
-    this.user = (JSON.parse(localStorage.getItem("KavaBook_UserSession")));
 
+    this.libelle=this.data.content;
+    this.image=this.data.urlsImg;
   }
-
-  // dismiss() {
-
-  //   this.modalController.dismiss({
-  //     'dismissed': true,
-
-  //   });
-  // }
 
   async presentToast(msg) {
     const toast = await this.toastController.create({
@@ -139,12 +133,14 @@ export class ModelPostComponent implements OnInit {
     this.postForm = {
 
       content: this.libelle,
-      urlsImg: this.blob,
+      // urlsImg: this.blob,
+      imageUrl:this.data.urlsImg,
+      Id:this.data.id
     }
     this.isClik=false;
 
     console.log(this.postForm)
-    this._postService.poster(this.postForm).subscribe(res => {
+    this._postService.editPost(this.postForm).subscribe(res => {
       this.isClik=true;
 
           this.presentToast("Pibliction est terminé");
@@ -153,8 +149,8 @@ export class ModelPostComponent implements OnInit {
     }, (error) => {
       this.isClik=true;
 
-      this.presentToast(error.error.title);
-      console.log(error.error.title);
+      this.presentToast(error);
+      console.log(error);
 
 
     })
@@ -180,6 +176,5 @@ export class ModelPostComponent implements OnInit {
     this.modalController.dismiss(false)
 
   }
-
 
 }

@@ -16,6 +16,7 @@ import { PostSignalComponent } from '../signale/post-signal/post-signal.componen
 import { SegnalUserComponent } from '../signale/segnal-user/segnal-user.component';
 import { CommentSignalComponent } from '../signale/commentSignal/commentSignal/commentSignal.component';
 import { ChateComponent } from '../chate/chate.component';
+import { PostEditComponent } from '../post-edit/post-edit.component';
 
 const routes: Routes = [
   {
@@ -60,6 +61,8 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [TabsLayoutComponent,ChateComponent,PostComponent,CommentSignalComponent,ParametrePostComponent,UserProfilsComponent, CommentsComponent,PostSignalComponent ,SegnalUserComponent, ProfilsComponent,ReactionsPageComponent,ModelPostComponent]
+  declarations: [TabsLayoutComponent,ChateComponent,PostComponent,CommentSignalComponent,ParametrePostComponent,UserProfilsComponent, CommentsComponent,PostSignalComponent ,SegnalUserComponent, ProfilsComponent,ReactionsPageComponent,ModelPostComponent,
+    PostEditComponent
+  ]
 })
 export class TabsLayoutModule { }

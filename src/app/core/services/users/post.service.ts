@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map, retry } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ApiResultDto } from '../../models/base-model';
-import { CreatePostModel } from '../../models/post';
+import { CreatePostModel, EditPostModel } from '../../models/post';
 import { CreatePostignalModel } from '../../models/post-signals';
 
 @Injectable({
@@ -43,6 +43,23 @@ export class PostService {
       .pipe(map(response => response), retry(1));
   }
 
+
+  editPost(iput: EditPostModel): Observable<any> {
+    // var formData: any = new FormData();
+
+    // formData.append("content", iput.content);
+
+    // formData.append("id", iput.Id);
+    // if (iput.imageUrl) {
+    //   formData.append("imageUrl", iput.content);
+
+    //   formData.append("picture", iput.picture, iput.picture.name);
+    // }
+console.log(iput)
+
+    return this._httpClient.put<any>(this.baseUrl + '/UpdatePost',JSON.stringify(iput),  this.httpOptions)
+      .pipe(map(response => response), retry(1));
+  }
 
 
   signalerPoste(input: CreatePostignalModel): Observable<any> {

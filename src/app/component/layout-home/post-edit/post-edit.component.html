@@ -1,0 +1,47 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Modification Post</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Fermer</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen>
+
+  <div class="content">
+    <ion-list>
+      <ion-item>
+        <!-- <ion-label >Contenu text</ion-label> -->
+        <ion-textarea    [(ngModel)]="libelle" rows="8"  placeholder="Qu'est-ce qui préoccupe votre esprit"></ion-textarea>
+      </ion-item>
+
+      <ion-item *ngIf="image">
+        <ion-label>
+          <ion-img width="80" height="30" [src]="image"></ion-img>
+
+        </ion-label>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label>
+        <input style="display: none" accept='image/*'  laceholder="Image"  type="file"  #fileInput (change)="fileChangeEvent($event)" />
+
+        <ion-button size="small" (click)="fileInput.click()">  <ion-icon  name="images-outline"></ion-icon></ion-button>
+        </ion-label>
+      </ion-item>
+
+    </ion-list>
+  </div>
+<div class="postsection">
+
+  <section *ngIf=isClik>
+
+    <ion-button expand="block"    (click)="posterBtn()">
+      Poster
+    </ion-button>
+  </section>
+</div>
+
+
+</ion-content>

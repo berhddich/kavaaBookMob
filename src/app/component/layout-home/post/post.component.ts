@@ -12,6 +12,7 @@ import { UserProfilsComponent } from '../user-profils/user-profils.component';
 import { UsersService } from 'src/app/core/services/users/users.service';
 import { PostSignalComponent } from '../signale/post-signal/post-signal.component';
 import { PagedRequestDto } from 'src/app/core/models/PagedRequestDto';
+import { PostEditComponent } from '../post-edit/post-edit.component';
 
 
 @Component({
@@ -96,25 +97,25 @@ export class PostComponent implements OnInit {
   }
 
 
+
   async presentModal() {
     const modal = await this.modalController.create({
       component: ModelPostComponent,
       cssClass: 'my-custom-class',
-      animated: true,
-      swipeToClose: true,
+      animated:true,
+      swipeToClose:true,
+    });
+    modal.onDidDismiss()
+    .then((data) => {
+      const isValid = data['data'];
+
+      if (isValid) {
+
+        this.laodPost()
+
+      }
 
     });
-
-    modal.onDidDismiss()
-      .then((data) => {
-        const isValid = data['data'];
-        if (isValid) {
-          this.laodPost();
-
-        }
-
-      });
-
 
     return await modal.present();
   }
@@ -399,7 +400,9 @@ this.listOfPost.find(element => element.id === postId).nomberReact=this.listOfPo
               text: 'Modifier la publication',
               icon: 'create-outline',
               handler: () => {
-                console.log('Play clicked');
+                let post=this.listOfPost.find(element=>element.id === postId);
+                console.log(post)
+             this.editPost(post)
               }
             },
 
@@ -473,7 +476,7 @@ this.listOfPost.find(element => element.id === postId).nomberReact=this.listOfPo
 
     modal.onDidDismiss()
       .then((data) => {
-
+console.log(data)
         if (data) {
            this.listOfPost.find(element => element.id === postId).nomberComment = this.listOfPost.find(element => element.id === postId).nomberComment + data.data;
 
@@ -650,5 +653,36 @@ this.laodPost();
     })
 
   }
+
+  async editPost(post :any ) {
+    const modal = await this.modalController.create({
+      component: PostEditComponent,
+      cssClass: 'my-custom-class',
+      animated:true,
+      swipeToClose:true,
+      componentProps: {
+        'data': post,
+
+
+      }
+    });
+    modal.onDidDismiss()
+    .then((data) => {
+      const isValid = data['data'];
+      console.log(data);
+
+      if (isValid) {
+
+        this.laodPost()
+
+      }
+
+    });
+
+    return await modal.present();
+
+
+  }
+
 
 }

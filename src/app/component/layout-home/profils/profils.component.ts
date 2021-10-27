@@ -15,6 +15,8 @@ import { ReactsService } from 'src/app/core/services/Reacts/reacts.service';
 import { ReactionsPageComponent } from '../ReactionsPage/ReactionsPage.component';
 import { PostSignalComponent } from '../signale/post-signal/post-signal.component';
 import { PagedRequestDto } from 'src/app/core/models/PagedRequestDto';
+import { PostEditComponent } from '../post-edit/post-edit.component';
+import { element } from 'protractor';
   @Component({
   selector: 'app-profils',
   templateUrl: './profils.component.html',
@@ -254,12 +256,54 @@ export class ProfilsComponent implements OnInit {
   async presentModal() {
     const modal = await this.modalController.create({
       component: ModelPostComponent,
-      cssClass: 'my-custom-class'
+      cssClass: 'my-custom-class',
+      animated:true,
+      swipeToClose:true,
     });
+    modal.onDidDismiss()
+    .then((data) => {
+      const isValid = data['data'];
+
+      if (isValid) {
+
+        this.laodPost()
+
+      }
+
+    });
+
     return await modal.present();
   }
 
+  async editPost(post :any ) {
+    const modal = await this.modalController.create({
+      component: PostEditComponent,
+      cssClass: 'my-custom-class',
+      animated:true,
+      swipeToClose:true,
+      componentProps: {
+        'data': post,
 
+
+      }
+    });
+    modal.onDidDismiss()
+    .then((data) => {
+      const isValid = data['data'];
+      console.log(data);
+
+      if (isValid) {
+
+        this.laodPost()
+
+      }
+
+    });
+
+    return await modal.present();
+
+
+  }
 
   laodPost() {
     this.laoding=true;
@@ -333,8 +377,10 @@ export class ProfilsComponent implements OnInit {
              text: 'Modifier la publication',
              icon: 'create-outline',
              handler: () => {
-               console.log('Play clicked');
-             }
+                let post=this.listOfPost.find(element=>element.id === postId);
+                console.log(post)
+             this.editPost(post)
+            }
            },
 
 
@@ -407,43 +453,42 @@ export class ProfilsComponent implements OnInit {
       }
 
 
-      getCommentBypost(postId: number)
-      {
-        this.btnComment=true;
+      getCommentBypost(postId: number) {
+        this.btnComment = true;
 
-        this.state={
+    this.state={
 
-          PageSize:0,
-          pageNumber:0,
-          postId:postId
-        }
-        this._commentsService.GetAllCommentsByPostId( this.state).subscribe(res=>{
+      PageSize:0,
+      pageNumber:0,
+      postId:postId
+    }
+        this._commentsService.GetAllCommentsByPostId(this.state).subscribe(res => {
 
+          console.log(res)
 
           for (let i = 0; i < res.length; i++) {
-            if (res[i].userUrlPicture !== null) {
-              res[i].userUrlPicture= 'data:image/jpeg;base64,' + res[i].userUrlPicture;
+            if (res[i].membreUrlImg !== null) {
+              res[i].membreUrlImg = 'data:image/jpeg;base64,' + res[i].membreUrlImg;
 
             }
 
           }
 
-          console.log(res)
-          this.ShowComments(postId,res)
-          this.btnComment=false;
+
+          this.ShowComments(postId, res)
+          this.btnComment = false;
 
 
-        },(error)=>{
+        }, (error) => {
 
 
-          this.btnComment=false;
+          this.btnComment = false;
           this.presentToast(error);
         })
 
 
 
       }
-
 
 
 
@@ -470,7 +515,7 @@ export class ProfilsComponent implements OnInit {
       console.log(data);
 
       if (isValid) {
-this.listOfPost.find(element => element.id === postId).numberComments=this.listOfPost.find(element => element.id === postId).numberComments + isValid;
+this.listOfPost.find(element => element.id === postId).nomberComment=this.listOfPost.find(element => element.id === postId).nomberComment + isValid;
 
       }
 
