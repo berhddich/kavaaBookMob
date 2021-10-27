@@ -21,6 +21,7 @@ export class ModelPostComponent implements OnInit {
   postForm: CreatePostModel;
   user;
   blob;
+  isClik=true;
   constructor(public modalController: ModalController,
 
     public toastController: ToastController,
@@ -139,25 +140,18 @@ export class ModelPostComponent implements OnInit {
       content: this.libelle,
       urlsImg: this.blob,
     }
+    this.isClik=false;
 
     console.log(this.postForm)
-    this.presentLoading();
     this._postService.poster(this.postForm).subscribe(res => {
+      this.isClik=true;
 
-      this.loadingController.dismiss().then((res) => {
-        console.log('Loader hidden', res);
-      }).catch((error) => {
-        console.log(error);
-      });
-      this.presentToast("Pibliction est terminé");
+          this.presentToast("Pibliction est terminé");
       this.modalController.dismiss(true);
 
     }, (error) => {
-      this.loadingController.dismiss().then((res) => {
-        console.log('Loader hidden', res);
-      }).catch((error) => {
-        console.log(error);
-      });
+      this.isClik=true;
+
       this.presentToast(error.error.title);
       console.log(error.error.title);
 

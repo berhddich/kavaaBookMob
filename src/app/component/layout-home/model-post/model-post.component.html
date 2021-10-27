@@ -35,9 +35,9 @@
   </div>
 <div class="postsection">
 
-  <section>
+  <section *ngIf=isClik>
 
-    <ion-button expand="block"  (click)="posterBtn()">
+    <ion-button expand="block"    (click)="posterBtn()">
       Poster
     </ion-button>
   </section>
