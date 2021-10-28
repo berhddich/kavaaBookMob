@@ -1,0 +1,17 @@
+
+  <div  class="comments"   >
+
+
+    <ion-toolbar>
+
+    <ion-input  autofocus [(ngModel)]="comment"    placeholder="Enter Comment"></ion-input>
+    <ion-buttons slot="end"   >
+    <ion-button color="light" [disabled]="!comment"  (click)="edit()">
+      <img class="imageSend" src="../../../../../assets/svg/send.svg"  alt="ion">
+    </ion-button>
+    </ion-buttons>
+    </ion-toolbar>
+
+  </div>
+
+

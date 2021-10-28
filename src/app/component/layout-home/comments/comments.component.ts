@@ -1,11 +1,13 @@
 import { AfterContentInit, Component, Directive, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { ActionSheetController, GestureController, LoadingController, ModalController, ToastController } from '@ionic/angular';
+import { ActionSheetController, GestureController, LoadingController, ModalController, PopoverController, ToastController } from '@ionic/angular';
 import { element, error } from 'protractor';
 import { CreateCommentsModel } from 'src/app/core/models/comments';
 import { CommentsService } from 'src/app/core/services/comments/comments.service';
 import { SignalrService } from 'src/app/core/services/signalr/signalr.service';
 import { UsersService } from 'src/app/core/services/users/users.service';
+import { DeleteComponent } from '../delete/delete.component';
 import { CommentSignalComponent } from '../signale/commentSignal/commentSignal/commentSignal.component';
+import { EditCommentComponent } from './edit-comment/edit-comment.component';
 
 @Component({
   selector: 'app-comments',
@@ -29,7 +31,7 @@ export class CommentsComponent implements OnInit {
     public toastController: ToastController,
     private _signalrService:SignalrService,
     public _usersService: UsersService,
-
+    public popoverController: PopoverController,
 
   ) {
 
@@ -111,11 +113,9 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
         membreId: res.membreId,
         membreFullName: user.fullName,
         membreUrlImg: res.membreUrlImg,
+        membreUserName: user.userName,
 
       };
-
-
-
 
       this.data.unshift({
         comment: res.comment,
@@ -125,6 +125,7 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
         membreId: res.membreId,
         membreFullName: user.fullName,
         membreUrlImg: JSON.parse(localStorage.getItem("ImageProfil")),
+        membreUserName: user.userName,
 
       })
 //  this._signalrService.addComment(comments);
@@ -156,9 +157,6 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
   }
 
 
-
-
-
   async CommentSignale(id: number,membreId:number, membreUserName: string) {
      let  userName = (JSON.parse(localStorage.getItem("KavaBook_UserSession"))).userName;
 
@@ -171,7 +169,27 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
         cssClass: 'my-custom-class',
         buttons: [
 
+          {
+            text: 'Modifier la publication',
+            icon: 'create-outline',
+            handler: () => {
 
+              const data=  this.data.find(element=>element.id=== id);
+              this.editComment(id,data)
+            }
+          },
+
+
+
+          {
+            text: 'Déplacer dans la corbeille',
+            role: 'destructive',
+            icon: 'trash',
+            handler: () => {
+
+              this.deletComment(id);
+          }
+        },
 
 
 
@@ -265,5 +283,66 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
     });
     toast.present();
   }
+
+
+  async deletComment(id:number) {
+    console.log(id)
+    const modal = await this.popoverController.create({
+      component: DeleteComponent,
+      cssClass: 'popover-delet',
+      animated: true,
+      componentProps: {
+        'id': id,
+        'service':this._commentsService
+      }
+
+    });
+
+    modal.onDidDismiss()
+      .then((data) => {
+        if (data.data) {
+         this.commentNumber=  this.commentNumber - 1;
+         this.data.forEach((element,index)=>{
+          if(element.id==id) this.data.splice(index,1);
+       });
+          this.presentToast('Le  Comment a été Supprimer ');
+
+
+        }
+
+      });
+
+    return await modal.present();
+  }
+
+
+  async editComment(id:number,data:any) {
+    const modal = await this.popoverController.create({
+      component: EditCommentComponent,
+      cssClass: 'popover-edit',
+      animated: true,
+      componentProps: {
+        'id': id,
+        'data':data,
+        'service':this._commentsService
+      }
+
+    });
+
+    modal.onDidDismiss()
+      .then((data) => {
+        if (data.data) {
+           this.data.find(element=>element.id===id).comment=data.data;
+          this.presentToast('Le  Comment a été Edit ');
+
+
+        }
+
+      });
+
+    return await modal.present();
+  }
+
+
 
 }

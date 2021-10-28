@@ -19,3 +19,13 @@ export interface CreateCommentsModel   {
 
 
 }
+
+
+export interface EditCommentsModel   {
+
+  comment: string;
+  id:number
+
+
+}
+
