@@ -643,7 +643,8 @@ this.userProfilsModel(res.data)
 
     this._postService.removePost(postId).subscribe(res => {
 
-      console.log("is deleted")
+
+      console.log("is deleted",res)
 this.laodPost();
 
     }, (error) => {
