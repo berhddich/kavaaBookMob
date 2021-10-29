@@ -27,12 +27,10 @@ this.comment=this.data.comment;
   edit()
   {
     this.tabe={
-      id:this.data.id,
-      comment:this.comment
+     id:this.data.id,
+     comment:this.comment
     }
     this._commentsService.editComment(this.tabe).subscribe(res => {
-
-
           this.presentToast("Modification  est terminé");
           this.popoverController.dismiss(this.comment);
 
