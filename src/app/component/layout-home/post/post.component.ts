@@ -72,6 +72,8 @@ export class PostComponent implements OnInit {
     this._postService.getAll().subscribe(res => {
 
 
+
+
       this.listOfPost = res;
       console.log(this.listOfPost);
       for (let i = 0; i < this.listOfPost.length; i++) {
