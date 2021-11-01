@@ -72,10 +72,8 @@ export class PostComponent implements OnInit {
     this._postService.getAll().subscribe(res => {
 
 
-
-
-      this.listOfPost = res;
-      console.log(this.listOfPost);
+      this.listOfPost = res.data;
+      console.log(res);
       for (let i = 0; i < this.listOfPost.length; i++) {
         if (this.listOfPost[i].imgPost !== null) {
           this.listOfPost[i].imgPost = 'data:image/jpeg;base64,' + this.listOfPost[i].imgPost;
@@ -125,8 +123,8 @@ export class PostComponent implements OnInit {
   refresh(event) {
 
     this._postService.getAll().subscribe(res => {
-
-      this.listOfPost = res;
+      console.log(res);
+      this.listOfPost = res.data;
       for (let i = 0; i < this.listOfPost.length; i++) {
         if (this.listOfPost[i].imgPost !== null) {
           this.listOfPost[i].imgPost = 'data:image/jpeg;base64,' + this.listOfPost[i].imgPost;
@@ -144,7 +142,7 @@ export class PostComponent implements OnInit {
       }
       event.target.complete();
 
-      console.log(this.listOfPost);
+
     })
 
   }
@@ -645,7 +643,8 @@ this.userProfilsModel(res.data)
 
     this._postService.removePost(postId).subscribe(res => {
 
-      console.log("is deleted")
+
+      console.log("is deleted",res)
 this.laodPost();
 
     }, (error) => {

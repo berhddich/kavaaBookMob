@@ -309,7 +309,7 @@ export class ProfilsComponent implements OnInit {
     this.laoding=true;
         this._postService.getAllByUserId().subscribe(res => {
 
-    this.listOfPost=res;
+    this.listOfPost=res.data;
     for(let i=0;i<this.listOfPost.length;i++)
     {
       if(this.listOfPost[i].imgPost!==null)
@@ -717,7 +717,7 @@ if(this.longPres===1)
 
     this._postService. getAllByUserId().subscribe(res => {
 
-      this.listOfPost = res;
+      this.listOfPost = res.data;
       for (let i = 0; i < this.listOfPost.length; i++) {
         if (this.listOfPost[i].picture !== null) {
           this.listOfPost[i].picture = 'data:image/jpeg;base64,' + this.listOfPost[i].picture;

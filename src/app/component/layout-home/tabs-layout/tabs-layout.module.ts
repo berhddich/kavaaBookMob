@@ -19,6 +19,7 @@ import { ChateComponent } from '../chate/chate.component';
 import { PostEditComponent } from '../post-edit/post-edit.component';
 import { DeleteComponent } from '../delete/delete.component';
 import { EditCommentComponent } from '../comments/edit-comment/edit-comment.component';
+import { SettingComponent } from './setting/setting.component';
 
 const routes: Routes = [
   {
@@ -64,7 +65,7 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   declarations: [TabsLayoutComponent,ChateComponent,PostComponent,CommentSignalComponent,ParametrePostComponent,UserProfilsComponent, CommentsComponent,PostSignalComponent ,SegnalUserComponent, ProfilsComponent,ReactionsPageComponent,ModelPostComponent,
-    PostEditComponent,DeleteComponent,EditCommentComponent
+    PostEditComponent,DeleteComponent,EditCommentComponent,SettingComponent
   ]
 })
 export class TabsLayoutModule { }

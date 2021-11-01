@@ -142,7 +142,6 @@ console.log(this.data)
     console.log(this.postForm)
     this._postService.editPost(this.postForm).subscribe(res => {
       this.isClik=true;
-
           this.presentToast("Pibliction est terminé");
       this.modalController.dismiss(true);
 

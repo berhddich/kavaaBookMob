@@ -145,6 +145,7 @@ export class ModelPostComponent implements OnInit {
 
     console.log(this.postForm)
     this._postService.poster(this.postForm).subscribe(res => {
+      console.log("ma",res)
       this.isClik=true;
 
           this.presentToast("Pibliction est terminé");

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuController } from '@ionic/angular';
+import { MenuController, ModalController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { SettingComponent } from './setting/setting.component';
 
 
 @Component({
@@ -14,6 +15,7 @@ export class TabsLayoutComponent implements OnInit {
 
   constructor(private _authService: AuthService, public toastController: ToastController,
       public NavController: NavController ,
+      public modalController:ModalController,
 
     private menu: MenuController) { }
 
@@ -50,13 +52,43 @@ export class TabsLayoutComponent implements OnInit {
       }
 
 
+
+      async setting() {
+        const modal = await this.modalController.create({
+          component: SettingComponent,
+          animated: true,
+          swipeToClose: true,
+
+
+        });
+
+        modal.onDidDismiss()
+          .then((data) => {
+            const isValid = data['data'];
+            if (isValid) {
+
+            }
+
+          });
+
+        return await modal.present();
+      }
+
+
+      Voisettings()
+      {
+
+        this.setting();
+      }
+
+
       async presentToast(msg) {
         const toast = await this.toastController.create({
           message: msg,
-          duration: 1000
+          duration: 4000,
+
         });
         toast.present();
       }
-
 
 }
