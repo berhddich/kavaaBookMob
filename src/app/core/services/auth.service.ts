@@ -77,7 +77,8 @@ register(input: RegesterModel): Observable<any> {
 
             const body={
               token:currenttoken.token,
-              refreshToken:currenttoken.refreshToken
+              refreshToken:currenttoken.refreshToken,
+              refreshTokenExpiryTime:currenttoken.refreshTokenExpiryTime
 
             }
 
