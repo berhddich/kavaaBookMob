@@ -107,7 +107,7 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
 
       const comments={
         comment: res.comment,
-        dateCreate: res.dateCreate,
+        createdOn: res.createdOn,
         id: res.id,
         postId: res.postId,
         membreId: res.membreId,
@@ -119,7 +119,7 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
 
       this.data.unshift({
         comment: res.comment,
-        dateCreate: res.dateCreate,
+        createdOn: res.createdOn,
         id: res.id,
         postId: res.postId,
         membreId: res.membreId,
