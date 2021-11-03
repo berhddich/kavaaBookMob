@@ -19,7 +19,6 @@ export class CommentsComponent implements OnInit {
   @Input() data: any[];
   comment;
   commentNumber = 0;
-
   commentsModel: CreateCommentsModel;
 
   constructor(
@@ -101,7 +100,6 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
 
 
     this._commentsService.create(this.commentsModel).subscribe(res => {
-      console.log(res)
       this.comment = null;
       this.commentNumber++;
 
@@ -128,6 +126,8 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
         membreUserName: user.userName,
 
       })
+      console.log(res,this.data)
+
 //  this._signalrService.addComment(comments);
 
     }, (error) => {
