@@ -786,7 +786,7 @@ if(this.longPres===1)
   deletPost(postId :number)
   {
 
-    this._postService.removePost(postId).subscribe(res => {
+    this._postService.delete(postId).subscribe(res => {
 
       console.log("is deleted")
 this.laodPost();

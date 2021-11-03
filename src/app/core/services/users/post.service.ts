@@ -4,24 +4,30 @@ import { Observable } from 'rxjs';
 import { map, retry } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ApiResultDto } from '../../models/base-model';
-import { CreatePostModel, EditPostModel } from '../../models/post';
+import { PagedRequestDto } from '../../models/PagedRequestDto';
+import { CreatePostModel, EditPostModel, PostModel } from '../../models/post';
 import { CreatePostignalModel } from '../../models/post-signals';
+import { CrudBaseService } from '../crud-base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PostService {
+export class PostService extends CrudBaseService<PostModel, number, PagedRequestDto, CreatePostModel, EditPostModel>{
   baseUrl = `${environment.apiBaseUrl}api/Posts`;
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   }
 
-  constructor(public _httpClient: HttpClient) { }
+  constructor(public _httpClient: HttpClient) {
 
-  getAll(): Observable<any> {
-    return this._httpClient.get<ApiResultDto>(`${this.baseUrl}/GetAll`, this.httpOptions)
-      .pipe(map(response => response), retry(1));
-  }
+    super(_httpClient, 'api/Posts');
+
+   }
+
+  // getAll(): Observable<any> {
+  //   return this._httpClient.get<ApiResultDto>(`${this.baseUrl}/GetAll`, this.httpOptions)
+  //     .pipe(map(response => response), retry(1));
+  // }
 
   getAllByUserId(): Observable<any> {
     return this._httpClient.get<ApiResultDto>(`${this.baseUrl}/GetAllByMember`, this.httpOptions)
@@ -69,18 +75,18 @@ console.log(iput)
 }
 
 
-removePost(id: number): Observable<any> {
-  const options = {
-      headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-      }),
-      body: {
-          id: id
-      },
-  };
-  return this._httpClient.delete(`${this.baseUrl}/`+id)
-      .pipe(map(response => response), retry(1));
-}
+// removePost(id: number): Observable<any> {
+//   const options = {
+//       headers: new HttpHeaders({
+//           'Content-Type': 'application/json',
+//       }),
+//       body: {
+//           id: id
+//       },
+//   };
+//   return this._httpClient.delete(`${this.baseUrl}/`+id)
+//       .pipe(map(response => response), retry(1));
+// }
 
 
 }

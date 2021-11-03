@@ -135,7 +135,7 @@ console.log(this.data)
       content: this.libelle,
       // urlsImg: this.blob,
       imageUrl:this.data.urlsImg,
-      Id:this.data.id
+      id: this.data.id
     }
     this.isClik=false;
 

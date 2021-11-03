@@ -1,3 +1,5 @@
+import { DefaultBaseModel } from "./base-model";
+
 export interface CreatePostModel {
 
   content: string;
@@ -7,11 +9,19 @@ export interface CreatePostModel {
 }
 
 
-export interface EditPostModel {
+export interface EditPostModel  extends DefaultBaseModel {
 
   content: string;
   imageUrl: any;
-  Id:number
+
+
+}
+
+
+export interface PostModel   extends DefaultBaseModel {
+
+  content: string;
+  imageUrl: any;
 
 
 }

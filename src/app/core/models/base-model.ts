@@ -14,3 +14,8 @@ export interface ApiResultDto {
   error?: any;
   unAuthorizedRequest: boolean;
 }
+export interface PagedResultDto {
+  items: any[];
+  totalCount: number;
+}
+

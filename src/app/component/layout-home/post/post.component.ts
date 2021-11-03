@@ -71,7 +71,7 @@ export class PostComponent implements OnInit {
     this.laoding = true;
     this._postService.getAll().subscribe(res => {
 
-
+console.log()
       this.listOfPost = res.data;
       console.log(res);
       for (let i = 0; i < this.listOfPost.length; i++) {
@@ -123,7 +123,6 @@ export class PostComponent implements OnInit {
   refresh(event) {
 
     this._postService.getAll().subscribe(res => {
-      console.log(res);
       this.listOfPost = res.data;
       for (let i = 0; i < this.listOfPost.length; i++) {
         if (this.listOfPost[i].imgPost !== null) {
@@ -641,7 +640,7 @@ this.userProfilsModel(res.data)
   deletPost(postId :number)
   {
 
-    this._postService.removePost(postId).subscribe(res => {
+    this._postService.delete(postId).subscribe(res => {
 
 
       console.log("is deleted",res)
