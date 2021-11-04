@@ -440,17 +440,6 @@ export class ProfilsComponent implements OnInit {
 
 
 
-      findReact(index: number, type: number) {
-        if ( this.listOfPost[index].typeMyReact === type) {
-
-          return true
-        }
-
-        return false
-
-
-
-      }
 
 
       getCommentBypost(postId: number) {
@@ -544,12 +533,13 @@ this.listOfPost.find(element => element.id === postId).nomberComment=this.listOf
                 this.listOfPost.find(element => element.id === postId).myReact=false;
                 this.listOfPost.find(element => element.id === postId).nomberReact = this.listOfPost.find(element => element.id === postId).nomberReact-1;
 
+                this.editImageReact(postId,typeReact,2)
+
+
 
         this._reactsService.remove(postId).subscribe(res => {
 
-
           console.log("is deleted")
-
 
           this.btnLike = false;
 
@@ -557,6 +547,7 @@ this.listOfPost.find(element => element.id === postId).nomberComment=this.listOf
         }, (error) => {
 
           console.log(error)
+          this.editImageReact(postId,typeReact,1)
 
           this.btnLike = false;
 
@@ -585,9 +576,13 @@ this.listOfPost.find(element => element.id === postId).nomberComment=this.listOf
         {
 
       // DELET
+     const  oldReact= this.listOfPost.find(element => element.id === postId).typeMyReact;
       this.listOfPost.find(element => element.id === postId).typeMyReact=0;
       this.listOfPost.find(element => element.id === postId).myReact=false;
       this.listOfPost.find(element => element.id === postId).nomberReact = this.listOfPost.find(element => element.id === postId).nomberReact-1;
+
+      this.editImageReact(postId,oldReact,2)
+      console.log(this.listOfPost.find(element => element.id === postId))
 
 
 this._reactsService.remove(postId).subscribe(res => {
@@ -602,6 +597,7 @@ this.btnLike = false;
 }, (error) => {
 
 console.log(error)
+this.editImageReact(postId,typeReact,1)
 
 this.btnLike = false;
 
@@ -623,11 +619,10 @@ this.listOfPost.find(element => element.id === postId).nomberReact=this.listOfPo
           this.listOfPost.find(element => element.id === postId).myReact = true;
           this.listOfPost.find(element => element.id === postId).typeMyReact=typeReact;
 
-
+          this.editImageReact(postId,oldReact,2)
+          this.editImageReact(postId,typeReact,1)
           this._reactsService.Update(this.reacte).subscribe(res => {
             this.btnLike = false;
-
-
             console.log("is Edited:")
 
           }, (error) => {
@@ -636,7 +631,8 @@ this.listOfPost.find(element => element.id === postId).nomberReact=this.listOfPo
             console.log(error)
             this.listOfPost.find(element => element.id === postId).myReact=true;
             this.listOfPost.find(element => element.id === postId).typeMyReact=oldReact;
-
+            this.editImageReact(postId,typeReact,2)
+            this.editImageReact(postId,oldReact,1)
 
           })
 
@@ -663,6 +659,7 @@ this.listOfPost.find(element => element.id === postId).nomberReact=this.listOfPo
       this._reactsService.create(this.reacte).subscribe(res => {
         this.btnLike = false;
 
+        this.editImageReact(postId,typeReact,1)
 
         console.log("is create:")
 
@@ -673,6 +670,7 @@ this.listOfPost.find(element => element.id === postId).nomberReact=this.listOfPo
         this.listOfPost.find(element => element.id === postId).myReact=false;
         this.listOfPost.find(element => element.id === postId).typeMyReact=0;
         this.listOfPost.find(element => element.id === postId).nomberReact=  this.listOfPost.find(element => element.id === postId).nomberReact-1;
+        this.editImageReact(postId,typeReact,2)
 
 
       })
@@ -799,5 +797,121 @@ this.laodPost();
 
   }
 
+  editImageReact(postId :number,type:number, opiration:number)
+{
+  if(type===1)
+  {
+    if(opiration=== 1)
+    {
+      this.listOfPost.find(element => element.id === postId).reactLike ++;
+
+    }
+    if(opiration=== 2)
+    {
+      this.listOfPost.find(element => element.id === postId).reactLike -- ;
+
+
+    }
+
+
+  }
+  if(type===2)
+  {
+    if(opiration=== 1)
+    {
+      this.listOfPost.find(element => element.id === postId).reactHaha ++;
+
+    }
+    if(opiration=== 2)
+    {
+      this.listOfPost.find(element => element.id === postId).reactHaha -- ;
+
+
+    }
+
+
+  }
+  if(type===3)
+  {
+    if(opiration=== 1)
+    {
+      this.listOfPost.find(element => element.id === postId).reactCare ++;
+
+    }
+    if(opiration=== 2)
+    {
+      this.listOfPost.find(element => element.id === postId).reactCare -- ;
+
+
+    }
+
+
+
+  }
+  if(type===4)
+  {
+    if(opiration=== 1)
+    {
+      this.listOfPost.find(element => element.id === postId).reactLove ++;
+
+    }
+    if(opiration=== 2)
+    {
+      this.listOfPost.find(element => element.id === postId).reactLove -- ;
+
+
+    }
+
+  }
+  if(type===5)
+  {
+    if(opiration=== 1)
+    {
+      this.listOfPost.find(element => element.id === postId).reactSad ++;
+
+    }
+    if(opiration=== 2)
+    {
+      this.listOfPost.find(element => element.id === postId).reactSad -- ;
+
+
+    }
+
+  }
+  if(type===6)
+  {
+    if(opiration=== 1)
+    {
+      this.listOfPost.find(element => element.id === postId).reactWow ++;
+
+    }
+    if(opiration=== 2)
+    {
+      this.listOfPost.find(element => element.id === postId).reactWow -- ;
+
+
+    }
+
+
+  }
+  if(type===7)
+  {
+
+    if(opiration=== 1)
+    {
+      this.listOfPost.find(element => element.id === postId).reactAngry ++;
+
+    }
+    if(opiration=== 2)
+    {
+      this.listOfPost.find(element => element.id === postId).reactAngry -- ;
+
+
+    }
+  }
+
+
+
+}
 
 }

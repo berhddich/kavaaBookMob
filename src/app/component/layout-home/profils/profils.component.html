@@ -111,14 +111,13 @@
         <ion-row>
           <ion-col center text-center>
             <div  >
-              <img class="like"  *ngIf="findReact(i,1)" src="../../../../assets/svg/like.svg" alt="ion">
-              <img class="like" *ngIf="findReact(i,4)" src="../../../../assets/svg/love.svg" alt="ion">
-              <img class="like" *ngIf="findReact(i,3)" src="../../../../assets/svg/care.svg" alt="ion">
-              <img class="like" *ngIf="findReact(i,2)" src="../../../../assets/svg/haha.svg" alt="ion">
-              <img class="like" *ngIf="findReact(i,6)" src="../../../../assets/svg/wow.svg" alt="ion">
-              <img class="like" *ngIf="findReact(i,5)"  src="../../../../assets/svg/sad.svg" alt="ion">
-              <img class="like" *ngIf="findReact(i,7 )"  src="../../../../assets/svg/angry.svg" alt="ion">
-
+              <img class="like"  *ngIf="post.reactLike>0" src="../../../../assets/svg/like.svg" alt="ion">
+              <img class="like" *ngIf="post.reactLove>0" src="../../../../assets/svg/love.svg" alt="ion">
+              <img class="like" *ngIf="post.reactCare>0" src="../../../../assets/svg/care.svg" alt="ion">
+              <img class="like" *ngIf="post.reactHaha>0" src="../../../../assets/svg/haha.svg" alt="ion">
+              <img class="like" *ngIf="post.reactWow>0" src="../../../../assets/svg/wow.svg" alt="ion">
+              <img class="like" *ngIf="post.reactSad>0"  src="../../../../assets/svg/sad.svg" alt="ion">
+              <img class="like" *ngIf="post.reactAngry>0"  src="../../../../assets/svg/angry.svg" alt="ion">
 
 
             </div>

@@ -104,23 +104,23 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
       this.commentNumber++;
 
       const comments={
-        comment: res.comment,
-        createdOn: res.createdOn,
-        id: res.id,
-        postId: res.postId,
-        membreId: res.membreId,
+        comment: res.data.comment,
+        createdOn: res.data.createdOn,
+        id: res.data.id,
+        postId: res.data.postId,
+        membreId: res.data.membreId,
         membreFullName: user.fullName,
-        membreUrlImg: res.membreUrlImg,
+        membreUrlImg: res.data.membreUrlImg,
         membreUserName: user.userName,
 
       };
 
       this.data.unshift({
-        comment: res.comment,
-        createdOn: res.createdOn,
-        id: res.id,
-        postId: res.postId,
-        membreId: res.membreId,
+        comment: res.data.comment,
+        createdOn: res.data.createdOn,
+        id: res.data.id,
+        postId: res.data.postId,
+        membreId: res.data.membreId,
         membreFullName: user.fullName,
         membreUrlImg: JSON.parse(localStorage.getItem("ImageProfil")),
         membreUserName: user.userName,
