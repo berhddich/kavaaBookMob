@@ -16,7 +16,7 @@ import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { RefreshTokenInterceptor } from './core/interceptors/refresh-token.interceptor';
 import { DatePipe } from '@angular/common';
-
+import { IonicStorageModule } from '@ionic/storage-angular';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -25,6 +25,7 @@ import { DatePipe } from '@angular/common';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    IonicStorageModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

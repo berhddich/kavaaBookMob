@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SignalrService } from './core/services/signalr/signalr.service';
-
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-root',
@@ -8,8 +8,9 @@ import { SignalrService } from './core/services/signalr/signalr.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent  implements OnInit{
-  constructor( public _signalrService:SignalrService) {
-
+  constructor( public _signalrService: SignalrService,
+    private storage: Storage) {
+      storage.create();
 
   }
 

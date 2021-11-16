@@ -65,6 +65,8 @@ export class PostComponent implements OnInit {
     }
 
 
+
+
   }
 
   laodPost() {

@@ -23,6 +23,7 @@ export class PostService {
       .pipe(map(response => response), retry(1));
   }
 
+
   getAllByUserId(): Observable<any> {
     return this._httpClient.get<ApiResultDto>(`${this.baseUrl}/GetAllByMember`, this.httpOptions)
       .pipe(map(response => response), retry(1));

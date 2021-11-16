@@ -38,7 +38,6 @@ export class LoginComponent implements OnInit {
 
 
     });
-
   }
 
   async presentToast(msg) {
