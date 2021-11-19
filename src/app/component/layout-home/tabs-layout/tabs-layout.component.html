@@ -1,18 +1,50 @@
-<ion-menu side="start" menuId="custom" contentId="main" class="my-custom-menu">
-  <ion-header>
+<ion-menu side="start" menuId="main-menu" contentId="main" class="my-custom-menu">
+  <!-- <ion-header>
     <ion-toolbar color="tertiary">
       <ion-title>Kavaa Book</ion-title>
     </ion-toolbar>
-  </ion-header>
+  </ion-header> -->
   <ion-content>
-    <ion-button expand="block"  (click)="Voisettings()"  >
+    <div class="menu-header-bg"> </div>
+    <div class="header-content">
+      <img src="../../../../assets/image/image1.jpg">
+      <ion-label>
+        <h2>Khalil El moudene</h2>
+        <p>Developer</p>
+      </ion-label>
+    </div>
+    <div class="action-button">
+      <ion-button (click)="Voisettings()">
+        <ion-icon slot="start" name="settings-outline"></ion-icon>
+        Réglage
+      </ion-button>
+    </div>
+
+    <ion-list class="menu-items" lines="none">
+      <ion-item>
+        <ion-icon name="pie-chart-outline"></ion-icon>Dashboard
+      </ion-item>
+      <ion-item>
+        <ion-icon name="browsers-outline"></ion-icon>Post Sessions
+      </ion-item>
+      <ion-item class="active">
+        <ion-icon name="flash"></ion-icon>Live Sessions
+      </ion-item>
+      <ion-item>
+        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>Messages
+      </ion-item>
+      <ion-item (click)="Logout()">
+        <ion-icon name="exit-outline"></ion-icon>Sign out
+      </ion-item>
+    </ion-list>
+    <!-- <ion-button expand="block"  (click)="Voisettings()"  >
       <ion-icon slot="start" name="settings-outline"></ion-icon>
       Réglage
     </ion-button>
     <ion-button expand="block"   (click)="Logout()">
       <ion-icon slot="start"  name="log-out-outline"></ion-icon>
       Se déconnecter
-    </ion-button>
+    </ion-button> -->
 
 
 

@@ -13,7 +13,8 @@
           <img [src]="image">
         </ion-avatar>
         <ion-label>
-          <h3>Qu'est-ce qui préoccupe votre esprit</h3>
+          <ion-input placeholder="Qu'est-ce qui préoccupe votre esprit" readonly=""></ion-input>
+
 
         </ion-label>
       </ion-item>
@@ -31,8 +32,8 @@
     <div style="padding: 7px;">
 
       <ion-card>
-        <ion-item   style="cursor: pointer;">
-          <ion-avatar slot="start"   (click)="userProfils(post.membreUserName,post.membreImg,post.membreId)">
+        <ion-item style="cursor: pointer;">
+          <ion-avatar slot="start" (click)="userProfils(post.membreUserName,post.membreImg,post.membreId)">
             <img *ngIf="post.membreImg==null" src="../../../../assets/image/test.jpg">
             <img *ngIf="post.membreImg" [src]="post.pictureUser">
 
@@ -44,7 +45,7 @@
           </ion-label>
 
 
-          <ion-buttons slot="end"  (click)="parametrePost(post.id,post.membreUserName,post.membreId)">
+          <ion-buttons slot="end" (click)="parametrePost(post.id,post.membreUserName,post.membreId)">
             <ion-button>
               <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
             </ion-button>
@@ -62,19 +63,19 @@
         <ion-footer>
           <ion-row>
             <ion-col center text-center>
-              <div  >
-                <img class="like"  *ngIf="findReact(i,1)" src="../../../../assets/svg/like.svg" alt="ion">
+              <div>
+                <img class="like" *ngIf="findReact(i,1)" src="../../../../assets/svg/like.svg" alt="ion">
                 <img class="like" *ngIf="findReact(i,4)" src="../../../../assets/svg/love.svg" alt="ion">
                 <img class="like" *ngIf="findReact(i,3)" src="../../../../assets/svg/care.svg" alt="ion">
                 <img class="like" *ngIf="findReact(i,2)" src="../../../../assets/svg/haha.svg" alt="ion">
                 <img class="like" *ngIf="findReact(i,6)" src="../../../../assets/svg/wow.svg" alt="ion">
-                <img class="like" *ngIf="findReact(i,5)"  src="../../../../assets/svg/sad.svg" alt="ion">
-                <img class="like" *ngIf="findReact(i,7 )"  src="../../../../assets/svg/angry.svg" alt="ion">
+                <img class="like" *ngIf="findReact(i,5)" src="../../../../assets/svg/sad.svg" alt="ion">
+                <img class="like" *ngIf="findReact(i,7 )" src="../../../../assets/svg/angry.svg" alt="ion">
 
 
 
               </div>
-              <div  *ngIf="post.nomberReact>0">{{post.nomberReact}} </div>
+              <div *ngIf="post.nomberReact>0">{{post.nomberReact}} </div>
             </ion-col>
             <ion-col center text-center>
               <button>
@@ -87,21 +88,22 @@
 
           <ion-row>
             <ion-col>
-              <button  [disabled]="btnLike" ion-long-press class="btnreact"  (click)=like(post.id,post.membreUserName,1,0)   [disabled]="btnreact"  (longPressed)="presentPopover($event,post.id)" >
-                <ion-icon name="thumbs-up"   *ngIf="findimogi(post.id,0)"></ion-icon>
-                <img class="like"  *ngIf="findimogi(post.id,1)" src="../../../../assets/svg/like.svg" alt="ion">
+              <button [disabled]="btnLike" ion-long-press class="btnreact" (click)=like(post.id,post.membreUserName,1,0)
+                [disabled]="btnreact" (longPressed)="presentPopover($event,post.id)">
+                <ion-icon name="thumbs-up" *ngIf="findimogi(post.id,0)"></ion-icon>
+                <img class="like" *ngIf="findimogi(post.id,1)" src="../../../../assets/svg/like.svg" alt="ion">
                 <img class="like" *ngIf="findimogi(post.id,4)" src="../../../../assets/svg/love.svg" alt="ion">
                 <img class="like" *ngIf="findimogi(post.id,3)" src="../../../../assets/svg/care.svg" alt="ion">
                 <img class="like" *ngIf="findimogi(post.id,2)" src="../../../../assets/svg/haha.svg" alt="ion">
                 <img class="like" *ngIf="findimogi(post.id,6)" src="../../../../assets/svg/wow.svg" alt="ion">
-                <img class="like" *ngIf="findimogi(post.id,5)"  src="../../../../assets/svg/sad.svg" alt="ion">
-                <img class="like" *ngIf="findimogi(post.id,7 )"  src="../../../../assets/svg/angry.svg" alt="ion">
+                <img class="like" *ngIf="findimogi(post.id,5)" src="../../../../assets/svg/sad.svg" alt="ion">
+                <img class="like" *ngIf="findimogi(post.id,7 )" src="../../../../assets/svg/angry.svg" alt="ion">
               </button>
             </ion-col>
 
             <ion-col>
 
-              <button  class="btnreact" [disabled]="btnComment"  (click)="getCommentBypost(post.id)"  >
+              <button class="btnreact" [disabled]="btnComment" (click)="getCommentBypost(post.id)">
                 <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
               </button>
             </ion-col>

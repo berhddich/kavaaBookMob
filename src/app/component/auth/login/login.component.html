@@ -1,41 +1,39 @@
-
-
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="home"></ion-back-button></ion-buttons>
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
     <ion-title>Connexion</ion-title>
   </ion-toolbar>
 </ion-header>
-<br><br>
 
 
 <ion-content>
+  <div class="login-header"></div>
+  <div class="login-header-content">
 
+    <img  src="assets/image/kavaa.png" alt="ion">
 
-  <div class="imageclasse" >
+  </div>
+<div class="login-form">
+ <form  [formGroup]="loginForm">
+    <ion-item lines="full">
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="text" formControlName="email" required></ion-input>
+    </ion-item>
 
-     <img  style="border-radius: 32px;" src="../../../assets/image/kavaa.png" alt="ion">
+    <ion-item lines="full">
+      <ion-label position="floating">Password</ion-label>
+      <ion-input type="password" formControlName="password" required></ion-input>
+    </ion-item>
+    <br>
+    <ion-row>
+      <ion-col>
+        <ion-button (click)="save()"  expand="block">S'identifier</ion-button>
 
-   </div>
+      </ion-col>
+    </ion-row>
+  </form>
+</div>
 
-   <form [formGroup]="loginForm">
-     <ion-item lines="full">
-       <ion-label position="floating">Email</ion-label>
-       <ion-input type="text" formControlName="email" required ></ion-input>
-     </ion-item>
-
-     <ion-item lines="full">
-       <ion-label position="floating">Password</ion-label>
-       <ion-input type="password" formControlName="password" required></ion-input>
-     </ion-item>
- <br>
-     <ion-row>
-       <ion-col>
-         <ion-button (click)="save()" color="danger" expand="block">S'identifier</ion-button>
-
-       </ion-col>
-     </ion-row>
-   </form>
- </ion-content>
-
+</ion-content>

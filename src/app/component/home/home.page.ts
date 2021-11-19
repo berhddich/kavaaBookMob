@@ -8,14 +8,15 @@ import { NavController } from '@ionic/angular';
 })
 export class HomePage {
 
-  constructor(public NavController: NavController) {}
+  constructor(private navController: NavController) {}
 
 
   register() {
-    this.NavController.navigateRoot('auth/register')
+    this.navController.navigateForward('auth/register');
   }
+
   login() {
-    this.NavController.navigateRoot('auth/login')
+    this.navController.navigateForward('auth/login');
   }
 
 }

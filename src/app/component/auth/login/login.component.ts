@@ -14,7 +14,7 @@ import { UserSessionService } from 'src/app/core/services/user-session/user-sess
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
@@ -28,80 +28,87 @@ export class LoginComponent implements OnInit {
     private _loadingService: LoadingService,
     private _accountService: AccountService,
     private _jkwtService: JwtService,
-    private _userSessionService: UserSessionService
-  ) { }
+    private _userSessionService: UserSessionService,
+    public loadingController: LoadingController
+  ) {}
 
   ngOnInit() {
     this.loginForm = this.fb.group({
       email: [, Validators.required],
       password: [, Validators.required],
-
-
     });
   }
 
   async presentToast(msg) {
     const toast = await this.toastController.create({
       message: msg,
-      duration: 1000
+      duration: 1000,
     });
     toast.present();
   }
 
+  async presentLoadingWithOptions() {
+    const loading = await this.loadingController.create({
+      spinner: null,
+      duration: 5000,
+      message: 'Please wait...',
+      translucent: true,
+      cssClass: 'custom-class custom-loading'
+    });
+    await loading.present();
 
-
-  save(): void {
+    const { role, data } = await loading.onDidDismiss();
+    console.log('Loading dismissed with role:', role);
+  }
+  async save(): Promise<void> {
     // this._loadingService.presentLoading();
-    this._authService.login(this.loginForm.value)
-      .subscribe(res => {
-        this._jkwtService.saveToken(res.data)
-        this._accountService.GetCurrentLoginInformations().subscribe(user => {
-          console.log(user)
-          this._userSessionService.save(user)
-     if(user.urlPicture!==null)
-          {
+    const loading = await this.loadingController.create({
+      spinner: null,
+      duration: 5000,
+      message: 'Please wait...',
+      translucent: true,
+      cssClass: 'custom-class custom-loading'
+    });
+    this._authService.login(this.loginForm.value).subscribe(
+      async (res) => {
+        await loading.present();
+        this._jkwtService.saveToken(res.data);
+        this._accountService.GetCurrentLoginInformations().subscribe((user) => {
 
-        this._usersService.getPicture(user.urlPicture).subscribe(res=>{
-          this._loadingService.dismiss();
+          this._userSessionService.save(user);
+          if (user.urlPicture !== null) {
+            this._usersService.getPicture(user.urlPicture).subscribe(
+              (res) => {
+                this._loadingService.dismiss();
 
-          if (res ) {
-
-
-
-            localStorage.setItem('ImageProfil', JSON.stringify('data:image/jpeg;base64,' + res))
+                if (res) {
+                  localStorage.setItem(
+                    'ImageProfil',
+                    JSON.stringify('data:image/jpeg;base64,' + res)
+                  );
+                  this.presentToast('Login completed');
+                  this.NavController.navigateRoot('app/tabs-layout');
+                }
+              },
+              (error) => {
+                this._loadingService.dismiss();
+                this.presentToast(error.error.title);
+                console.log(error.error.title);
+              }
+            );
+          } else {
             this.presentToast('Login completed');
-            this.NavController.navigateRoot('app/tabs-layout')
-        }
-
-        },(error)=>{
-
-          this._loadingService.dismiss();
-          this.presentToast(error.error.title);
-          console.log(error.error.title);
-
-
-        })
-
-
-          }
-          else{
-            this.presentToast('Login completed');
-            this.NavController.navigateRoot('app/tabs-layout')
+            this.NavController.navigateRoot('app/tabs-layout');
             this._loadingService.dismiss();
-
           }
-        })
-      }, (error) => {
+        });
+      },
+      async (error) => {
+        await loading.onDidDismiss();
         this._loadingService.dismiss();
         this.presentToast(error);
         console.log(error);
       }
-      );
-
-
-
-
+    );
   }
-
-
 }

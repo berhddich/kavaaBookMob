@@ -17,6 +17,7 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { RefreshTokenInterceptor } from './core/interceptors/refresh-token.interceptor';
 import { DatePipe } from '@angular/common';
 import { IonicStorageModule } from '@ionic/storage-angular';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -38,7 +39,8 @@ import { IonicStorageModule } from '@ionic/storage-angular';
     { provide: HAMMER_GESTURE_CONFIG, useClass: IonicGestureConfig },
     Camera,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    DatePipe
+    DatePipe,
+    SplashScreen
   ],
   bootstrap: [AppComponent],
 })
