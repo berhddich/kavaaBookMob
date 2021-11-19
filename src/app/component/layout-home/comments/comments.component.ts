@@ -19,7 +19,6 @@ export class CommentsComponent implements OnInit {
   @Input() data: any[];
   comment;
   commentNumber = 0;
-
   commentsModel: CreateCommentsModel;
 
   constructor(
@@ -101,33 +100,34 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
 
 
     this._commentsService.create(this.commentsModel).subscribe(res => {
-      console.log(res)
       this.comment = null;
       this.commentNumber++;
 
       const comments={
-        comment: res.comment,
-        createdOn: res.createdOn,
-        id: res.id,
-        postId: res.postId,
-        membreId: res.membreId,
+        comment: res.data.comment,
+        createdOn: res.data.createdOn,
+        id: res.data.id,
+        postId: res.data.postId,
+        membreId: res.data.membreId,
         membreFullName: user.fullName,
-        membreUrlImg: res.membreUrlImg,
+        membreUrlImg: res.data.membreUrlImg,
         membreUserName: user.userName,
 
       };
 
       this.data.unshift({
-        comment: res.comment,
-        createdOn: res.createdOn,
-        id: res.id,
-        postId: res.postId,
-        membreId: res.membreId,
+        comment: res.data.comment,
+        createdOn: res.data.createdOn,
+        id: res.data.id,
+        postId: res.data.postId,
+        membreId: res.data.membreId,
         membreFullName: user.fullName,
         membreUrlImg: JSON.parse(localStorage.getItem("ImageProfil")),
         membreUserName: user.userName,
 
       })
+      console.log(res,this.data)
+
 //  this._signalrService.addComment(comments);
 
     }, (error) => {
