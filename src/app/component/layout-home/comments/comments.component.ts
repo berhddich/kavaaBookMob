@@ -28,7 +28,7 @@ export class CommentsComponent implements OnInit {
     public actionSheetController: ActionSheetController,
     private gestureCtrl: GestureController,
     public toastController: ToastController,
-    private _signalrService:SignalrService,
+    private _signalrService: SignalrService,
     public _usersService: UsersService,
     public popoverController: PopoverController,
 
@@ -37,7 +37,7 @@ export class CommentsComponent implements OnInit {
   }
 
   public ngOnInit() {
-// this.commentRepons();
+    // this.commentRepons();
 
 
   }
@@ -46,49 +46,52 @@ export class CommentsComponent implements OnInit {
     this.modalController.dismiss(this.commentNumber)
   }
 
-  commentRepons()
-  {
-    this._signalrService.hubConnecttion.on("commentRepons",(comment)=>{
+  commentRepons() {
+    this._signalrService.hubConnecttion.on("commentRepons", (comment) => {
 
-if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
-{
+      if (comment.userUrlPicture !== null && comment.userUrlPicture !== undefined) {
 
-  let user=this.data.find(element=>element.userName === comment.userName )
+        let user = this.data.find(element => element.userName === comment.userName)
 
 
-  if(user !== null || user !== null)
-  {
+        if (user !== null || user !== null) {
 
-    comment.userUrlPicture = user.userUrlPicture;
-
-  }
-
-  else{
-
-    this._usersService.getPicture(comment.userUrlPicture).subscribe(res=>{
+          comment.userUrlPicture = user.userUrlPicture;
 
 
-      if (res ) {
-        comment.userUrlPicture='data:image/jpeg;base64,' + res
-    }
-    },(error)=>{
 
-      console.log(error.error.title);
 
-    })
+        }
 
-  }
+        else {
 
-}
+
+
+
+          this._usersService.getPicture(comment.userUrlPicture).subscribe(res => {
+
+
+            if (res) {
+              comment.userUrlPicture = 'data:image/jpeg;base64,' + res
+            }
+          }, (error) => {
+
+            console.log(error.error.title);
+
+          })
+
+        }
+
+      }
       this.data.unshift(comment)
 
 
 
-      })
+    })
   }
 
   CommentBtn() {
-   const   user = (JSON.parse(localStorage.getItem("KavaBook_UserSession")));
+    const user = (JSON.parse(localStorage.getItem("KavaBook_UserSession")));
 
     this.commentsModel = {
       comment: this.comment,
@@ -103,7 +106,7 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
       this.comment = null;
       this.commentNumber++;
 
-      const comments={
+      const comments = {
         comment: res.data.comment,
         createdOn: res.data.createdOn,
         id: res.data.id,
@@ -126,9 +129,9 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
         membreUserName: user.userName,
 
       })
-      console.log(res,this.data)
+      console.log(res, this.data)
 
-//  this._signalrService.addComment(comments);
+      //  this._signalrService.addComment(comments);
 
     }, (error) => {
 
@@ -157,93 +160,91 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
   }
 
 
-  async CommentSignale(id: number,membreId:number, membreUserName: string) {
-     let  userName = (JSON.parse(localStorage.getItem("KavaBook_UserSession"))).userName;
+  async CommentSignale(id: number, membreId: number, membreUserName: string) {
+    let userName = (JSON.parse(localStorage.getItem("KavaBook_UserSession"))).userName;
 
 
-    if(userName === membreUserName)
-
-    {
+    if (userName === membreUserName) {
       let actionSheet =
-      await this.actionSheetController.create({
-        cssClass: 'my-custom-class',
-        buttons: [
+        await this.actionSheetController.create({
+          cssClass: 'my-custom-class',
+          buttons: [
 
-          {
-            text: 'Modifier la publication',
-            icon: 'create-outline',
-            handler: () => {
+            {
+              text: 'Modifier la publication',
+              icon: 'create-outline',
+              handler: () => {
 
-              const data=  this.data.find(element=>element.id=== id);
-              this.editComment(id,data)
-            }
-          },
-
-
-
-          {
-            text: 'Déplacer dans la corbeille',
-            role: 'destructive',
-            icon: 'trash',
-            handler: () => {
-
-              this.deletComment(id);
-          }
-        },
+                const data = this.data.find(element => element.id === id);
+                this.editComment(id, data)
+              }
+            },
 
 
 
-          {
-            text: 'Cancel',
-            icon: 'close',
-            role: 'cancel',
-            handler: () => {
-              console.log('Cancel clicked');
-            }
-          }]
-      });
+            {
+              text: 'Déplacer dans la corbeille',
+              role: 'destructive',
+              icon: 'trash',
+              handler: () => {
+
+                this.deletComment(id);
+              }
+            },
 
 
-    await actionSheet.present();
 
-    const { role } = await actionSheet.onDidDismiss();
-    console.log('onDidDismiss resolved with role', role);
+            {
+              text: 'Cancel',
+              icon: 'close',
+              role: 'cancel',
+              handler: () => {
+                console.log('Cancel clicked');
+              }
+            }]
+        });
+
+
+      await actionSheet.present();
+
+      const { role } = await actionSheet.onDidDismiss();
+      console.log('onDidDismiss resolved with role', role);
 
     }
 
-    else{
+    else {
 
       let actionSheet =
-      await this.actionSheetController.create({
-        cssClass: 'my-custom-class',
-        buttons: [
+        await this.actionSheetController.create({
+          cssClass: 'my-custom-class',
+          buttons: [
 
 
 
-          {
-            text: 'Signaler un problème',
-            icon: 'reader',
-            handler: () => {
+            {
+              text: 'Signaler un problème',
+              icon: 'reader',
+              handler: () => {
 
-              this.CommmentSignalModal(id, membreId)
-            }
-          },
+                this.CommmentSignalModal(id, membreId)
+              }
+            },
 
-          {
-            text: 'Cancel',
-            icon: 'close',
-            role: 'cancel',
-            handler: () => {
-              console.log('Cancel clicked');
-            }
-          }]
-      });
+            {
+              text: 'Cancel',
+              icon: 'close',
+              role: 'cancel',
+              handler: () => {
+                console.log('Cancel clicked');
+              }
+            }]
+        });
 
 
-    await actionSheet.present();
+      await actionSheet.present();
 
-    const { role } = await actionSheet.onDidDismiss();
-    console.log('onDidDismiss resolved with role', role);
+      const { role } = await actionSheet.onDidDismiss();
+      console.log('onDidDismiss resolved with role', role);
 
     }
 
@@ -285,7 +286,7 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
   }
 
 
-  async deletComment(id:number) {
+  async deletComment(id: number) {
     console.log(id)
     const modal = await this.popoverController.create({
       component: DeleteComponent,
@@ -293,7 +294,7 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
       animated: true,
       componentProps: {
         'id': id,
-        'service':this._commentsService
+        'service': this._commentsService
       }
 
     });
@@ -301,10 +302,10 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
     modal.onDidDismiss()
       .then((data) => {
         if (data.data) {
-         this.commentNumber=  this.commentNumber - 1;
-         this.data.forEach((element,index)=>{
-          if(element.id==id) this.data.splice(index,1);
-       });
+          this.commentNumber = this.commentNumber - 1;
+          this.data.forEach((element, index) => {
+            if (element.id == id) this.data.splice(index, 1);
+          });
           this.presentToast('Le  Comment a été Supprimer ');
 
 
@@ -316,15 +317,15 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
   }
 
 
-  async editComment(id:number,data:any) {
+  async editComment(id: number, data: any) {
     const modal = await this.popoverController.create({
       component: EditCommentComponent,
       cssClass: 'popover-edit',
       animated: true,
       componentProps: {
         'id': id,
-        'data':data,
-        'service':this._commentsService
+        'data': data,
+        'service': this._commentsService
       }
 
     });
@@ -332,7 +333,7 @@ if(comment.userUrlPicture!==null && comment.userUrlPicture!==undefined)
     modal.onDidDismiss()
       .then((data) => {
         if (data.data) {
-           this.data.find(element=>element.id===id).comment=data.data;
+          this.data.find(element => element.id === id).comment = data.data;
           this.presentToast('Le  Comment a été Edit ');
 
 
